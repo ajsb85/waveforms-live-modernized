@@ -7,6 +7,7 @@ import { ToastService } from '../../services/toast/toast.service';
 import { TooltipService } from '../../services/tooltip/tooltip.service';
 
 @Component({
+    standalone: false,
     templateUrl: 'dc-supply.html',
     selector: 'dc-supply'
 })
@@ -218,7 +219,7 @@ export class DcSupplyComponent {
 
     }
 
-    //Validate voltage supplies 
+    //Validate voltage supplies
     validateSupply(supplyNum: number) {
         if ((this.voltages[supplyNum] < this.activeDevice.instruments.dc.chans[supplyNum].voltageMin / 1000 || this.voltages[supplyNum] > this.activeDevice.instruments.dc.chans[supplyNum].voltageMax / 1000)) {
             //Incorrect

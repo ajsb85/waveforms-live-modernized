@@ -1,4 +1,5 @@
-import { Component, trigger, state, animate, transition, style } from '@angular/core';
+import { Component } from '@angular/core';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { PopoverController, App, NavController, ModalController, Platform, AlertController, LoadingController } from 'ionic-angular';
 
 //Pages
@@ -35,6 +36,7 @@ interface tooltipInterface {
 }
 
 @Component({
+    standalone: false,
     templateUrl: 'device-manager-page.html',
     animations: [
         trigger('rotate', [
@@ -269,7 +271,7 @@ export class DeviceManagerPage {
     }
 
     agentReleaseActiveDevice(device: DeviceCardInfo): Promise<any> {
-        if (!device.bridge) { return Promise.resolve(); }
+        if (!device.bridge) { return Promise.resolve(undefined); }
 
         let command = {
             "agent": [
@@ -284,10 +286,10 @@ export class DeviceManagerPage {
         return new Promise((resolve, reject) => {
             this.deviceManagerService.transport.writeRead('/config', JSON.stringify(command), 'json').subscribe(
                 (arrayBuffer) => {
-                    resolve();
+                    resolve(undefined);
                 },
                 (err) => {
-                    resolve();
+                    resolve(undefined);
                 },
                 () => { }
             );
@@ -470,7 +472,7 @@ export class DeviceManagerPage {
                     }
                     console.log(data);
                     this.enterJsonMode().then(() => {
-                        resolve();
+                        resolve(undefined);
                     }).catch((e) => {
                         resolve({ error: 'jsonMode' });
                     });
@@ -553,13 +555,13 @@ export class DeviceManagerPage {
                             return this.toCalibrationPage();
                         })
                         .then((data) => {
-                            resolve();
+                            resolve(undefined);
                         })
                         .catch((e) => {
                             reject(e);
                         });
                 } else {
-                    resolve();
+                    resolve(undefined);
                 }
             });
         });
@@ -634,7 +636,7 @@ export class DeviceManagerPage {
                     handler: (data) => { }
                 }])
                     .then((data) => {
-                        resolve();
+                        resolve(undefined);
                     })
                     .catch((e) => {
                         reject(e);
@@ -662,7 +664,7 @@ export class DeviceManagerPage {
         });
     }
 
-    private alertWrapper(title: string, subTitle: string, buttons?: { text: string, handler: (data) => void }[]): Promise<any> {
+    public alertWrapper(title: string, subTitle: string, buttons?: { text: string, handler: (data) => void }[]): Promise<any> {
         return new Promise((resolve, reject) => {
             let alert = this.alertCtrl.create({
                 title: title,
@@ -755,7 +757,7 @@ export class DeviceManagerPage {
                                     });
                                     this.getFirmwareVersionsForDevices();
                                 }
-                                resolve();
+                                resolve(undefined);
                             },
                             (err) => {
                                 reject(err);
@@ -873,7 +875,7 @@ export class DeviceManagerPage {
 
         let fwVer = this.devices[deviceIndex].deviceDescriptor.firmwareVersion;
 
-        // force the user to update firmware to proceed 
+        // force the user to update firmware to proceed
         if (fwVer.major === 0 && fwVer.minor === 1359 && fwVer.patch === 0) {
             let toast = this.toastService.toastCtrl.create({
                 message: 'Please update the firmware to access the logger page',
@@ -893,7 +895,7 @@ export class DeviceManagerPage {
 
             return;
         }
-        
+
         let loading = this.displayLoading();
         let ipAddress = this.devices[deviceIndex].ipAddress;
         if (this.devices[deviceIndex].bridge) {
@@ -989,7 +991,7 @@ export class DeviceManagerPage {
                                 console.warn(e);
                             });
 
-                            resolve();
+                            resolve(undefined);
                         })
                         .catch((e) => {
                             console.log(e);

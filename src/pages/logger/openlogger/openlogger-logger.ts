@@ -29,6 +29,7 @@ import { ToastService } from '../../../services/toast/toast.service';
 declare var mathFunctions: any;
 
 @Component({
+    standalone: false,
     templateUrl: "openlogger-logger.html"
 })
 export class OpenLoggerLoggerPage {
@@ -38,25 +39,29 @@ export class OpenLoggerLoggerPage {
     @ViewChild('gpioComponent') gpioComponent: DigitalIoComponent;
     @ViewChild('fgenComponent') fGenComponent: FgenComponent;
     @ViewChild('dcComponent') dcComponent: DcSupplyComponent;
-    private dismissCallback: () => void;
-    private unitFormatPipeInstance: UnitFormatPipe;
-    private selectedMathInfo: MathOutput[] = [];
-    private cursorInfo: CursorSelection;
-    private isRoot: boolean = false;
+    public chart1 = {
+        oscopeChansActive: [],
+        toggleVisibility: (_seriesNum: number) => {}
+    };
+    public dismissCallback: () => void;
+    public unitFormatPipeInstance: UnitFormatPipe;
+    public selectedMathInfo: MathOutput[] = [];
+    public cursorInfo: CursorSelection;
+    public isRoot: boolean = false;
 
     public activeDevice: DeviceService;
 
     constructor(
-        private navCtrl: NavController,
-        private navParams: NavParams,
-        private loggerPlotService: LoggerPlotService,
-        private modalCtrl: ModalController,
-        private popoverCtrl: PopoverController,
+        public navCtrl: NavController,
+        public navParams: NavParams,
+        public loggerPlotService: LoggerPlotService,
+        public modalCtrl: ModalController,
+        public popoverCtrl: PopoverController,
         public tooltipService: TooltipService,
-        private events: Events,
-        private deviceManagerService: DeviceManagerService,
-        private loadingService: LoadingService,
-        private toastService: ToastService
+        public events: Events,
+        public deviceManagerService: DeviceManagerService,
+        public loadingService: LoadingService,
+        public toastService: ToastService
 
     ) {
         this.dismissCallback = this.navParams.get('onLoggerDismiss');
@@ -531,7 +536,7 @@ export class OpenLoggerLoggerPage {
                                 }
                             }
                         }
-                        
+
                         if (setToInputChanArray.length > 0) {
                             this.activeDevice.instruments.gpio.setParameters(setToInputChanArray, inputStringArray).subscribe(
                                 (data) => {

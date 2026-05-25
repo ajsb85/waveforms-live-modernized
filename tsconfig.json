@@ -1,36 +1,70 @@
 {
+  "compileOnSave": false,
   "compilerOptions": {
+    "allowJs": true,
     "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
     "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "skipLibCheck": true,
+    "importHelpers": true,
+    "ignoreDeprecations": "6.0",
+    "isolatedModules": false,
     "lib": [
-      "es5",
-      "dom",
-      "es2015"
+      "DOM",
+      "DOM.Iterable",
+      "ES2024"
     ],
-    "module": "es2015",
-    "moduleResolution": "node",
+    "module": "preserve",
+    "moduleResolution": "bundler",
+    "noImplicitOverride": false,
+    "noImplicitReturns": false,
+    "noPropertyAccessFromIndexSignature": false,
+    "noFallthroughCasesInSwitch": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "paths": {
+      "digilent-chart-angular2/modules": [
+        "src/compat/digilent-chart-angular2/modules.ts"
+      ],
+      "dip-angular2/services": [
+        "src/compat/dip-angular2/services.ts"
+      ],
+      "ionic-angular": [
+        "src/compat/ionic-angular.ts"
+      ],
+      "ionic-native": [
+        "src/compat/ionic-native.ts"
+      ],
+      "rxjs/Observable": [
+        "src/compat/rxjs-observable.ts"
+      ],
+      "rxjs/Rx": [
+        "src/compat/rxjs-compat.ts"
+      ],
+      "rxjs/Subject": [
+        "src/compat/rxjs-subject.ts"
+      ]
+    },
+    "skipLibCheck": true,
     "sourceMap": true,
-    "target": "es5",
+    "strict": false,
+    "target": "ES2024",
     "types": [
-        "node"
+      "node"
     ],
-    "typeRoots": [
-      "node_modules/@types"
-    ]
+    "useDefineForClassFields": false
   },
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "src/**/*.spec.ts",
-    "src/**/__tests__/*.ts"
-  ],
-  "compileOnSave": false,
-  "atom": {
-    "rewriteTsconfig": false
-  }
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": false,
+    "strictInputAccessModifiers": false,
+    "strictTemplates": false
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    }
+  ]
 }

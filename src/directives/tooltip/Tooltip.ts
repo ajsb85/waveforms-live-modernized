@@ -3,6 +3,7 @@ import { TooltipContent } from "./TooltipContent";
 import { Platform } from 'ionic-angular';
 
 @Directive({
+    standalone: false,
     selector: "[tooltip]"
 })
 export class Tooltip {
@@ -15,14 +16,14 @@ export class Tooltip {
     @Input() forceShowDelay: number = 100;
     @Input() onlyForceShow: boolean = false;
 
-    private tooltip: ComponentRef<TooltipContent>;
-    private visible: boolean;
-    private viewContainerRef: ViewContainerRef 
-    private resolver: ComponentFactoryResolver
-    private platform: Platform;
-    private timeoutRef;
-    private displayDelay: number = 750;
-    private mobile: boolean;
+    public tooltip: ComponentRef<TooltipContent>;
+    public visible: boolean;
+    public viewContainerRef: ViewContainerRef
+    public resolver: ComponentFactoryResolver
+    public platform: Platform;
+    public timeoutRef;
+    public displayDelay: number = 750;
+    public mobile: boolean;
 
     constructor(_viewContainerRef: ViewContainerRef, _resolver: ComponentFactoryResolver, _platform: Platform) {
         this.viewContainerRef = _viewContainerRef;

@@ -19,6 +19,7 @@ import { DeviceManagerService } from 'dip-angular2/services';
 import { TooltipService } from '../../services/tooltip/tooltip.service';
 
 @Component({
+    standalone: false,
     templateUrl: "device-configure.html"
 })
 
@@ -236,7 +237,7 @@ export class DeviceConfigurePage {
         return new Promise((resolve, reject) => {
             this.deviceManagerService.connectBridge(this.deviceBridgeAddress).subscribe(
                 (success) => {
-                    resolve();
+                    resolve(undefined);
 
                     if (success.agent == undefined || success.agent[0].statusCode > 0) {
                         this.deviceManagerPageRef.toastService.createToast('agentInvalidResponse', true);
@@ -256,7 +257,7 @@ export class DeviceConfigurePage {
                     else if (success.agent[0].devices.length > 0 && autoConnectToFirst) {
                         this.dropdownDeviceChange(success.agent[0].devices[0], autoConnectToFirst);
                     }
-                    
+
                     if (success.agent[0].devices.length > 0 && this.deviceObject && success.agent[0].devices.indexOf(this.deviceObject.connectedDeviceAddress) !== -1) {
                         this.dropdownPopRef.setActiveSelection(this.deviceObject.connectedDeviceAddress);
                     }
@@ -265,7 +266,7 @@ export class DeviceConfigurePage {
                     }
                 },
                 (err) => {
-                    resolve();
+                    resolve(undefined);
                     console.log(err);
                     this.deviceManagerPageRef.toastService.createToast('agentInvalidResponse', true);
                 },
@@ -311,7 +312,7 @@ export class DeviceConfigurePage {
                     this.enterJsonMode().then(() => {
                         this.enumerateDevice(this.deviceObject.deviceBridgeAddress)
                             .then((data) => {
-                                resolve();
+                                resolve(undefined);
                             })
                             .catch((e) => {
                                 reject();
@@ -478,7 +479,7 @@ export class DeviceConfigurePage {
                                 this.deviceManagerService.addDeviceFromDescriptor(this.deviceObject.deviceBridgeAddress, { device: [this.deviceObject.deviceDescriptor] });
 
                                 this.deviceConfigure = true;
-                                
+
                                 this.deviceManagerPageRef.getFirmwareVersionsForDevices();
 
                                 this.getNicStatus('wlan0').then(() => {
@@ -519,7 +520,7 @@ export class DeviceConfigurePage {
                             loading.dismiss();
 
                             this.invalidEnumeration = true;
-                            
+
                             this.deviceManagerPageRef.toastService.createToast('timeout', true);
                         },
                         () => { }

@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { NgModule , NO_ERRORS_SCHEMA} from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { Tooltip } from "./Tooltip";
 import { TooltipContent } from "./TooltipContent";
@@ -7,7 +7,8 @@ export * from "./Tooltip";
 export * from "./TooltipContent";
 
 @NgModule({
-    imports: [
+    schemas: [NO_ERRORS_SCHEMA],
+imports: [
         CommonModule
     ],
     declarations: [
@@ -17,11 +18,7 @@ export * from "./TooltipContent";
     exports: [
         Tooltip,
         TooltipContent,
-    ],
-    entryComponents: [
-        TooltipContent
-    ]
-})
+    ]})
 export class TooltipModule {
 
 }

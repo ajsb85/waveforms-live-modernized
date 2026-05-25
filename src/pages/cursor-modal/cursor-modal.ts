@@ -10,6 +10,7 @@ import { DropdownPopoverComponent } from '../../components/dropdown-popover/drop
 import { DeviceManagerService, DeviceService } from 'dip-angular2/services';
 
 @Component({
+    standalone: false,
     templateUrl: "cursor-modal.html"
 })
 export class ModalCursorPage {
@@ -123,7 +124,7 @@ export class ModalCursorPage {
             }
             this.chartComponent.handleCursors();
         });
-        
+
         popover.present({
             ev: event
         });

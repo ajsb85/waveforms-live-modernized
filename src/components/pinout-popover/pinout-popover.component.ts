@@ -4,6 +4,7 @@ import { ViewController } from 'ionic-angular';
 import { DeviceManagerService } from 'dip-angular2/services';
 
 @Component({
+    standalone: false,
     templateUrl: 'pinout-popover.html'
 })
 
@@ -21,7 +22,7 @@ export class PinoutPopover {
         let devModel = dev.deviceModel;
         console.log(devModel);
         switch (devModel) {
-            case 'OpenScope MZ': 
+            case 'OpenScope MZ':
                 console.log('openscope in get pinout');
                 this.pinoutAddress = 'assets/img/osmz-pinout.svg';
                 break;

@@ -18,7 +18,7 @@
             <ion-col center text-center class="timeline-row-button-container">
                 <div>
                     <div>
-                        <button ion-button icon-right class="text-button-side disable-hover main-button" (tap)="loggerComponent.running ? stopLogger() : runLogger()">
+                        <button ion-button icon-right class="text-button-side disable-hover main-button" (click)="loggerComponent.running ? stopLogger() : runLogger()">
                             <span class="collapse-button">{{loggerComponent.running ? 'Stop' : loggerComponent.selectedLogLocation === 'chart' ? 'Stream' : 'Log'}}</span>
                             <img class="custom-image-button" [src]="loggerComponent.running ? 'assets/img/stop.svg' : 'assets/img/run.svg'" />
                         </button>
@@ -34,19 +34,19 @@
     <ion-row class="page-row">
         <ion-col class="chart-container-col">
             <div class="chart-button-container">
-                <button ion-button class="chart-button disable-hover" [disabled]="!loggerComponent.viewMoved && loggerComponent.running" (tap)="snapViewToFront()" [tooltip]="tooltipService.getTooltip('chartSetViewToFront').message" [tooltipAnimation]="true" tooltipPlacement="left">
+                <button ion-button class="chart-button disable-hover" [disabled]="!loggerComponent.viewMoved && loggerComponent.running" (click)="snapViewToFront()" [tooltip]="tooltipService.getTooltip('chartSetViewToFront').message" [tooltipAnimation]="true" tooltipPlacement="left">
                     <img class="button-side-svg" src="assets/img/logger-to-front.svg" />
                 </button>
-                <button ion-button class="chart-button disable-hover" [disabled]="loggerComponent.running" (tap)="presentExportPop($event)" [tooltip]="tooltipService.getTooltip('chartSettings').message" [tooltipAnimation]="true" tooltipPlacement="left">
+                <button ion-button class="chart-button disable-hover" [disabled]="loggerComponent.running" (click)="presentExportPop($event)" [tooltip]="tooltipService.getTooltip('chartSettings').message" [tooltipAnimation]="true" tooltipPlacement="left">
                     <img class="button-side-svg" src="assets/img/download.svg" />
                 </button>
-                <button ion-button class="chart-button disable-hover" [disabled]="loggerComponent.running" (tap)="openFileBrowser()" [tooltip]="tooltipService.getTooltip('chartToFileExplorer').message" [tooltipAnimation]="true" tooltipPlacement="left">
+                <button ion-button class="chart-button disable-hover" [disabled]="loggerComponent.running" (click)="openFileBrowser()" [tooltip]="tooltipService.getTooltip('chartToFileExplorer').message" [tooltipAnimation]="true" tooltipPlacement="left">
                     <img class="button-side-svg" src="assets/img/folder.svg" />
                 </button>
-                <button ion-button class="chart-button disable-hover" (tap)="openDevicePinout($event)"  [tooltip]="tooltipService.getTooltip('chartShowDevicePinout').message" [tooltipAnimation]="true" tooltipPlacement="left">
+                <button ion-button class="chart-button disable-hover" (click)="openDevicePinout($event)"  [tooltip]="tooltipService.getTooltip('chartShowDevicePinout').message" [tooltipAnimation]="true" tooltipPlacement="left">
                     PIN
                 </button>
-                <button ion-button class="chart-button disable-hover" (tap)="resetInstruments()" [tooltip]="tooltipService.getTooltip('chartResetInstruments').message" [tooltipAnimation]="true" tooltipPlacement="left">
+                <button ion-button class="chart-button disable-hover" (click)="resetInstruments()" [tooltip]="tooltipService.getTooltip('chartResetInstruments').message" [tooltipAnimation]="true" tooltipPlacement="left">
                     <img class="button-size-svg" src="assets/img/restore.svg" />
                 </button>
             </div>
@@ -58,11 +58,11 @@
                     <ion-row class="chart-info">
                         <ion-col center class="info-col">
                             <ion-row center class="cursor-container">
-                                <button ion-button icon-right class="text-button-side disable-hover" [disabled]="loggerComponent.running || !loggerComponent.dataAvailable" (tap)="openMathPopover($event)" [tooltip]="tooltipService.getTooltip('mathButton').message" [tooltipAnimation]="true" tooltipPlacement="right">
+                                <button ion-button icon-right class="text-button-side disable-hover" [disabled]="loggerComponent.running || !loggerComponent.dataAvailable" (click)="openMathPopover($event)" [tooltip]="tooltipService.getTooltip('mathButton').message" [tooltipAnimation]="true" tooltipPlacement="right">
                                     <span class="collapse-button">Math</span>
                                     <img class="button-side-svg" src="assets/img/math.svg" />
                                 </button>
-                                <button ion-button class="icon-only-button-side disable-hover" (tap)="updateMath()" [tooltip]="tooltipService.getTooltip('refreshMathButton').message" [tooltipAnimation]="true" tooltipPlacement="right">
+                                <button ion-button class="icon-only-button-side disable-hover" (click)="updateMath()" [tooltip]="tooltipService.getTooltip('refreshMathButton').message" [tooltipAnimation]="true" tooltipPlacement="right">
                                     <img class="button-side-svg" src="assets/img/refresh.svg" />
                                 </button>
                                 <ion-col center class="cursor-info-col" id="test-test">
@@ -91,7 +91,7 @@
                         </ion-col>
                         <ion-col center class="info-col">
                             <ion-row center class="cursor-container">
-                                <button ion-button icon-right class="text-button-side disable-hover" [disabled]="loggerComponent.running || !loggerComponent.dataAvailable" (tap)="openCursorModal($event)" [tooltip]="tooltipService.getTooltip('cursorButton').message" [tooltipAnimation]="true" tooltipPlacement="right">
+                                <button ion-button icon-right class="text-button-side disable-hover" [disabled]="loggerComponent.running || !loggerComponent.dataAvailable" (click)="openCursorModal($event)" [tooltip]="tooltipService.getTooltip('cursorButton').message" [tooltipAnimation]="true" tooltipPlacement="right">
                                     <span class="collapse-button">Cursors</span>
                                     <img class="button-side-svg" src="assets/img/edit.svg" />
                                 </button>
@@ -120,7 +120,7 @@
                 </div>
             </div>
         </ion-col>
-        
+
         <ion-col class="controls-col">
             <ion-row class="controls-row">
                 <openlogger-logger-component #loggerComponent [colorArray]="loggerChart.colorArray"></openlogger-logger-component>
@@ -128,13 +128,13 @@
                 <fgen #fgenComponent (fgenTutorialFinish)="fgenTutorialFinished($event)"></fgen>
 
                 <digital-io #gpioComponent [chart]="chart1"></digital-io>
-                
+
                 <dc-supply #dcComponent></dc-supply>
             </ion-row>
 
             <ion-row>
                 <ion-col center text-center no-padding>
-                    <button ion-button class="text-button-side disable-hover" (tap)="loggerComponent.restoreDefaults()" [disabled]="loggerComponent.running">Restore Defaults</button>
+                    <button ion-button class="text-button-side disable-hover" (click)="loggerComponent.restoreDefaults()" [disabled]="loggerComponent.running">Restore Defaults</button>
                 </ion-col>
             </ion-row>
         </ion-col>

@@ -22,6 +22,7 @@ import { TooltipService } from '../../../services/tooltip/tooltip.service';
 import { PlotDataContainer } from '../../../services/logger-plot/logger-plot.service';
 
 @Component({
+    standalone: false,
     templateUrl: 'openscope-logger.html',
     selector: 'openscope-logger-component'
 })
@@ -33,11 +34,11 @@ export class OpenScopeLoggerComponent {
     @ViewChild('dropPopProfile') profileChild: DropdownPopoverComponent;
     @ViewChild('dropPopMode') modeChild: DropdownPopoverComponent;
     @ViewChild('xaxis') xAxis: LoggerXAxisComponent;
-    private activeDevice: DeviceService;
+    public activeDevice: DeviceService;
     public showLoggerSettings: boolean = true;
     public showAnalogChan: boolean[] = [];
     public showDigitalChan: boolean[] = [];
-    private defaultAnalogParams: AnalogLoggerParams = {
+    public defaultAnalogParams: AnalogLoggerParams = {
         gain: 1,
         vOffset: 0,
         maxSampleCount: -1,
@@ -52,7 +53,7 @@ export class OpenScopeLoggerComponent {
         linked: false,
         linkedChan: -1
     };
-    private defaultDigitalParams: DigitalLoggerParams = {
+    public defaultDigitalParams: DigitalLoggerParams = {
         maxSampleCount: -1,
         sampleFreq: 1000,
         startDelay: 0,
@@ -68,8 +69,8 @@ export class OpenScopeLoggerComponent {
     };
     public analogChans: AnalogLoggerParams[] = [];
     public digitalChans: DigitalLoggerParams[] = [];
-    private analogChanNumbers: number[] = [];
-    private digitalChanNumbers: number[] = [];
+    public analogChanNumbers: number[] = [];
+    public digitalChanNumbers: number[] = [];
     public overflowConditions: ('circular')[] = ['circular'];
     public modes: string[] = ['log', 'stream', 'both'];
     public samples: ('continuous' | 'finite')[] = ['continuous', 'finite'];
@@ -78,32 +79,32 @@ export class OpenScopeLoggerComponent {
     public storageLocations: string[] = [];
     public loggingProfiles: string[] = ['New Profile'];
     public selectedLogProfile: string = this.loggingProfiles[0];
-    private defaultProfileName: string = 'NewProfile';
+    public defaultProfileName: string = 'NewProfile';
     public profileNameScratch: string = this.defaultProfileName;
     public analogLinkOptions: string[][] = [];
     public digitalLinkOptions: string[][] = [];
-    private profileObjectMap: any = {};
+    public profileObjectMap: any = {};
     public running: boolean = false;
     public dataContainers: PlotDataContainer[] = [];
     public viewMoved: boolean = false;
-    private analogChansToRead: number[] = [];
-    private digitalChansToRead: number[] = [];
-    private chartPanSubscriptionRef;
-    private offsetChangeSubscriptionRef;
+    public analogChansToRead: number[] = [];
+    public digitalChansToRead: number[] = [];
+    public chartPanSubscriptionRef;
+    public offsetChangeSubscriptionRef;
 
-    private filesInStorage: any = {};
-    private destroyed: boolean = false;
+    public filesInStorage: any = {};
+    public destroyed: boolean = false;
     public dataAvailable: boolean = false;
 
     constructor(
-        private devicemanagerService: DeviceManagerService,
-        private loadingService: LoadingService,
-        private toastService: ToastService,
-        private utilityService: UtilityService,
+        public devicemanagerService: DeviceManagerService,
+        public loadingService: LoadingService,
+        public toastService: ToastService,
+        public utilityService: UtilityService,
         public loggerPlotService: LoggerPlotService,
-        private exportService: ExportService,
-        private alertCtrl: AlertController,
-        private settingsService: SettingsService,
+        public exportService: ExportService,
+        public alertCtrl: AlertController,
+        public settingsService: SettingsService,
         public tooltipService: TooltipService
     ) {
         this.activeDevice = this.devicemanagerService.devices[this.devicemanagerService.activeDeviceIndex];
@@ -132,7 +133,7 @@ export class OpenScopeLoggerComponent {
         this.destroyed = true;
     }
 
-    private init() {
+    public init() {
         this.chartPanSubscriptionRef = this.loggerPlotService.chartPan.subscribe(
             (data) => {
                 if (this.running) {
@@ -211,7 +212,7 @@ export class OpenScopeLoggerComponent {
         }
     }
 
-    private loadDeviceInfo(): Promise<any> {
+    public loadDeviceInfo(): Promise<any> {
         return new Promise((resolve, reject) => {
             let analogChanArray = [];
             let digitalChanArray = [];
@@ -221,9 +222,9 @@ export class OpenScopeLoggerComponent {
             for (let i = 0; i < this.digitalChans.length; i++) {
                 digitalChanArray.push(i + 1);
             }
-            if (analogChanArray.length < 1 && digitalChanArray.length < 1) { 
+            if (analogChanArray.length < 1 && digitalChanArray.length < 1) {
                 resolve('done');
-                return; 
+                return;
             }
 
             this.getStorageLocations()
@@ -239,10 +240,10 @@ export class OpenScopeLoggerComponent {
                     if (this.storageLocations.length < 1) {
                         this.modes = ['stream'];
                         this.modeSelect('stream');
-                        return new Promise((resolve, reject) => { resolve(); });
+                        return new Promise((resolve, reject) => { resolve(undefined); });
                     }
-                    else {    
-                        return new Promise((resolve, reject) => {               
+                    else {
+                        return new Promise((resolve, reject) => {
                             this.storageLocations.reduce((accumulator, currentVal, currentIndex) => {
                                 return accumulator
                                     .then((data) => {
@@ -254,13 +255,13 @@ export class OpenScopeLoggerComponent {
                             }, Promise.resolve())
                                 .then((data) => {
                                     console.log('DONE READING STORAGE LOCATIONS');
-                                    resolve();
+                                    resolve(undefined);
                                 })
                                 .catch((e) => {
                                     console.log(e);
-                                    resolve();
+                                    resolve(undefined);
                                 });
-                        });     
+                        });
                     }
                 })
                 .then((data) => {
@@ -320,7 +321,7 @@ export class OpenScopeLoggerComponent {
 
     fileExists(): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.alertWrapper('File Exists', 'Your log file already exists. Would you like to overwrite or cancel?', 
+            this.alertWrapper('File Exists', 'Your log file already exists. Would you like to overwrite or cancel?',
                 [{
                     text: 'Cancel',
                     handler: (data) => {
@@ -330,14 +331,14 @@ export class OpenScopeLoggerComponent {
                 {
                     text: 'Overwrite',
                     handler: (data) => {
-                        resolve();
+                        resolve(undefined);
                     }
                 }]
             );
         });
     }
 
-    private alertWrapper(title: string, subTitle: string, buttons?: { text: string, handler: (data) => void }[]): Promise<any> {
+    public alertWrapper(title: string, subTitle: string, buttons?: { text: string, handler: (data) => void }[]): Promise<any> {
         return new Promise((resolve, reject) => {
             let alert = this.alertCtrl.create({
                 title: title,
@@ -430,7 +431,7 @@ export class OpenScopeLoggerComponent {
         this.validateAndApply(newFreq, instrument, axisNum, type);
     }
 
-    private validateAndApply(newVal: number, instrument: 'analog' | 'digital', axisNum: number, type: 'sampleFreq' | 'samples') {
+    public validateAndApply(newVal: number, instrument: 'analog' | 'digital', axisNum: number, type: 'sampleFreq' | 'samples') {
         let axisObj = instrument === 'analog' ? this.analogChans[axisNum] : this.digitalChans[axisNum];
         if (type === 'sampleFreq') {
             let chanObj = this.activeDevice.instruments.logger[instrument].chans[axisNum];
@@ -578,12 +579,12 @@ export class OpenScopeLoggerComponent {
             });
         }
         else {
-            
+
         }
         console.log(this.analogChans);
     }
 
-    private copyLoggingProfile(instrument: 'analog' | 'digital', channel: number, source: any) {
+    public copyLoggingProfile(instrument: 'analog' | 'digital', channel: number, source: any) {
         let instrumentChan = instrument === 'analog' ? this.analogChans : this.digitalChans;
         instrumentChan[channel].maxSampleCount = source.maxSampleCount;
         instrumentChan[channel].overflow = source.overflow;
@@ -595,7 +596,7 @@ export class OpenScopeLoggerComponent {
         }
     }
 
-    private setChannelDropdowns(channel: number, applyOptions: { storageLocation?: string, overflow?: string, linkChan?: number, samples?: string }) {
+    public setChannelDropdowns(channel: number, applyOptions: { storageLocation?: string, overflow?: string, linkChan?: number, samples?: string }) {
         setTimeout(() => {
             if (applyOptions.linkChan != undefined) {
                 let linkedChanString = applyOptions.linkChan > -1 ? 'Ch ' +  (applyOptions.linkChan + 1) : 'no';
@@ -735,7 +736,7 @@ export class OpenScopeLoggerComponent {
         });
     }
 
-    private readProfile(profileName: string): Promise<any> {
+    public readProfile(profileName: string): Promise<any> {
         return new Promise((resolve, reject) => {
             this.activeDevice.file.read('flash', this.settingsService.profileToken + profileName, 0, -1).subscribe(
                 (data) => {
@@ -771,7 +772,7 @@ export class OpenScopeLoggerComponent {
         });
     }
 
-    private generateProfileJson() {
+    public generateProfileJson() {
         let saveObj = {};
         if (this.analogChans.length > 0) {
             saveObj['analog'] = {};
@@ -788,7 +789,7 @@ export class OpenScopeLoggerComponent {
         return saveObj;
     }
 
-    private parseAndApplyProfileJson(loadedObj) {
+    public parseAndApplyProfileJson(loadedObj) {
         for (let instrument in loadedObj) {
             for (let channel in loadedObj[instrument]) {
                 if (instrument === 'analog') {
@@ -823,7 +824,7 @@ export class OpenScopeLoggerComponent {
         }
     }
 
-    private saveProfile(profileName: string): Promise<any> {
+    public saveProfile(profileName: string): Promise<any> {
         return new Promise((resolve, reject) => {
             for (let i = 0; i < this.analogChans.length; i++) {
                 if (this.analogChans[i].linked) {
@@ -858,7 +859,7 @@ export class OpenScopeLoggerComponent {
         });
     }
 
-    private getStorageLocations(): Promise<any> {
+    public getStorageLocations(): Promise<any> {
         return new Promise((resolve, reject) => {
             this.activeDevice.storageGetLocations().subscribe(
                 (data) => {
@@ -917,7 +918,7 @@ export class OpenScopeLoggerComponent {
             });
     }
 
-    private clearChart() {
+    public clearChart() {
         for (let i = 0; i < this.dataContainers.length; i++) {
             this.dataContainers[i].data = [];
         }
@@ -925,7 +926,7 @@ export class OpenScopeLoggerComponent {
         this.dataAvailable = false;
     }
 
-    private parseReadResponseAndDraw(readResponse) {
+    public parseReadResponseAndDraw(readResponse) {
         for (let instrument in readResponse.instruments) {
             for (let channel in readResponse.instruments[instrument]) {
                 let formattedData: number[][] = [];
@@ -957,7 +958,7 @@ export class OpenScopeLoggerComponent {
         this.dataAvailable = true;
     }
 
-    private existingFileFoundAndValidate(loading): { reason: number } {
+    public existingFileFoundAndValidate(loading): { reason: number } {
         let existingFileFound: boolean = false;
         let foundChansMap = {};
         for (let i = 0; i < this.analogChans.length; i++) {
@@ -1016,16 +1017,16 @@ export class OpenScopeLoggerComponent {
                 }
                 else if (returnData.reason === 0) {
                     this.setParametersAndRun(loading);
-                }  
+                }
             })
             .catch((e) => {
                 console.log(e);
                 loading.dismiss();
                 this.toastService.createToast('loggerUnknownRunError', true, undefined, 8000);
-            });              
+            });
     }
 
-    private setParametersAndRun(loading) {
+    public setParametersAndRun(loading) {
         let analogChanArray = [];
         let digitalChanArray = [];
         //TODO when each channel invidivdually, loop and check if channel is on before pushing
@@ -1086,7 +1087,7 @@ export class OpenScopeLoggerComponent {
             });
     }
 
-    private getLiveState() {
+    public getLiveState() {
         this.getCurrentState('analog', this.analogChansToRead.slice())
             .then((data) => {
                 this.parseGetLiveStatePacket('analog', data);
@@ -1110,7 +1111,7 @@ export class OpenScopeLoggerComponent {
             });
     }
 
-    private parseGetLiveStatePacket(instrument: 'digital' | 'analog', data) {
+    public parseGetLiveStatePacket(instrument: 'digital' | 'analog', data) {
         for (let channel in data.log[instrument]) {
             if (data.log[instrument][channel][0].stopReason === 'OVERFLOW') {
                 console.log('OVERFLOW');
@@ -1131,7 +1132,7 @@ export class OpenScopeLoggerComponent {
         }
     }
 
-    private readLiveData() {
+    public readLiveData() {
         //Make copies of analogChansToRead so mid-read changes to analogChansToRead don't change the channel array
         this.read('analog', this.analogChansToRead.slice())
             .then((data) => {
@@ -1231,7 +1232,7 @@ export class OpenScopeLoggerComponent {
         }]);
     }
 
-    private applyCurrentStateResponse(data: any, onlyCopyState: boolean = false) {
+    public applyCurrentStateResponse(data: any, onlyCopyState: boolean = false) {
         for (let instrument in data.log) {
             for (let channel in data.log[instrument]) {
                 if (instrument === 'analog' || instrument === 'digital') {
@@ -1254,7 +1255,7 @@ export class OpenScopeLoggerComponent {
         this.modeChild._applyActiveSelection('both');
     }
 
-    private copyState(instrument: 'analog' | 'digital', respObj, channelInternalIndex: number, onlyCopyState: boolean = false) {
+    public copyState(instrument: 'analog' | 'digital', respObj, channelInternalIndex: number, onlyCopyState: boolean = false) {
         if (respObj.statusCode == undefined || respObj.maxSampleCount == undefined || respObj.actualSampleFreq == undefined) { return; }
         let activeChan;
         if (instrument === 'analog') {
@@ -1320,7 +1321,7 @@ export class OpenScopeLoggerComponent {
         }
     }
 
-    private calculateGainFromWindow(channelNum: number): number {
+    public calculateGainFromWindow(channelNum: number): number {
         let range = this.loggerPlotService.vpdArray[this.loggerPlotService.vpdIndices[channelNum]] * 10;
         let j = 0;
         while (range * this.activeDevice.instruments.logger.analog.chans[channelNum].gains[j] > this.activeDevice.instruments.logger.analog.chans[channelNum].adcVpp / 1000 &&
@@ -1341,7 +1342,7 @@ export class OpenScopeLoggerComponent {
             let paramObj = {};
             if (instrument === 'analog') {
                 if (this.analogChans.length < 1) {
-                    resolve();
+                    resolve(undefined);
                     return;
                 }
                 let analogParamArray: string[] = ['maxSampleCount', 'gain', 'vOffset', 'sampleFreq', 'startDelay', 'overflow', 'storageLocation', 'uri'];
@@ -1361,20 +1362,20 @@ export class OpenScopeLoggerComponent {
                 }
                 console.log(paramObj);
                 observable = this.activeDevice.instruments.logger.analog.setParameters(
-                    chans, 
-                    paramObj[analogParamArray[0]], 
+                    chans,
+                    paramObj[analogParamArray[0]],
                     paramObj[analogParamArray[1]],
-                    paramObj[analogParamArray[2]], 
-                    paramObj[analogParamArray[3]], 
-                    paramObj[analogParamArray[4]], 
-                    paramObj[analogParamArray[5]], 
-                    paramObj[analogParamArray[6]], 
+                    paramObj[analogParamArray[2]],
+                    paramObj[analogParamArray[3]],
+                    paramObj[analogParamArray[4]],
+                    paramObj[analogParamArray[5]],
+                    paramObj[analogParamArray[6]],
                     paramObj[analogParamArray[7]]
                 );
             }
             else {
                 if (this.digitalChans.length < 1) {
-                    resolve();
+                    resolve(undefined);
                     return;
                 }
                 let digitalParamArray: string[] = ['maxSampleCount', 'sampleFreq', 'startDelay', 'overflow', 'storageLocation', 'uri', 'bitMask'];
@@ -1388,12 +1389,12 @@ export class OpenScopeLoggerComponent {
                 }
                 console.log(paramObj);
                 observable = this.activeDevice.instruments.logger.digital.setParameters(
-                    chans, 
+                    chans,
                     paramObj[digitalParamArray[0]],
-                    paramObj[digitalParamArray[1]], 
-                    paramObj[digitalParamArray[2]], 
-                    paramObj[digitalParamArray[3]], 
-                    paramObj[digitalParamArray[4]], 
+                    paramObj[digitalParamArray[1]],
+                    paramObj[digitalParamArray[2]],
+                    paramObj[digitalParamArray[3]],
+                    paramObj[digitalParamArray[4]],
                     paramObj[digitalParamArray[5]],
                     paramObj[digitalParamArray[6]]
                 );
@@ -1415,11 +1416,11 @@ export class OpenScopeLoggerComponent {
     run(instrument: 'analog' | 'digital', chans: number[]): Promise<any> {
         return new Promise((resolve, reject) => {
             if (instrument === 'analog' && this.analogChans.length < 1) {
-                resolve();
+                resolve(undefined);
                 return;
             }
             if (instrument === 'digital' && this.digitalChans.length < 1) {
-                resolve();
+                resolve(undefined);
                 return;
             }
 
@@ -1451,11 +1452,11 @@ export class OpenScopeLoggerComponent {
     stop(instrument: 'analog' | 'digital', chans: number[]): Promise<any> {
         return new Promise((resolve, reject) => {
             if (instrument === 'analog' && this.analogChans.length < 1) {
-                resolve();
+                resolve(undefined);
                 return;
             }
             if (instrument === 'digital' && this.digitalChans.length < 1) {
-                resolve();
+                resolve(undefined);
                 return;
             }
             this.activeDevice.instruments.logger[instrument].stop(instrument, chans).subscribe(
@@ -1478,7 +1479,7 @@ export class OpenScopeLoggerComponent {
             let counts: number[] = [];
             if (instrument === 'analog') {
                 if (this.analogChansToRead.length < 1 || this.analogChans.length < 1) {
-                    resolve();
+                    resolve(undefined);
                     return;
                 }
                 for (let i = 0; i < this.analogChansToRead.length; i++) {
@@ -1488,7 +1489,7 @@ export class OpenScopeLoggerComponent {
             }
             if (instrument === 'digital') {
                 if (this.digitalChans.length < 1) {
-                    resolve();
+                    resolve(undefined);
                     return;
                 }
                 for (let i = 0; i < this.digitalChansToRead.length; i++) {
@@ -1496,9 +1497,9 @@ export class OpenScopeLoggerComponent {
                     counts.push(this.digitalChans[this.digitalChansToRead[i] - 1].count);
                 }
             }
-            
+
             let finalObj = {};
-            
+
             chans.reduce((accumulator, currentVal, currentIndex) => {
                 return accumulator.flatMap((data) => {
                     if (currentIndex > 0) {
@@ -1568,7 +1569,7 @@ export class OpenScopeLoggerComponent {
         });
     }
 
-    private updateValuesFromRead(data, instrument: 'analog' | 'digital', chans: number[], index: number) {
+    public updateValuesFromRead(data, instrument: 'analog' | 'digital', chans: number[], index: number) {
         if (data != undefined && data.instruments != undefined && data.instruments[instrument] != undefined && data.instruments[instrument][chans[index]].statusCode === 0) {
             if (instrument === 'analog') {
                 this.analogChans[chans[index] - 1].startIndex = data.instruments[instrument][chans[index]].startIndex;
@@ -1590,7 +1591,7 @@ export class OpenScopeLoggerComponent {
         }
     }
 
-    private deepMergeObj(destObj, sourceObj) {
+    public deepMergeObj(destObj, sourceObj) {
         if (this.isObject(destObj) && this.isObject(sourceObj)) {
             Object.keys(sourceObj).forEach((key) => {
                 if (sourceObj[key].constructor === Array) {
@@ -1620,7 +1621,7 @@ export class OpenScopeLoggerComponent {
         }
     }
 
-    private isObject(item) {
+    public isObject(item) {
         return (item && typeof item === 'object' && !Array.isArray(item));
     }
 
@@ -1643,15 +1644,15 @@ export class OpenScopeLoggerComponent {
     getCurrentState(instrument: 'analog' | 'digital', chans: number[], onlyCopyState: boolean = false): Promise<any> {
         return new Promise((resolve, reject) => {
             if (instrument === 'analog' && this.analogChans.length < 1) {
-                resolve();
+                resolve(undefined);
                 return;
             }
             if (instrument === 'digital' && this.digitalChans.length < 1) {
-                resolve();
+                resolve(undefined);
                 return;
             }
             if (chans.length < 1) {
-                resolve();
+                resolve(undefined);
                 return;
             }
             this.activeDevice.instruments.logger[instrument].getCurrentState(instrument, chans).subscribe(

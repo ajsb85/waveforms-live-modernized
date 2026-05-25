@@ -1,4 +1,5 @@
-import { Component, ViewChild, trigger, state, animate, transition, style } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { NavParams, Slides, ViewController, PopoverController, LoadingController, NavController } from 'ionic-angular';
 
 //Services
@@ -15,6 +16,7 @@ import { DeviceCardInfo } from '../../device-manager-page/device-manager-page.in
 import { TooltipService } from '../../../services/tooltip/tooltip.service';
 
 @Component({
+    standalone: false,
     templateUrl: 'wifi-setup.html',
     animations: [
         trigger('expand', [
@@ -198,7 +200,7 @@ export class WifiSetupPage {
         this.getSavedWifiNetworks(event).catch((e) => { });
     }
 
-    private getFutureDate(secondsFromNow) {
+    public getFutureDate(secondsFromNow) {
         return new Date(Date.now() + secondsFromNow * 1000);
     }
 
@@ -232,7 +234,7 @@ export class WifiSetupPage {
             })
             .then(data => {
                 this.currentNicStatus = data;
-            }) 
+            })
             .then(() => {
                 loading.dismiss();
                 if (this.deviceObject && !this.deviceObject.bridge) {
@@ -268,7 +270,7 @@ export class WifiSetupPage {
                                 }, 500);
                             }
                             else {
-                                return new Promise((resolve, reject) => { resolve(); });
+                                return new Promise((resolve, reject) => { resolve(undefined); });
                             }
                         })
                         .then(() => {
@@ -291,7 +293,7 @@ export class WifiSetupPage {
                                 return this.connectToNetwork(this.selectedNic, "workingParameterSet", true);
                             }
                             else {
-                                return new Promise((resolve, reject) => { resolve(); });
+                                return new Promise((resolve, reject) => { resolve(undefined); });
                             }
                         })
                         .then(() => {
@@ -324,7 +326,7 @@ export class WifiSetupPage {
                     return this.disconnectFromNetwork(this.selectedNic);
                 }
                 else {
-                    return new Promise((resolve, reject) => { resolve(); });
+                    return new Promise((resolve, reject) => { resolve(undefined); });
                 }
             })
             .catch((e) => {
@@ -434,7 +436,7 @@ export class WifiSetupPage {
                         securityType: data.device[0].securityType,
                         reason: data.device[0].reason
                     }
-            
+
                     resolve(nicStatusContainer);
                 },
                 (err) => {
@@ -662,9 +664,9 @@ export class WifiSetupPage {
                 this.getNicStatus(this.selectedNic)
                     .then((data) => {
                         if (data.statusCode !== 0) return reject('An error has occured while connecting. Please try again.');
-                        
+
                         if (data.status === 'connected' && data.ipAddress !== 'none') {
-                            resolve();
+                            resolve(undefined);
                         } else if (data.status === 'disconnected' && data.reason != 4) {
                             reject(new Error("Failed connecting"));
                         } else {
@@ -713,15 +715,15 @@ export class WifiSetupPage {
                 })
                 .then((waitToConnect = true) => { // wait to connect
                     let timeoutDate = this.getFutureDate(20);
-                    
-                    return (waitToConnect === true) ? this.readNicUntilConnected(timeoutDate) : Promise.resolve();
+
+                    return (waitToConnect === true) ? this.readNicUntilConnected(timeoutDate) : Promise.resolve(undefined);
                 })
                 .then(() => { // save network config
                     if (this.save) {
                         return this.saveWifiNetwork(this.selectedStorageLocation);
                     }
                     else {
-                        return new Promise((resolve, reject) => { resolve(); });
+                        return new Promise((resolve, reject) => { resolve(undefined); });
                     }
                 })
                 .then(() => {
@@ -748,7 +750,7 @@ export class WifiSetupPage {
                         return this.connectToNetwork(this.selectedNic, "workingParameterSet", true);
                     }
                     else {
-                        return new Promise((resolve, reject) => { resolve(); });
+                        return new Promise((resolve, reject) => { resolve(undefined); });
                     }
                 })
                 .then(() => {

@@ -13,6 +13,7 @@ import { ToastService } from '../../services/toast/toast.service';
 import { SweepType } from '../../components/bode-plot/bode-plot.component';
 
 @Component({
+    standalone: false,
     templateUrl: "bode.html"
 })
 export class BodePage {
@@ -24,15 +25,15 @@ export class BodePage {
     public sweepType: SweepType = 'Log';
     public sweepTypeArray: SweepType[] = ['Log', 'Linear'];
     public vertScale: SweepType = 'Log';
-    private activeDevice: DeviceService;
-    private dismissCallback: () => void;
+    public activeDevice: DeviceService;
+    public dismissCallback: () => void;
 
     constructor(
         _navCtrl: NavController,
-        private utilityService: UtilityService,
-        private deviceManagerService: DeviceManagerService,
-        private toastService: ToastService,
-        private navParams: NavParams
+        public utilityService: UtilityService,
+        public deviceManagerService: DeviceManagerService,
+        public toastService: ToastService,
+        public navParams: NavParams
     ) {
         this.navCtrl = _navCtrl;
         this.dismissCallback = this.navParams.get('onBodeDismiss');
@@ -156,16 +157,16 @@ export class BodePage {
         let min = this.activeDevice.instruments.awg.chans[0].signalFreqMin / 1000;
         let max = this.activeDevice.instruments.awg.chans[0].signalFreqMax / 1000;
         max = Math.min(max, this.activeDevice.instruments.osc.chans[0].sampleFreqMax / 1000 / 10);
-        //The max frequency has to be 10x less than the max allowable so the sampling frequency can be 10x signal frequency 
-        //for FFT step size to hit signal frequency perfectly 
+        //The max frequency has to be 10x less than the max allowable so the sampling frequency can be 10x signal frequency
+        //for FFT step size to hit signal frequency perfectly
         switch (input) {
-            case 'startFreq':     
+            case 'startFreq':
                 this.startFreq = Math.min(Math.max(min, trueValue), max);
                 if (this.startFreq > this.stopFreq) {
                     this.stopFreq = this.startFreq;
                 }
                 break;
-            case 'stopFreq':            
+            case 'stopFreq':
                 this.stopFreq = Math.min(Math.max(min, trueValue), max);
                 if (this.stopFreq < this.startFreq) {
                     this.startFreq = this.stopFreq;

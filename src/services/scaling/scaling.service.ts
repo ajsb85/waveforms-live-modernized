@@ -7,7 +7,7 @@ import { StorageService } from '../../services/storage/storage.service';
 export class ScalingService {
 
   constructor(
-    private storageService: StorageService
+    public storageService: StorageService
   ) {
   }
 
@@ -26,7 +26,7 @@ export class ScalingService {
 
             // evaluate saved expressions
             scalingOptions.forEach((option) => {
-              option['expression'] = math.eval(`f(v)=${option['expressionString']}`);
+              option['expression'] = math.evaluate(`f(v)=${option['expressionString']}`);
             });
             resolve(scalingOptions);
           } else {
@@ -44,7 +44,7 @@ export class ScalingService {
             let scaleInfo = JSON.parse(data).filter((option) => {
               return option.name === name
             })[0];
-            scaleInfo['expression'] = math.eval(`f(v)=${scaleInfo['expressionString']}`);
+            scaleInfo['expression'] = math.evaluate(`f(v)=${scaleInfo['expressionString']}`);
             resolve(scaleInfo);
           } else {
             reject();
@@ -57,7 +57,7 @@ export class ScalingService {
     return new Promise((resolve, reject) => {
       if (expressionString.includes("v")) {
         try {
-          let expression = math.eval(`f(v)=${expressionString}`);
+          let expression = math.evaluate(`f(v)=${expressionString}`);
           expression(2); // note(andrew): test that we can actually use the expression here
           resolve(expression);
         }

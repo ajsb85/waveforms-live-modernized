@@ -11,19 +11,20 @@ import { DeviceManagerService, DeviceService } from 'dip-angular2/services';
 import { DigilentChart } from 'digilent-chart-angular2/modules';
 
 @Component({
+    standalone: false,
     selector: 'logger-timeline',
     templateUrl: 'logger-timeline.html'
 })
 export class LoggerTimelineComponent {
     @ViewChild('loggerTimeline') loggerTimeline: DigilentChart;
-    private unitFormatPipeInstance: UnitFormatPipe;
+    public unitFormatPipeInstance: UnitFormatPipe;
     public colorArray: string[] = ['#FFA510', '#4487BA', '#FF5080', '#00d400', '#AC9D93', '#8800AA', '#EAEA00', '#784421'];
     public loggerChartOptions: any = this.generateBodeOptions();
-    private activeDevice: DeviceService;
+    public activeDevice: DeviceService;
 
     constructor(
-        private loggerPlotService: LoggerPlotService,
-        private deviceManagerService: DeviceManagerService
+        public loggerPlotService: LoggerPlotService,
+        public deviceManagerService: DeviceManagerService
     ) {
         this.unitFormatPipeInstance = new UnitFormatPipe();
         this.activeDevice = this.deviceManagerService.devices[this.deviceManagerService.activeDeviceIndex];

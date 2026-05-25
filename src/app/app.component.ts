@@ -12,6 +12,8 @@ import { SettingsService } from '../services/settings/settings.service';
 import { DeviceManagerService } from 'dip-angular2/services';
 
 @Component({
+    standalone: false,
+    selector: 'app-root',
     templateUrl: 'app.html'
 })
 export class MyApp {
@@ -35,11 +37,11 @@ export class MyApp {
             { title: 'Settings', component: SettingsPage }
         ];
         this.settingsService = _settingsService;
-    
+
         if ((this.platform.is('ios') || this.platform.is('android')) && this.platform.is('mobileweb')) {
             this.isMobile = true;
         }
-        
+
         (<any>document).addEventListener("keydown", (event) => {
             if ((event.code === 'KeyS' || event.keyCode === 83) && event.ctrlKey) {
                 event.preventDefault();

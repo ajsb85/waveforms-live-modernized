@@ -12,14 +12,14 @@
             <ion-col center text-center class="timeline-row-button-container">
                 <div>
                     <div>
-                        <button ion-button icon-right class="text-button-side disable-hover main-button" (tap)="loggerComponent.running ? stopLogger() : runLogger()">
+                        <button ion-button icon-right class="text-button-side disable-hover main-button" (click)="loggerComponent.running ? stopLogger() : runLogger()">
                             <!-- Ridiculous ternary operator to help angular change detection -->
                             <span class="collapse-button">{{loggerComponent.running ? 'Stop' : loggerComponent.selectedMode === 'stream' ? 'Stream' : loggerComponent.selectedMode
                                 === 'both' ? 'Run' : 'Log'}}</span>
                             <img class="custom-image-button" [src]="loggerComponent.running ? 'assets/img/stop.svg' : 'assets/img/run.svg'" />
                         </button>
                         <button *ngIf="loggerComponent.selectedMode !== 'stream' && loggerComponent.running" ion-button icon-right class="text-button-side disable-hover main-button"
-                            (tap)="loggerComponent.selectedMode === 'log' ? loggerComponent.bothStartStream() : loggerComponent.bothStopStream()">
+                            (click)="loggerComponent.selectedMode === 'log' ? loggerComponent.bothStartStream() : loggerComponent.bothStopStream()">
                             <span class="collapse-button">Stream</span>
                             <img class="custom-image-button" [src]="loggerComponent.selectedMode === 'log' ? 'assets/img/run.svg' : 'assets/img/stop.svg'"
                             />
@@ -38,16 +38,16 @@
         <ion-col class="chart-container-col">
             <div class="chart-button-container">
                 <button ion-button class="chart-button disable-hover" [disabled]="!loggerComponent.viewMoved && loggerComponent.running"
-                    (tap)="snapViewToFront()">
+                    (click)="snapViewToFront()">
                     <img class="button-side-svg" src="assets/img/logger-to-front.svg" />
                 </button>
-                <button ion-button class="chart-button disable-hover" [disabled]="loggerComponent.running" (tap)="presentExportPop($event)">
+                <button ion-button class="chart-button disable-hover" [disabled]="loggerComponent.running" (click)="presentExportPop($event)">
                     <img class="button-side-svg" src="assets/img/download.svg" />
                 </button>
-                <button ion-button class="chart-button disable-hover" [disabled]="loggerComponent.running" (tap)="openFileBrowser()">
+                <button ion-button class="chart-button disable-hover" [disabled]="loggerComponent.running" (click)="openFileBrowser()">
                     <img class="button-side-svg" src="assets/img/folder.svg" />
                 </button>
-                <button ion-button class="chart-button disable-hover" [disabled]="loggerComponent.running" (tap)="openDevicePinout($event)">
+                <button ion-button class="chart-button disable-hover" [disabled]="loggerComponent.running" (click)="openDevicePinout($event)">
                     PIN
                 </button>
             </div>
@@ -60,12 +60,12 @@
                         <ion-col center class="info-col">
                             <ion-row center class="cursor-container">
                                 <button ion-button icon-right class="text-button-side disable-hover" [disabled]="loggerComponent.running || !loggerComponent.dataAvailable"
-                                    (tap)="openMathPopover($event)" [tooltip]="tooltipService.getTooltip('mathButton').message"
+                                    (click)="openMathPopover($event)" [tooltip]="tooltipService.getTooltip('mathButton').message"
                                     [tooltipAnimation]="true" tooltipPlacement="right">
                                     <span class="collapse-button">Math</span>
                                     <img class="button-side-svg" src="assets/img/math.svg" />
                                 </button>
-                                <button ion-button class="icon-only-button-side disable-hover" (tap)="updateMath()" [tooltip]="tooltipService.getTooltip('refreshMathButton').message"
+                                <button ion-button class="icon-only-button-side disable-hover" (click)="updateMath()" [tooltip]="tooltipService.getTooltip('refreshMathButton').message"
                                     [tooltipAnimation]="true" tooltipPlacement="right">
                                     <img class="button-side-svg" src="assets/img/refresh.svg" />
                                 </button>
@@ -96,7 +96,7 @@
                         <ion-col center class="info-col">
                             <ion-row center class="cursor-container">
                                 <button ion-button icon-right class="text-button-side disable-hover" [disabled]="loggerComponent.running || !loggerComponent.dataAvailable"
-                                    (tap)="openCursorModal($event)" [tooltip]="tooltipService.getTooltip('cursorButton').message"
+                                    (click)="openCursorModal($event)" [tooltip]="tooltipService.getTooltip('cursorButton').message"
                                     [tooltipAnimation]="true" tooltipPlacement="right">
                                     <span class="collapse-button">Cursors</span>
                                     <img class="button-side-svg" src="assets/img/edit.svg" />

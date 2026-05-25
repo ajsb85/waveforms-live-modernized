@@ -25,6 +25,7 @@ import { ChannelSelectPopover } from '../../channel-select-popover/channel-selec
 import { LogScalePopover } from '../../log-scale-popover/log-scale-popover.component';
 
 @Component({
+    standalone: false,
     templateUrl: 'openlogger-logger.html',
     selector: 'openlogger-logger-component'
 })
@@ -36,12 +37,12 @@ export class OpenLoggerLoggerComponent {
     @ViewChildren('dropPopScaling') scalingChildren: QueryList<DropdownPopoverComponent>;
     @Input() colorArray: any;
 
-    private activeDevice: DeviceService;
+    public activeDevice: DeviceService;
     public showLoggerSettings: boolean = true;
     public showAdvSettings: boolean = false;
     public selectedChannels: boolean[] = [];
 
-    private defaultDaqParams: DaqLoggerParams = {
+    public defaultDaqParams: DaqLoggerParams = {
         maxSampleCount: -1,
         startDelay: 0,
         sampleFreq: 500000,
@@ -51,8 +52,8 @@ export class OpenLoggerLoggerComponent {
         apiKey: '',
         uri: ''
     };
-    private daqParams: DaqLoggerParams = Object.assign({}, this.defaultDaqParams);
-    private defaultDaqChannelParams: DaqChannelParams = {
+    public daqParams: DaqLoggerParams = Object.assign({}, this.defaultDaqParams);
+    public defaultDaqChannelParams: DaqChannelParams = {
         average: 1,
         vOffset: 0
     };
@@ -60,10 +61,10 @@ export class OpenLoggerLoggerComponent {
     public loggerState: string = 'idle';
     public averagingEnabled: boolean = false;
     public maxAverage: number = 256;
-    
+
     public startIndex: number = 0;
     public count: number = 0;
-    private daqChanNumbers: number[] = [];
+    public daqChanNumbers: number[] = [];
     public logToLocations: string[] = ['chart'];
     public logAndStream: boolean = false;
     public modes: ('continuous' | 'finite')[] = ['continuous', 'finite'];
@@ -74,46 +75,46 @@ export class OpenLoggerLoggerComponent {
     public selectedCloudService: string = this.cloudServices[0];
     public loggingProfiles: string[] = ['New Profile'];
     public selectedLogProfile: string = this.loggingProfiles[0];
-    private dirtyProfile: boolean = false;
-    private profileObjectMap: any = {};
+    public dirtyProfile: boolean = false;
+    public profileObjectMap: any = {};
     public running: boolean = false;
     public dataContainers: PlotDataContainer[] = [];
     public viewMoved: boolean = false;
-    private daqChansToRead: number[] = [];
-    private chartPanSubscriptionRef;
-    private offsetChangeSubscriptionRef;
-    private scalingOptions: string[] = ['None'];
-    private selectedScales: string[];
-    private unitTransformer: any[] = [];
+    public daqChansToRead: number[] = [];
+    public chartPanSubscriptionRef;
+    public offsetChangeSubscriptionRef;
+    public scalingOptions: string[] = ['None'];
+    public selectedScales: string[];
+    public unitTransformer: any[] = [];
 
-    private filesInStorage: any = {};
-    private destroyed: boolean = false;
+    public filesInStorage: any = {};
+    public destroyed: boolean = false;
     public dataAvailable: boolean = false;
-    private chanSelectTimer;
+    public chanSelectTimer;
 
     public messageQueue: any[] = [];
 
-    private nicStatus: string = 'disconnected';
-    private channelId: number;
-    private thingSpeakBaseUrl = 'http://api.thingspeak.com/channels/';
-    private thingSpeakResourcePath = '/bulk_update.json';
+    public nicStatus: string = 'disconnected';
+    public channelId: number;
+    public thingSpeakBaseUrl = 'http://api.thingspeak.com/channels/';
+    public thingSpeakResourcePath = '/bulk_update.json';
 
     constructor(
-        private devicemanagerService: DeviceManagerService,
-        private loadingService: LoadingService,
-        private toastService: ToastService,
-        private utilityService: UtilityService,
+        public devicemanagerService: DeviceManagerService,
+        public loadingService: LoadingService,
+        public toastService: ToastService,
+        public utilityService: UtilityService,
         public loggerPlotService: LoggerPlotService,
-        private exportService: ExportService,
-        private alertCtrl: AlertController,
-        private settingsService: SettingsService,
+        public exportService: ExportService,
+        public alertCtrl: AlertController,
+        public settingsService: SettingsService,
         public tooltipService: TooltipService,
-        private popoverCtrl: PopoverController,
+        public popoverCtrl: PopoverController,
         public events: Events,
-        private scalingService: ScalingService
+        public scalingService: ScalingService
     ) {
         this.activeDevice = this.devicemanagerService.devices[this.devicemanagerService.activeDeviceIndex];
-        console.log(this.activeDevice.instruments.logger); 
+        console.log(this.activeDevice.instruments.logger);
         let loading = this.loadingService.displayLoading('Loading device info...');
         this.init();
         this.loadDeviceInfo()
@@ -164,7 +165,7 @@ export class OpenLoggerLoggerComponent {
                     let numChans = this.selectedChannels.lastIndexOf(true) + 1;
                     let chanObj = this.activeDevice.instruments.logger.daq.chans[0];
                     let maxAggregate = this.getMaxSampleFreq();
-                    let maxFreq = Math.floor(maxAggregate / numChans) * chanObj.sampleFreqUnits;   
+                    let maxFreq = Math.floor(maxAggregate / numChans) * chanObj.sampleFreqUnits;
 
                     this.toastService.createToast('loggerSampleFreqMax', true, Math.round((maxFreq / 1000) * 100) / 100 + ' kS/s', 5000);
                 }, 1500);
@@ -234,7 +235,7 @@ export class OpenLoggerLoggerComponent {
         this.destroyed = true;
     }
 
-    private init() {
+    public init() {
         this.chartPanSubscriptionRef = this.loggerPlotService.chartPan.subscribe(
             (data) => {
                 if (this.running) {
@@ -293,7 +294,7 @@ export class OpenLoggerLoggerComponent {
         this.selectedScales = Array.apply(null, Array(this.daqChans.length)).map(() => this.scalingOptions[0]);
     }
 
-    private loadDeviceInfo(): Promise<any> {
+    public loadDeviceInfo(): Promise<any> {
         return new Promise((resolve, reject) => {
             this.getStorageLocations()
                 .then((data) => {
@@ -309,7 +310,7 @@ export class OpenLoggerLoggerComponent {
                                 this.filesInStorage[el] = [];
                             }
 
-                            if (/^sd/g.test(el) && this.logToLocations.indexOf('SD') === -1 && 
+                            if (/^sd/g.test(el) && this.logToLocations.indexOf('SD') === -1 &&
                                 ((fwVer.major === 0 && fwVer.minor >= 1719) || fwVer.major >= 1)) { // only push SD as a location if the firmware supports it
                                 this.logToLocations.push('SD');
                             }
@@ -324,7 +325,7 @@ export class OpenLoggerLoggerComponent {
                     if (this.storageLocations.length < 1) {
                         this.logToLocations = ['chart'];
                         this.logToSelect('chart');
-                        return new Promise((resolve, reject) => { resolve(); });
+                        return new Promise((resolve, reject) => { resolve(undefined); });
                     }
                     else {
                         return new Promise((resolve, reject) => {
@@ -339,11 +340,11 @@ export class OpenLoggerLoggerComponent {
                             }, Promise.resolve())
                                 .then((data) => {
                                     console.log('DONE READING STORAGE LOCATIONS');
-                                    resolve();
+                                    resolve(undefined);
                                 })
                                 .catch((e) => {
                                     console.log(e);
-                                    resolve();
+                                    resolve(undefined);
                                 });
                         });
                     }
@@ -370,7 +371,7 @@ export class OpenLoggerLoggerComponent {
                 })
                 .then((status) => {
                     this.nicStatus = status;
-                    resolve();
+                    resolve(undefined);
                 })
                 .catch((e) => {
                     console.log(e);
@@ -433,7 +434,7 @@ export class OpenLoggerLoggerComponent {
 
     continueStream() {
         if (!this.running) { return; }
-        
+
         //Device was in stream mode and should be ready to stream
         this.daqChansToRead = this.selectedChannels.reduce((chanArray, isSelected, i) => {
             if (isSelected) {
@@ -441,7 +442,7 @@ export class OpenLoggerLoggerComponent {
             }
             return chanArray;
         }, []);
-        if (this.daqChansToRead !== []) {
+        if (this.daqChansToRead.length > 0) {
             this.count = -1000;
         }
 
@@ -464,14 +465,14 @@ export class OpenLoggerLoggerComponent {
                 {
                     text: 'Overwrite',
                     handler: (data) => {
-                        resolve();
+                        resolve(undefined);
                     }
                 }]
             );
         });
     }
 
-    private alertWrapper(title: string, subTitle: string, buttons?: { text: string, handler: (data) => void }[]): Promise<any> {
+    public alertWrapper(title: string, subTitle: string, buttons?: { text: string, handler: (data) => void }[]): Promise<any> {
         return new Promise((resolve, reject) => {
             let alert = this.alertCtrl.create({
                 title: title,
@@ -565,7 +566,7 @@ export class OpenLoggerLoggerComponent {
         this.validateAndApply(newFreq, type);
     }
 
-    private getMaxSampleFreq(): number {
+    public getMaxSampleFreq(): number {
         let targets = this.activeDevice.instruments.logger.daq.targets;
         let max;
         if (this.selectedLogLocation === 'chart') {
@@ -578,7 +579,7 @@ export class OpenLoggerLoggerComponent {
         return max;
     }
 
-    private validateAndApply(newVal: number, type: 'sampleFreq' | 'samples'): number {
+    public validateAndApply(newVal: number, type: 'sampleFreq' | 'samples'): number {
         if (type === 'sampleFreq') {
             let chanObj = this.activeDevice.instruments.logger.daq.chans[0];
             let maxAggregate = this.getMaxSampleFreq();
@@ -633,7 +634,7 @@ export class OpenLoggerLoggerComponent {
         if (this.viewMoved) { return; }
 
         let index = this.selectedChannels.findIndex((e) => e);
-        
+
         if (!this.dataAvailable || index === -1 || this.dataContainers[index].data[0] == undefined || this.dataContainers[index].data[0][0] == undefined) {
             //Data was cleared
             this.loggerPlotService.setPosition('x', 1, this.loggerPlotService.xAxis.base * 5, true);
@@ -643,7 +644,7 @@ export class OpenLoggerLoggerComponent {
         let rightPos = this.dataContainers[index].data[this.dataContainers[index].data.length - 1][0];
         for (let i = 1; i < this.dataContainers.length; i++) {
             let len = this.dataContainers[i].data.length - 1;
-            
+
             if (len <= 0) continue;
 
             let tempRightPos = this.dataContainers[i].data[this.dataContainers[i].data.length - 1][0];
@@ -801,7 +802,7 @@ export class OpenLoggerLoggerComponent {
         });
     }
 
-    private getProfileFromStorage() {
+    public getProfileFromStorage() {
         let profileName = this.settingsService.getLoggerProfile(this.activeDevice.macAddress);
         if (profileName !== undefined && profileName !== this.loggingProfiles[0] && this.profileObjectMap[profileName] !== undefined) {
             this.selectedLogProfile = profileName;
@@ -812,7 +813,7 @@ export class OpenLoggerLoggerComponent {
         }
     }
 
-    private readProfile(profileName: string): Promise<any> {
+    public readProfile(profileName: string): Promise<any> {
         return new Promise((resolve, reject) => {
             this.activeDevice.file.read('flash', this.settingsService.profileToken + profileName, 0, -1).subscribe(
                 (data) => {
@@ -891,7 +892,7 @@ export class OpenLoggerLoggerComponent {
         return saveObj;
     }
 
-    private parseAndApplyProfileJson(loadedObj) {
+    public parseAndApplyProfileJson(loadedObj) {
         if (loadedObj.daq !== undefined) {
             this.selectedChannels = this.selectedChannels.map(() => false);
             this.averagingEnabled = false;
@@ -940,7 +941,7 @@ export class OpenLoggerLoggerComponent {
         }
     }
 
-    private saveProfile(profileName: string, saveChart: boolean, saveDaq: boolean): Promise<any> {
+    public saveProfile(profileName: string, saveChart: boolean, saveDaq: boolean): Promise<any> {
         return new Promise((resolve, reject) => {
             let objToSave = this.generateProfileJson(saveChart, saveDaq);
             let str = JSON.stringify(objToSave);
@@ -963,7 +964,7 @@ export class OpenLoggerLoggerComponent {
         });
     }
 
-    private getStorageLocations(): Promise<any> {
+    public getStorageLocations(): Promise<any> {
         return new Promise((resolve, reject) => {
             this.activeDevice.storageGetLocations().subscribe(
                 (data) => {
@@ -1016,7 +1017,7 @@ export class OpenLoggerLoggerComponent {
             });
     }
 
-    private clearChart() {
+    public clearChart() {
         for (let i = 0; i < this.dataContainers.length; i++) {
             this.dataContainers[i].data = [];
         }
@@ -1024,7 +1025,7 @@ export class OpenLoggerLoggerComponent {
         this.dataAvailable = false;
     }
 
-    private parseReadResponseAndDraw(readResponse) {
+    public parseReadResponseAndDraw(readResponse) {
         let t0 = performance.now();
         for (let instrument in readResponse.instruments) {
             for (let channel in readResponse.instruments[instrument]) {
@@ -1063,7 +1064,7 @@ export class OpenLoggerLoggerComponent {
         console.log('time to parse and draw:', t1 - t0);
     }
 
-    private existingFileFoundAndValidate(loading): { reason: number, existingFiles?: string[] } {
+    public existingFileFoundAndValidate(loading): { reason: number, existingFiles?: string[] } {
         let existingFileFound: boolean = false;
         if (this.daqParams.storageLocation !== 'ram' && this.daqParams.storageLocation !== 'cloud' && this.daqParams.uri === '') {
             loading.dismiss();
@@ -1081,7 +1082,7 @@ export class OpenLoggerLoggerComponent {
         }
 
         let regex = new RegExp(this.daqParams.uri + '_[0-9][0-9]*.log');
-        
+
         let matchingFiles = this.filesInStorage[this.daqParams.storageLocation].filter((filename) => regex.test(filename));
 
         if (matchingFiles.length !== 0) {
@@ -1123,9 +1124,9 @@ export class OpenLoggerLoggerComponent {
         this.getCurrentState(true)
             .then((data) => {
                 console.log(data);
-                
+
                 let returnData: { reason: number, existingFiles?: string[] } = this.existingFileFoundAndValidate(loading);
-                
+
                 if (returnData.reason === 2) {
                     loading.dismiss();
 
@@ -1144,7 +1145,7 @@ export class OpenLoggerLoggerComponent {
                 }
                 else if (returnData.reason === 0) {
                     // return this.setParametersAndRun(loading);
-                    return Promise.resolve();
+                    return Promise.resolve(undefined);
                 }
             })
             .then(() => {
@@ -1159,14 +1160,14 @@ export class OpenLoggerLoggerComponent {
     }
 
     /**
-     * This method calls into the DIP file.delete method, wrapping the returned 
-     * observable in a promise. 
+     * This method calls into the DIP file.delete method, wrapping the returned
+     * observable in a promise.
      * @param location storage location to delete files from
      * @param paths single path or array of paths of files to be deleted
-     * 
+     *
      * @returns a promise that resolves on file.delete completion, or rejects on error.
      */
-    private deleteFiles(location: string, paths: string | string[]): Promise<any> {
+    public deleteFiles(location: string, paths: string | string[]): Promise<any> {
         return new Promise((resolve, reject) => {
             this.activeDevice.file.delete(location, paths).subscribe(data => {
                 resolve(data);
@@ -1180,14 +1181,14 @@ export class OpenLoggerLoggerComponent {
     /**
      * This method queries the state of the device filesystem. If the state is not
      * idle, this method will recursively call itself until the filesystem is idle.
-     * 
+     *
      * @returns a promise that resolves when file.state is idle, or rejects on error.
      */
-    private waitTillFileIdle(): Promise<null> {
+    public waitTillFileIdle(): Promise<null> {
         return new Promise((resolve, reject) => {
             this.getFileCurrentState().then(data => {
                 if (data.file.state == 'idle') {
-                    resolve();
+                    resolve(undefined);
                 } else {
                     this.getFileCurrentState()
                         .then(resolve)
@@ -1199,12 +1200,12 @@ export class OpenLoggerLoggerComponent {
     }
 
     /**
-     * This method calls file.getCurrentState, and returns the response through 
+     * This method calls file.getCurrentState, and returns the response through
      * promise resolution.
-     * 
+     *
      * @returns a promise that resolves with the filesystem state, or rejects on error.
      */
-    private getFileCurrentState() {
+    public getFileCurrentState() {
         return new Promise<any>((resolve, reject) => {
             this.activeDevice.file.getCurrentState().subscribe(
                 (data) => {
@@ -1218,7 +1219,7 @@ export class OpenLoggerLoggerComponent {
         });
     }
 
-    private setParametersAndRun(loading) {
+    public setParametersAndRun(loading) {
         let daqChanArray = [];
         for (let i = 0; i < this.daqChans.length; i++) {
             this.count = -1000;
@@ -1270,7 +1271,7 @@ export class OpenLoggerLoggerComponent {
             });
     }
 
-    private getLiveState() {
+    public getLiveState() {
         let message;
         if ((message = this.messageQueue.shift()) !== undefined) {
             message().then(() => {
@@ -1303,7 +1304,7 @@ export class OpenLoggerLoggerComponent {
             });
     }
 
-    private parseGetLiveStatePacket(instrument: 'digital' | 'analog', data) {
+    public parseGetLiveStatePacket(instrument: 'digital' | 'analog', data) {
         for (let channel in data.log[instrument]) {
             if (data.log[instrument][channel][0].stopReason === 'OVERFLOW') {
                 console.log('OVERFLOW');
@@ -1324,7 +1325,7 @@ export class OpenLoggerLoggerComponent {
         }
     }
 
-    private readLiveData() {
+    public readLiveData() {
         // if the messageQueue has something in it, run that instead, then pop it off the queue. Call readLiveData again (if running?).
         let message;
         if ((message = this.messageQueue.shift()) !== undefined) {
@@ -1425,7 +1426,7 @@ export class OpenLoggerLoggerComponent {
         }]);
     }
 
-    private applyCurrentStateResponse(data: any, onlyCopyState: boolean = false) {
+    public applyCurrentStateResponse(data: any, onlyCopyState: boolean = false) {
         for (let instrument in data.log) {
             if (instrument === 'daq') {
                 let stateData = data.log[instrument];
@@ -1474,7 +1475,7 @@ export class OpenLoggerLoggerComponent {
                 }
 
                 this.daqParams.storageLocation = stateData.storageLocation || this.daqParams.storageLocation;
-                
+
                 if (stateData.storageLocation === undefined || stateData.storageLocation === 'ram') {
                     this.selectedLogLocation = 'chart';
                     this.logToChild._applyActiveSelection('chart');
@@ -1530,7 +1531,7 @@ export class OpenLoggerLoggerComponent {
             let observable;
             if (instrument === 'analog') {
                 if (this.daqChans.length < 1) {
-                    resolve();
+                    resolve(undefined);
                     return;
                 }
 
@@ -1575,7 +1576,7 @@ export class OpenLoggerLoggerComponent {
     run(instrument: 'analog' | 'digital', chans: number[]): Promise<any> {
         return new Promise((resolve, reject) => {
             if (this.daqChans.length < 1) {
-                resolve();
+                resolve(undefined);
                 return;
             }
 
@@ -1596,7 +1597,7 @@ export class OpenLoggerLoggerComponent {
     stop(): Promise<any> {
         return new Promise((resolve, reject) => {
             if (this.daqChans.length < 1) {
-                resolve();
+                resolve(undefined);
                 return;
             }
             this.activeDevice.instruments.logger.daq.stop().subscribe(
@@ -1623,17 +1624,17 @@ export class OpenLoggerLoggerComponent {
         return new Promise((resolve, reject) => {
 
             if (this.daqChansToRead.length < 1 || this.daqChans.length < 1) {
-                resolve();
+                resolve(undefined);
                 return;
             }
 
             let finalObj = {};
-            
+
             this.activeDevice.instruments.logger.daq.read(instrument, chans, this.startIndex, this.count)
                 .subscribe(
                     ({cmdRespObj, instruments}) => {
                         let data = {cmdRespObj, instruments};
-                        
+
                         if (this.startIndex >= 0 && this.startIndex !== cmdRespObj.log.daq.startIndex) {
                             reject({
                                 message: 'Could not keep up with device',
@@ -1685,14 +1686,14 @@ export class OpenLoggerLoggerComponent {
         });
     }
 
-    private updateValuesFromRead(data, instrument: 'analog' | 'digital' | 'daq', chans: number[], index: number) {
+    public updateValuesFromRead(data, instrument: 'analog' | 'digital' | 'daq', chans: number[], index: number) {
         if (data != undefined && data.instruments != undefined && data.instruments[instrument] != undefined && data.instruments[instrument][chans[index]].statusCode === 0) {
             if (instrument === 'daq') {
                 // update the start index w/ what the device gives us
                 this.startIndex = data.cmdRespObj.log.daq.startIndex;
 
                 // increment startIndex by the actual count given
-                this.startIndex += data.cmdRespObj.log.daq.actualCount; 
+                this.startIndex += data.cmdRespObj.log.daq.actualCount;
 
                 // reset count. A negative value tells the OpenLogger to give everything it currently has
                 this.count = -1000;
@@ -1711,7 +1712,7 @@ export class OpenLoggerLoggerComponent {
         }
     }
 
-    private deepMergeObj(destObj, sourceObj) {
+    public deepMergeObj(destObj, sourceObj) {
         if (this.isObject(destObj) && this.isObject(sourceObj)) {
 
             Object.keys(sourceObj).forEach((key) => {
@@ -1745,7 +1746,7 @@ export class OpenLoggerLoggerComponent {
         }
     }
 
-    private isObject(item) {
+    public isObject(item) {
         return (item && typeof item === 'object' && !Array.isArray(item));
     }
 
@@ -1768,7 +1769,7 @@ export class OpenLoggerLoggerComponent {
     getCurrentState(onlyCopyState: boolean = false): Promise<any> {
         return new Promise((resolve, reject) => {
             if (this.daqChans.length < 1) {
-                resolve();
+                resolve(undefined);
                 return;
             }
 
@@ -1837,7 +1838,7 @@ export class OpenLoggerLoggerComponent {
             this.scaleSelect("None", index);
             this.scalingChildren.toArray()[index]._applyActiveSelection("None");
         });
-        
+
         this.events.publish("restore-defaults");
     }
 
@@ -1855,7 +1856,7 @@ export class OpenLoggerLoggerComponent {
         });
     }
 
-    setLogOnBootParams(event) {
+    setLogOnBootParams(event?: Event) {
         let daqChanArray = [];
         for (let i = 0; i < this.daqChans.length; i++) {
             if (this.selectedChannels[i]) {

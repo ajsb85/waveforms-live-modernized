@@ -240,12 +240,12 @@ var mathFunctions = (function () {
     /**************************************************
     * Private Functions
     **************************************************/
-    /* 
+    /*
     * Free FFT and convolution (JavaScript)
-    * 
+    *
     * Copyright (c) 2014 Project Nayuki
     * https://www.nayuki.io/page/free-small-fft-in-multiple-languages
-    * 
+    *
     * (MIT License)
     * Permission is hereby granted, free of charge, to any person obtaining a copy of
     * this software and associated documentation files (the "Software"), to deal in
@@ -262,10 +262,10 @@ var mathFunctions = (function () {
     *   liability, whether in an action of contract, tort or otherwise, arising from,
     *   out of or in connection with the Software or the use or other dealings in the
     *   Software.
-    * 
+    *
     */
 
-    /* 
+    /*
      * Computes the discrete Fourier transform (DFT) of the given complex vector, storing the result back into the vector.
      * The vector can have any length. This is a wrapper function.
      */
@@ -281,7 +281,7 @@ var mathFunctions = (function () {
         else  // More complicated algorithm for arbitrary sizes
             transformBluestein(real, imag);
     }
-    /* 
+    /*
  * Computes the inverse discrete Fourier transform (IDFT) of the given complex vector, storing the result back into the vector.
  * The vector can have any length. This is a wrapper function. This transform does not perform scaling, so the inverse is not a true inverse.
  */
@@ -290,7 +290,7 @@ var mathFunctions = (function () {
     }
 
 
-    /* 
+    /*
      * Computes the discrete Fourier transform (DFT) of the given complex vector, storing the result back into the vector.
      * The vector's length must be a power of 2. Uses the Cooley-Tukey decimation-in-time radix-2 algorithm.
      */
@@ -356,7 +356,7 @@ var mathFunctions = (function () {
     }
 
 
-    /* 
+    /*
      * Computes the discrete Fourier transform (DFT) of the given complex vector, storing the result back into the vector.
      * The vector can have any length. This requires the convolution function, which in turn requires the radix-2 FFT function.
      * Uses Bluestein's chirp z-transform algorithm.
@@ -412,7 +412,7 @@ var mathFunctions = (function () {
     }
 
 
-    /* 
+    /*
      * Computes the circular convolution of the given real vectors. Each vector's length must be the same.
      */
     function convolveReal(x, y, out) {
@@ -425,7 +425,7 @@ var mathFunctions = (function () {
     }
 
 
-    /* 
+    /*
      * Computes the circular convolution of the given complex vectors. Each vector's length must be the same.
      */
     function convolveComplex(xreal, ximag, yreal, yimag, outreal, outimag) {
@@ -469,4 +469,4 @@ var mathFunctions = (function () {
         getFftArray: getFftArray
     }
 
-})()
+})();

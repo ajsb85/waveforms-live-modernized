@@ -4,6 +4,7 @@ import { Directive, HostListener, Output, EventEmitter } from '@angular/core';
 import { UtilityService } from '../../services/utility/utility.service';
 
 @Directive({
+    standalone: false,
     selector: '[formatInput]'
 })
 export class FormatInputDirective {
@@ -11,7 +12,7 @@ export class FormatInputDirective {
     public ignoreFocusOut: boolean = false;
 
     constructor(
-        private utilService: UtilityService
+        public utilService: UtilityService
     ) {
 
     }
@@ -30,7 +31,7 @@ export class FormatInputDirective {
         }
     }
 
-    private parseAndEmit(event) {
+    public parseAndEmit(event) {
         let val: number = this.utilService.parseBaseNumberVal(event);
         this.valChange.emit(val);
     }

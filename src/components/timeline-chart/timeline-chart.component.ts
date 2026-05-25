@@ -1,6 +1,7 @@
 import {Component, Output, EventEmitter, ElementRef, ViewChild} from '@angular/core';
 
 @Component({
+    standalone: false,
     selector: 'timeline-chart',
     templateUrl: 'timeline-chart.html'
 })
@@ -21,7 +22,7 @@ export class TimelineChartComponent {
 
     timelineChartEventExporter(event, type: string) {
         this.timelineChartEvent.emit({
-            ev: event, 
+            ev: event,
             type: type
         });
     }

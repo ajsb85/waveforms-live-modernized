@@ -4,12 +4,12 @@
             {{tooltipService.getTooltip('tutorialLoopBack').message}}
         </div>
         <div>
-            <button ion-button class="text-button-side disable-hover" (tap)="proceedToNextStage()">ok</button>
+            <button ion-button class="text-button-side disable-hover" (click)="proceedToNextStage()">ok</button>
         </div>
     </tooltip-content>
 
     <div *ngIf="settingsService.nestedChannels" class="header-bar-side awg-header">
-        <img class="custom-dropdown-img" [ngClass]="{rotateOn: showSettings}" (tap)="toggleAwgSettings()" src="assets/img/collapse-arrow-right.svg">
+        <img class="custom-dropdown-img" [ngClass]="{rotateOn: showSettings}" (click)="toggleAwgSettings()" src="assets/img/collapse-arrow-right.svg">
         <div class="header-bar-title instrument-header" [tooltip]="okButton" [forceShow]="tutorialMode && tutorialStage === 1" tooltipPlacement="top" onlyForceShow="true">
             Wavegen
         </div>
@@ -19,7 +19,7 @@
         <div *ngFor="let channel of activeDevice.instruments.awg.chans, let i = index;" [ngClass]="{'awg-chan-container': settingsService.nestedChannels}">
             <ion-row>
                 <ion-col class="header-side-col" center text-left>
-                    <button ion-button clear class="dropdown-image-button" (tap)="toggleChanSettings(i)">
+                    <button ion-button clear class="dropdown-image-button" (click)="toggleChanSettings(i)">
                         <img class="custom-dropdown-img" [ngClass]="{rotateOn: showChanSettings[i]}" src="assets/img/collapse-arrow-right.svg">
                     </button>
                 </ion-col>
@@ -29,34 +29,34 @@
                     </div>
                 </ion-col>
                 <ion-col class="header-side-col" center text-right>
-                    <button ion-button clear (tap)="togglePower($event, i)" class="powerOff header-button" [disabled]="awaitingResponse" [ngClass]="{powerOn: powerOn[i],'move-feature-to-front':tutorialStage === 3 && tutorialMode}"
-                        [tooltip]="tooltipService.getTooltip(tutorialMode ? 'tutorialFgenPower' : 'fgenPower').message" [tooltipAnimation]="true" tooltipPlacement="left" 
+                    <button ion-button clear (click)="togglePower($event, i)" class="powerOff header-button" [disabled]="awaitingResponse" [ngClass]="{powerOn: powerOn[i],'move-feature-to-front':tutorialStage === 3 && tutorialMode}"
+                        [tooltip]="tooltipService.getTooltip(tutorialMode ? 'tutorialFgenPower' : 'fgenPower').message" [tooltipAnimation]="true" tooltipPlacement="left"
                         [forceShow]="tutorialStage === 3 && tutorialMode" onlyForceShow="true">
                         <img src="assets/img/power.svg">
                     </button>
                 </ion-col>
             </ion-row>
             <div *ngIf="showChanSettings[i]" class="fgen-content-container">
-                <div class="wavetype-images-container" text-center [tooltip]="tooltipService.getTooltip('tutorialWaveSelectButton').message" 
+                <div class="wavetype-images-container" text-center [tooltip]="tooltipService.getTooltip('tutorialWaveSelectButton').message"
                     [forceShow]="tutorialStage === 2 && tutorialMode" [tooltipAnimation]="true" tooltipPlacement="top" onlyForceShow="true">
-                    <div (tap)="toggleWave('sine', i)" class="wavetype-image" [ngClass]="{'selected-wavetype': waveType[i]==='sine','dim-image': (powerOn[i] && !isOpenLogger)}"
+                    <div (click)="toggleWave('sine', i)" class="wavetype-image" [ngClass]="{'selected-wavetype': waveType[i]==='sine','dim-image': (powerOn[i] && !isOpenLogger)}"
                         [tooltip]="tooltipService.getTooltip('sineButton').message" [tooltipAnimation]="true" tooltipPlacement="top">
                         <img src="assets/img/sine.svg">
                     </div>
-                    <div (tap)="toggleWave('triangle', i)" class="wavetype-image" [ngClass]="{'selected-wavetype': waveType[i]==='triangle','dim-image': (powerOn[i] && !isOpenLogger),'move-feature-to-front':tutorialStage === 2}"
+                    <div (click)="toggleWave('triangle', i)" class="wavetype-image" [ngClass]="{'selected-wavetype': waveType[i]==='triangle','dim-image': (powerOn[i] && !isOpenLogger),'move-feature-to-front':tutorialStage === 2}"
                         [tooltip]="tooltipService.getTooltip(tutorialStage === 2 ? 'tutorialTriangleButton' : 'triangleButton').message" [tooltipAnimation]="true" tooltipPlacement="bottom"
                         [forceShow]="tutorialStage === 2 && tutorialMode">
                         <img src="assets/img/triangle.svg">
                     </div>
-                    <div (tap)="toggleWave('sawtooth', i)" class="wavetype-image" [ngClass]="{'selected-wavetype': waveType[i]==='sawtooth','dim-image': (powerOn[i] && !isOpenLogger)}"
+                    <div (click)="toggleWave('sawtooth', i)" class="wavetype-image" [ngClass]="{'selected-wavetype': waveType[i]==='sawtooth','dim-image': (powerOn[i] && !isOpenLogger)}"
                         [tooltip]="tooltipService.getTooltip('sawtoothButton').message" [tooltipAnimation]="true" tooltipPlacement="top">
                         <img src="assets/img/sawtooth.svg">
                     </div>
-                    <div (tap)="toggleWave('square', i)" class="wavetype-image" [ngClass]="{'selected-wavetype': waveType[i]==='square','dim-image': (powerOn[i] && !isOpenLogger)}"
+                    <div (click)="toggleWave('square', i)" class="wavetype-image" [ngClass]="{'selected-wavetype': waveType[i]==='square','dim-image': (powerOn[i] && !isOpenLogger)}"
                         [tooltip]="tooltipService.getTooltip('squareButton').message" [tooltipAnimation]="true" tooltipPlacement="top">
                         <img src="assets/img/square.svg">
                     </div>
-                    <div (tap)="toggleWave('dc', i)" class="wavetype-image image-end" [ngClass]="{'selected-wavetype': waveType[i]==='dc','dim-image': (powerOn[i] && !isOpenLogger)}"
+                    <div (click)="toggleWave('dc', i)" class="wavetype-image image-end" [ngClass]="{'selected-wavetype': waveType[i]==='dc','dim-image': (powerOn[i] && !isOpenLogger)}"
                         [tooltip]="tooltipService.getTooltip('dcButton').message" [tooltipAnimation]="true" tooltipPlacement="top">
                         <img src="assets/img/dc.svg">
                     </div>
@@ -66,7 +66,7 @@
                         Frequency
                     </ion-col>
                     <ion-col text-right center class="vpd-button-col">
-                        <button ion-button class="icon-only-button-side disable-hover offset-button" (tap)="decrementFrequency(i)" [disabled]="(powerOn[i] && !isOpenLogger) || waveType[i]==='dc' || frequency[i] === (activeDevice.instruments.awg.chans[i].signalFreqMin / 1000)">
+                        <button ion-button class="icon-only-button-side disable-hover offset-button" (click)="decrementFrequency(i)" [disabled]="(powerOn[i] && !isOpenLogger) || waveType[i]==='dc' || frequency[i] === (activeDevice.instruments.awg.chans[i].signalFreqMin / 1000)">
                             <img src="assets/img/remove.svg">
                         </button>
                     </ion-col>
@@ -76,7 +76,7 @@
                         </div>
                     </ion-col>
                     <ion-col text-left center class="vpd-button-col margin-right">
-                        <button ion-button class="icon-only-button-side disable-hover offset-button" (tap)="incrementFrequency(i)" [disabled]="(powerOn[i] && !isOpenLogger) || waveType[i]==='dc' || frequency[i] === (activeDevice.instruments.awg.chans[i].signalFreqMax / 1000)">
+                        <button ion-button class="icon-only-button-side disable-hover offset-button" (click)="incrementFrequency(i)" [disabled]="(powerOn[i] && !isOpenLogger) || waveType[i]==='dc' || frequency[i] === (activeDevice.instruments.awg.chans[i].signalFreqMax / 1000)">
                             <img src="assets/img/add.svg">
                         </button>
                     </ion-col>
@@ -86,7 +86,7 @@
                         Amplitude
                     </ion-col>
                     <ion-col text-right center class="vpd-button-col">
-                        <button ion-button class="icon-only-button-side disable-hover offset-button" (tap)="decrementAmplitude(i)" [disabled]="(powerOn[i] && !isOpenLogger) || waveType[i]==='dc' || amplitude[i] === 0">
+                        <button ion-button class="icon-only-button-side disable-hover offset-button" (click)="decrementAmplitude(i)" [disabled]="(powerOn[i] && !isOpenLogger) || waveType[i]==='dc' || amplitude[i] === 0">
                             <img src="assets/img/remove.svg">
                         </button>
                     </ion-col>
@@ -96,7 +96,7 @@
                         </div>
                     </ion-col>
                     <ion-col text-left center class="vpd-button-col margin-right">
-                        <button ion-button class="icon-only-button-side disable-hover offset-button" (tap)="incrementAmplitude(i)" [disabled]="(powerOn[i] && !isOpenLogger) || waveType[i]==='dc' || amplitude[i] === (activeDevice.instruments.awg.chans[i].dacVpp / 1000)">
+                        <button ion-button class="icon-only-button-side disable-hover offset-button" (click)="incrementAmplitude(i)" [disabled]="(powerOn[i] && !isOpenLogger) || waveType[i]==='dc' || amplitude[i] === (activeDevice.instruments.awg.chans[i].dacVpp / 1000)">
                             <img src="assets/img/add.svg">
                         </button>
                     </ion-col>
@@ -106,7 +106,7 @@
                         DC Offset
                     </ion-col>
                     <ion-col text-right center class="vpd-button-col">
-                        <button ion-button class="icon-only-button-side disable-hover offset-button" (tap)="decrementOffset(i)" [disabled]="(powerOn[i] && !isOpenLogger) || offset[i] === (activeDevice.instruments.awg.chans[i].vOffsetMin / 1000)">
+                        <button ion-button class="icon-only-button-side disable-hover offset-button" (click)="decrementOffset(i)" [disabled]="(powerOn[i] && !isOpenLogger) || offset[i] === (activeDevice.instruments.awg.chans[i].vOffsetMin / 1000)">
                             <img src="assets/img/remove.svg">
                         </button>
                     </ion-col>
@@ -116,13 +116,13 @@
                         </div>
                     </ion-col>
                     <ion-col text-left center class="vpd-button-col margin-right">
-                        <button ion-button class="icon-only-button-side disable-hover offset-button" (tap)="incrementOffset(i)" [disabled]="(powerOn[i] && !isOpenLogger) || offset[i] === (activeDevice.instruments.awg.chans[i].vOffsetMax / 1000)">
+                        <button ion-button class="icon-only-button-side disable-hover offset-button" (click)="incrementOffset(i)" [disabled]="(powerOn[i] && !isOpenLogger) || offset[i] === (activeDevice.instruments.awg.chans[i].vOffsetMax / 1000)">
                             <img src="assets/img/add.svg">
                         </button>
                     </ion-col>
                 </ion-row>
-                
+
             </div>
         </div>
     </div>
-</div> 
+</div>

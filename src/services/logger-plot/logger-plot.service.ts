@@ -9,8 +9,8 @@ declare function largestTriangleThreeBuckets(data: number[][], threshold: number
 
 @Injectable()
 export class LoggerPlotService {
-    private digilentChart: DigilentChart;
-    private timelineChartRef: DigilentChart;
+    public digilentChart: DigilentChart;
+    public timelineChartRef: DigilentChart;
     public chart: Chart;
     public tpdArray: number[];
     public tpdIndex: number;
@@ -31,11 +31,11 @@ export class LoggerPlotService {
     public activeSeries: number = 1;
     public dataContainers: PlotDataContainer[] = [];
     public overSeriesAnchor: { over: boolean, seriesNum: number } = { over: false, seriesNum: null };
-    private seriesAnchorVertPanRef: any;
-    private seriesAnchorTouchVertPanRef: any;
-    private seriesAnchorTouchStartRef: any;
-    private unbindCustomEventsRef: any;
-    private previousYPos = 0;
+    public seriesAnchorVertPanRef: any;
+    public seriesAnchorTouchVertPanRef: any;
+    public seriesAnchorTouchStartRef: any;
+    public unbindCustomEventsRef: any;
+    public previousYPos = 0;
 
     constructor() {
         this.chartPan = new Subject();
@@ -124,7 +124,7 @@ export class LoggerPlotService {
             .catch((err) => {
                 console.log(err);
             });
-        
+
         for (let i = 0; i < timelineData.length; i++) {
             timelineData[i].yaxis = 1;
             timelineData[i].data = largestTriangleThreeBuckets(timelineData[i].data, 1000, 0, 1);
@@ -161,7 +161,7 @@ export class LoggerPlotService {
             this.chart.setData(chartData);
             this.chart.setupGrid();
             this.chart.draw();
-            resolve();
+            resolve(undefined);
         });
     }
 
@@ -227,7 +227,7 @@ export class LoggerPlotService {
             } catch(e) {
                 continue;
             }
-            
+
             let numPointsInView = (axesInfo.xaxis.max - axesInfo.xaxis.min) / dt;
             let currentVal = series[i].points.show;
             let shouldShowPoints = numPointsInView < 50;
@@ -300,7 +300,7 @@ export class LoggerPlotService {
         }
     }
 
-    private setNearestPerDivVal(axis: Axis, axisNum: number) {
+    public setNearestPerDivVal(axis: Axis, axisNum: number) {
         let count = 0;
         if (axis === 'x') {
             while (this.tpdArray[count] < this.xAxis.base && count < this.tpdArray.length) {
@@ -310,7 +310,7 @@ export class LoggerPlotService {
             this.chart.setActiveXIndex(this.tpdIndex);
         }
         else {
-            while (this.vpdArray[count] < this.yAxis[axisNum - 1].base && count < this.vpdArray.length) { 
+            while (this.vpdArray[count] < this.yAxis[axisNum - 1].base && count < this.vpdArray.length) {
                 count++;
             }
             this.vpdIndices[axisNum - 1] = count;
@@ -336,17 +336,17 @@ export class LoggerPlotService {
         }
     }
 
-    private getAxisIndexer(axis: Axis, axisNum: number): string {
+    public getAxisIndexer(axis: Axis, axisNum: number): string {
         return axis + ((axisNum < 2) ? '' : axisNum.toString()) + 'axis';
     }
 
-    private isInvalidAxisInfo(axis: Axis, axisNum: number): boolean {
+    public isInvalidAxisInfo(axis: Axis, axisNum: number): boolean {
         if (axisNum < 1) { return true; }
         if (axis === 'y' && this.yAxis[axisNum - 1] == undefined) { return true; }
         return false;
     }
 
-    private attachTimelineListeners() {
+    public attachTimelineListeners() {
         $("#loggerTimeline").bind("timelineWheelRedraw", (event, wheelData) => {
             this.tpdIndex = wheelData.perDivArrayIndex;
             this.xAxis.base = this.tpdArray[this.tpdIndex];
@@ -388,7 +388,7 @@ export class LoggerPlotService {
         });
     }
 
-    private attachListeners() {
+    public attachListeners() {
         $("#loggerChart").bind("panEvent", (event, panData) => {
             if (panData.axis === 'xaxis') {
                 this.chartPan.next(panData);
@@ -620,12 +620,12 @@ export class LoggerPlotService {
                 strokeColor = 'white';
                 lineWidth = 2;
             }
-            
+
             let seriesNum = i;
             let yIndexer = 'y' + ((seriesNum === 0) ? '' : (seriesNum + 1).toString()) + 'axis';
             let offsetVal = this.dataContainers[seriesNum].seriesOffset;
             let offsetPix = getAxes[yIndexer].p2c(offsetVal);
-            
+
             ctx.save();
             ctx.translate(offsets.left - 11, offsetPix + 10);
             ctx.beginPath();

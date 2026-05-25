@@ -1,4 +1,5 @@
-import { Component, ViewChild, ViewChildren, QueryList, trigger, state, animate, transition, style } from '@angular/core';
+import { Component, ViewChild, ViewChildren, QueryList } from '@angular/core';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { NavParams, Slides, ViewController, LoadingController, AlertController, PopoverController } from 'ionic-angular';
 
 //Components
@@ -11,6 +12,7 @@ import { SettingsService } from '../../services/settings/settings.service';
 import { DeviceManagerService } from 'dip-angular2/services';
 
 @Component({
+    standalone: false,
     templateUrl: 'calibrate.html',
     animations: [
         trigger('expand', [
@@ -62,7 +64,7 @@ export class CalibratePage {
     public calibrationStatus: string = 'Ready To Calibrate';
     public calibrationFailed: boolean = false;
     public calibrationSuccessful: boolean = false;
-    private calibrationSaved: boolean = false;
+    public calibrationSaved: boolean = false;
     public calibrationReadAttempts: number = 0;
     public maxCalibrationReadAttempts: number = 10;
     public timeBetweenReadAttempts: number = 2000;
@@ -90,8 +92,8 @@ export class CalibratePage {
         _viewCtrl: ViewController,
         _deviceManagerService: DeviceManagerService,
         public loadingCtrl: LoadingController,
-        private alertCtrl: AlertController,
-        private popoverCtrl: PopoverController
+        public alertCtrl: AlertController,
+        public popoverCtrl: PopoverController
     ) {
         this.deviceManagerService = _deviceManagerService;
         this.storageService = _storageService;
@@ -137,7 +139,7 @@ export class CalibratePage {
         }
     }
 
-    private presentConfirmNoSaveAlert(): Promise<any> {
+    public presentConfirmNoSaveAlert(): Promise<any> {
         return new Promise((resolve, reject) => {
             let alert = this.alertCtrl.create({
                 title: 'Calibration Not Saved',
@@ -152,7 +154,7 @@ export class CalibratePage {
                     {
                         text: 'Yes',
                         handler: () => {
-                            resolve();
+                            resolve(undefined);
                         }
                     }
                 ]
@@ -201,7 +203,7 @@ export class CalibratePage {
         return this.saveCalibration(this.selectedLocation)
             .then(() => {
                 this.calibrationResultsIndicator = 'Save successful';
-                return Promise.resolve();
+                return Promise.resolve(undefined);
             })
             .catch((err) => {
                 this.calibrationResultsIndicator = 'Error saving calibration.';
@@ -399,7 +401,7 @@ export class CalibratePage {
                     console.log(data);
                     this.calibrationStatus = 'Loaded current calibration data.';
                     this.parseCalibrationInformation(data);
-                    resolve();
+                    resolve(undefined);
                 },
                 (err) => {
                     console.log(err);
@@ -495,7 +497,7 @@ export class CalibratePage {
             this.deviceManagerService.devices[this.deviceManagerService.activeDeviceIndex].calibrationSave(location).subscribe(
                 (data) => {
                     console.log(data);
-                    resolve();
+                    resolve(undefined);
                 },
                 (err) => {
                     console.log(err);

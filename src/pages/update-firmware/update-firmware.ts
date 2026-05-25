@@ -17,6 +17,7 @@ import { DeviceCardInfo } from '../device-manager-page/device-manager-page.inter
 declare var waveformsLiveDictionary: any;
 
 @Component({
+    standalone: false,
     templateUrl: 'update-firmware.html',
 })
 export class UpdateFirmwarePage {
@@ -99,9 +100,9 @@ export class UpdateFirmwarePage {
                 this.deviceObject.deviceDescriptor = descriptor;
 
                 let deviceModel = this.utilityService.transformModelToPropKey(descriptor.deviceModel);
-                
+
                 let {listUrl, firmwareUrl} = this.settingsService.knownFirmwareUrls[deviceModel];
-                
+
                 this.listUrl = listUrl;
                 this.firmwareRepositoryUrl = firmwareUrl;
 
@@ -110,7 +111,7 @@ export class UpdateFirmwarePage {
             })
             .catch((err) => {
                 console.log(err);
-                
+
                 this.toastCtrl.create({
                     message: 'Error connecting to the device',
                     showCloseButton: true,
@@ -124,10 +125,10 @@ export class UpdateFirmwarePage {
     public retrievedModel: string;
 
     /**
-     * 
-     * @param expectedModel 
+     *
+     * @param expectedModel
      */
-    private checkDevice(): Promise<any>{
+    public checkDevice(): Promise<any>{
         return new Promise((resolve, reject) => {
             let command = {
                 device: [
@@ -183,7 +184,7 @@ export class UpdateFirmwarePage {
                     this.arrayBufferFirmware = buf;
                     this.postHexFile()
                         .then(() => {
-                            resolve();
+                            resolve(undefined);
                         })
                         .catch((e) => {
                             reject(e);
@@ -314,7 +315,7 @@ export class UpdateFirmwarePage {
             else if (this.selectedFirmwareVersion === 'Other' && this.arrayBufferFirmware) {
                 this.postHexFile()
                     .then(() => {
-                        resolve();
+                        resolve(undefined);
                     })
                     .catch((e) => {
                         reject(e);
@@ -324,7 +325,7 @@ export class UpdateFirmwarePage {
                 let device = this.deviceObject.deviceDescriptor.deviceModel.replace(" ", "");
                 this.getFirmwareFromUrl(this.firmwareRepositoryUrl + `/${device}-` + this.selectedFirmwareVersion + '.hex')
                     .then(() => {
-                        resolve();
+                        resolve(undefined);
                     })
                     .catch((e) => {
                         reject(e);

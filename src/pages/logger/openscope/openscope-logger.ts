@@ -21,21 +21,22 @@ import { TooltipService } from '../../../services/tooltip/tooltip.service';
 declare var mathFunctions: any;
 
 @Component({
+    standalone: false,
     templateUrl: "openscope-logger.html"
 })
 export class OpenScopeLoggerPage {
     @ViewChild('loggerComponent') loggerComponent: OpenScopeLoggerComponent;
-    private dismissCallback: () => void;
-    private unitFormatPipeInstance: UnitFormatPipe;
-    private selectedMathInfo: MathOutput[] = [];
-    private cursorInfo: CursorSelection;
+    public dismissCallback: () => void;
+    public unitFormatPipeInstance: UnitFormatPipe;
+    public selectedMathInfo: MathOutput[] = [];
+    public cursorInfo: CursorSelection;
 
     constructor(
-        private navCtrl: NavController,
-        private navParams: NavParams,
-        private loggerPlotService: LoggerPlotService,
-        private modalCtrl: ModalController,
-        private popoverCtrl: PopoverController,
+        public navCtrl: NavController,
+        public navParams: NavParams,
+        public loggerPlotService: LoggerPlotService,
+        public modalCtrl: ModalController,
+        public popoverCtrl: PopoverController,
         public tooltipService: TooltipService
     ) {
         this.dismissCallback = this.navParams.get('onLoggerDismiss');

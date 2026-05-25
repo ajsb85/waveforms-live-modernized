@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, ViewController } from 'ionic-angular';
 
 @Component({
+    standalone: false,
     selector: 'page-slow-usb-modal',
     templateUrl: 'slow-usb-modal.html'
 })

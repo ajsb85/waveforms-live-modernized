@@ -7,6 +7,7 @@ import { InstrumentPanelChart } from '../instrument-panel-chart/instrument-panel
 import { TooltipService } from '../../services/tooltip/tooltip.service';
 
 @Component({
+    standalone: false,
     templateUrl: 'xaxis-controls.html',
     selector: 'xaxis-controls'
 })

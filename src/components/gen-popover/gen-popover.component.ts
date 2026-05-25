@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {ViewController, NavParams} from 'ionic-angular';
 
 @Component({
+    standalone: false,
     templateUrl: 'gen-popover.html'
 })
 

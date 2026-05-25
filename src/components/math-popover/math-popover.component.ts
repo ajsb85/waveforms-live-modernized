@@ -14,6 +14,7 @@ import { UnitFormatPipe } from '../../pipes/unit-format.pipe';
 declare var mathFunctions: any;
 
 @Component({
+    standalone: false,
     templateUrl: 'math-popover.html'
 })
 export class MathPopoverComponent {
@@ -27,13 +28,13 @@ export class MathPopoverComponent {
     public buttonSubject: Subject<MathOutput> = new Subject<MathOutput>();
 
     public passData: MathPassData;
-    private possibleChannelSelections: string[] = [];
+    public possibleChannelSelections: string[] = [];
     public selectedChan: MathChannel;
 
     constructor(
-        private viewCtrl: ViewController,
-        private params: NavParams,
-        private popoverCtrl: PopoverController
+        public viewCtrl: ViewController,
+        public params: NavParams,
+        public popoverCtrl: PopoverController
     ) {
         this.passData = this.params.get('passData');
         console.log(this.passData);
@@ -45,7 +46,7 @@ export class MathPopoverComponent {
         this.calcSelectedRange();
     }
 
-    private generatePossibleSelections() {
+    public generatePossibleSelections() {
         this.passData.availableChans.forEach((data, index, array) => {
             this.possibleChannelSelections.push(data.instrument + ' Ch ' + data.channel);
         });
@@ -194,8 +195,8 @@ export interface MathPassData {
 }
 
 export interface MathChannel {
-    instrument: string, 
-    channel: number, 
+    instrument: string,
+    channel: number,
     seriesOffset: number
 }
 

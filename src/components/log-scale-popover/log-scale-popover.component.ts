@@ -11,30 +11,31 @@ import { ScaleParams } from '../../services/scaling/scaling.service';
 /**
  * LogScalePopover accepts a math expression string to convert the voltage into a more domain
  * specific unit, (ie Fahrenheit for an application measuring temperature).
- * 
+ *
  * If the user specifies a unit to convert to, the chart y-axis ticks are updated to use the
  * new unit, and data received from the device is transformed from voltage to the new unit.
  */
 @Component({
+    standalone: false,
   selector: 'log-scale-popover',
   templateUrl: 'log-scale-popover.html'
 })
 export class LogScalePopover {
-  private channel: number;
-  private name: string = "";
-  private savedName: string;
-  private expressionString: string = "";
-  private unitDescriptor: string = "";
-  private allScalingOptions: ScaleParams[] = [];
+  public channel: number;
+  public name: string = "";
+  public savedName: string;
+  public expressionString: string = "";
+  public unitDescriptor: string = "";
+  public allScalingOptions: ScaleParams[] = [];
 
   public scalingTutorialLink = 'https://reference.digilentinc.com/learn/instrumentation/tutorials/openlogger/datalogger#section9'
 
   constructor(
-    private viewCtrl: ViewController,
-    private navParams: NavParams,
-    private events: Events,
-    private toastService: ToastService,
-    private scalingService: ScalingService
+    public viewCtrl: ViewController,
+    public navParams: NavParams,
+    public events: Events,
+    public toastService: ToastService,
+    public scalingService: ScalingService
   ) {
     this.channel = this.navParams.data.channel;
     let scaleName = this.navParams.data.scaleName;

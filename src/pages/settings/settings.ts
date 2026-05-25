@@ -1,4 +1,5 @@
-import { Component, trigger, state, animate, transition, style } from '@angular/core';
+import { Component } from '@angular/core';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { PopoverController, NavController } from 'ionic-angular';
 
 //Components
@@ -9,6 +10,7 @@ import { StorageService } from '../../services/storage/storage.service';
 import { SettingsService } from '../../services/settings/settings.service';
 
 @Component({
+    standalone: false,
     templateUrl: 'settings.html',
     animations: [
         trigger('rotate', [
@@ -28,12 +30,12 @@ export class SettingsPage {
     public currentSelectedDeviceInfoArray: string[] = [];
     public showAdvancedSettings: boolean = false;
 
-    private keithCount: number = 0;
-    private keithTimer: number = 0;
+    public keithCount: number = 0;
+    public keithTimer: number = 0;
     public showKeith: boolean = false;
-    private currentTimeout: number;
+    public currentTimeout: number;
     public timeout: number;
-    private ignoreFocusOut: boolean = false;
+    public ignoreFocusOut: boolean = false;
 
     constructor(_storageService: StorageService, _popCtrl: PopoverController, _settingsService: SettingsService, public navCtrl: NavController) {
         this.storageService = _storageService;
@@ -138,13 +140,13 @@ export class SettingsPage {
         this.navCtrl.pop();
     }
 
-    private presentTheAlmightKeith() {
+    public presentTheAlmightKeith() {
         this.showKeith = true;
         setTimeout(() => {
             this.showKeith = false;
         }, 3000);
     }
-    
+
     keithifyMeCaptain() {
         if (this.showKeith) {
             return;

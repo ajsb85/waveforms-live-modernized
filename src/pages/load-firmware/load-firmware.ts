@@ -13,6 +13,7 @@ import { CommandUtilityService } from '../../services/device/command-utility.ser
 declare var waveformsLiveDictionary: any;
 
 @Component({
+    standalone: false,
     templateUrl: 'load-firmware.html',
 })
 export class LoadFirmwarePage {
@@ -94,10 +95,10 @@ export class LoadFirmwarePage {
     }
 
     /**
-     * 
-     * @param expectedModel 
+     *
+     * @param expectedModel
      */
-    private checkDevice(): Promise<any>{
+    public checkDevice(): Promise<any>{
         return new Promise((resolve, reject) => {
             let command = {
                 device: [
@@ -143,7 +144,7 @@ export class LoadFirmwarePage {
                     this.arrayBufferFirmware = buf;
                     this.postHexFile()
                         .then(() => {
-                            resolve();
+                            resolve(undefined);
                         })
                         .catch((e) => {
                             reject(e);
@@ -275,7 +276,7 @@ export class LoadFirmwarePage {
             } else if (this.selectedDevice === 'Other' && this.arrayBufferFirmware) {
                 this.postHexFile()
                     .then(() => {
-                        resolve();
+                        resolve(undefined);
                     })
                     .catch((e) => {
                         reject(e);
@@ -288,7 +289,7 @@ export class LoadFirmwarePage {
                     console.log('Loading OpenScope firmware from local');
                     this.postHexFile()
                         .then(() => {
-                            resolve();
+                            resolve(undefined);
                         })
                         .catch((e) => {
                             reject(e);
@@ -298,7 +299,7 @@ export class LoadFirmwarePage {
                 let device = this.deviceManagerService.getActiveDevice().deviceModel.replace(" ", "");
                 this.getFirmwareFromUrl(this.deviceFirmwareVersionDictionary[this.selectedDevice].firmwareUrl + `/${device}-` + this.deviceFirmwareVersionDictionary[this.selectedDevice].latest + '.hex')
                     .then(() => {
-                        resolve();
+                        resolve(undefined);
                     })
                     .catch((e) => {
                         reject(e);

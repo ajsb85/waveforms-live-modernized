@@ -5,6 +5,7 @@ import { PopoverController, Platform } from 'ionic-angular';
 import { GenPopover } from '../gen-popover/gen-popover.component';
 
 @Component({
+    standalone: false,
     templateUrl: 'dropdown-popover.html',
     selector: 'dropdown-popover'
 })

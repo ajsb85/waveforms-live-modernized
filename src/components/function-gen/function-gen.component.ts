@@ -19,6 +19,7 @@ const enum TutorialStage {
 }
 
 @Component({
+    standalone: false,
     templateUrl: 'function-gen.html',
     selector: 'fgen'
 })
@@ -420,7 +421,7 @@ export class FgenComponent {
 
     togglePromise(event, index) {
         return new Promise((resolve, reject) => {
-            
+
             this.awaitingResponse = true;
 
             if (this.tutorialMode) {
@@ -465,7 +466,7 @@ export class FgenComponent {
 
                         this.awaitingResponse = false;
 
-                        resolve();
+                        resolve(undefined);
                     },
                     (err) => {
                         console.log(err);
@@ -530,26 +531,26 @@ export class FgenComponent {
     stopPromise(chans: number[]) {
         return new Promise((resolve, reject) => {
             this.awaitingResponse = true;
-    
+
             this.activeDevice.instruments.awg.stop(chans).subscribe(
                 (data) => {
                     this.awaitingResponse = false;
-    
+
                     let powerOffResult = false;
-    
+
                     for (let chan in chans) {
                         this.powerOn[chan] = false;
                         powerOffResult = powerOffResult || (data.awg[chans[chan]][0].statusCode === 0 && this.attemptingPowerOff);
                     }
-    
+
                     this.dataTransferService.awgPower = false;
-    
+
                     if (powerOffResult) {
                         this.attemptingPowerOff = false;
                         this.toastService.createToast('awgRunError', true);
                     }
 
-                    resolve();
+                    resolve(undefined);
                 },
                 (err) => {
                     this.awaitingResponse = false;
@@ -557,7 +558,7 @@ export class FgenComponent {
                     reject(err);
                 },
                 () => {
-    
+
                 });
         })
     }

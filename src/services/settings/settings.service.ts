@@ -32,7 +32,7 @@ export class SettingsService {
     public isMobile: boolean = false;
 
     readonly profileToken: string = 'profile.';
-    private selectedLogProfiles: any = {};
+    public selectedLogProfiles: any = {};
 
     public knownFirmwareUrls: { openscopeMz: firmwareUrls, openloggerMz: firmwareUrls } = {
         openscopeMz: {
@@ -51,7 +51,7 @@ export class SettingsService {
         }
     };
 
-    private loggerBufferSize: number = 5;
+    public loggerBufferSize: number = 5;
 
     constructor(_storageService: StorageService, _deviceManagerService: DeviceManagerService, public platform: Platform) {
         console.log('settings service constructor');
@@ -93,7 +93,7 @@ export class SettingsService {
         this.storageService.getData('loggerBufferSize').then((data) => {
             this.loggerBufferSize = parseFloat(data) || this.loggerBufferSize;
         });
-        
+
         if (this.platform.is('ios') || this.platform.is('android') || this.platform.is('mobileweb')) {
             this.isMobile = true;
         }

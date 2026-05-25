@@ -44,7 +44,7 @@
                     <div item-right class="item-content-right">Shift + Click And Drag</div>
                 </ion-item>
             </ion-list>
-                <button ion-button icon-right clear class="advanced-button" (tap)="toggleAdvancedSettings()">
+                <button ion-button icon-right clear class="advanced-button" (click)="toggleAdvancedSettings()">
                     Advanced
                     <div [@rotate]="showAdvancedSettings" class="rotate-image-container">
                         <img class="custom-image-button" src="assets/img/arrow-dropdown-white.svg">
@@ -89,7 +89,7 @@
 
 </ion-content>
 
-<ion-footer (tap)="keithifyMeCaptain()">
+<ion-footer (click)="keithifyMeCaptain()">
     <ion-toolbar>
         <ion-row>
             <ion-col center>

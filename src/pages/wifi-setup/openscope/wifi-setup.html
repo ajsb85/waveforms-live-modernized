@@ -51,16 +51,16 @@
                                 </ion-card>
                             </div>
                         </div>
-                        
+
                     </ion-col>
                 </ion-row>
                 <div text-center>
-                    <button ion-button icon-right clear class="advanced-button" (tap)="toggleMainAdvanced()">
+                    <button ion-button icon-right clear class="advanced-button" (click)="toggleMainAdvanced()">
                         Advanced
                         <div [@rotate]="showMainAdvanced">
                             <img class="custom-image-button" src="assets/img/arrow-dropdown-white.svg">
                         </div>
-                    </button> 
+                    </button>
                 </div>
                 <div>
                     <ion-item class="configure-item collapse-card" [@expand]="showMainAdvanced">
@@ -142,18 +142,18 @@
                             </div>
                         </ion-item>
                     </div>
-                        
+
                     <ion-item class="card-info">
                         <ion-label>Status</ion-label>
                         <div item-right class="item-content-right">{{wifiStatus}}</div>
                     </ion-item>
 
-                    <button ion-button icon-right clear class="advanced-button" (tap)="toggleAdvancedSettings()">
+                    <button ion-button icon-right clear class="advanced-button" (click)="toggleAdvancedSettings()">
                         Advanced
                         <div [@rotate]="showAdvancedSettings">
                             <img class="custom-image-button" src="assets/img/arrow-dropdown-white.svg">
                         </div>
-                    </button> 
+                    </button>
 
                     <div>
                         <ion-item class="card-info collapse-card" [@expand]="showAdvancedSettings">
@@ -170,12 +170,12 @@
                             <ion-label>Save Network</ion-label>
                             <ion-checkbox item-right [(ngModel)]="save" (ngModelChange)="checkboxChanged('save')"></ion-checkbox>
                         </ion-item>
-                        
+
                         <ion-item class="card-info collapse-card" [@expand]="showAdvancedSettings">
                             <ion-label>Auto-Connect</ion-label>
                             <ion-checkbox item-right [(ngModel)]="autoConnect" (ngModelChange)="checkboxChanged('autoConnect')" [disabled]="disableAutoConnect"></ion-checkbox>
                         </ion-item>
-                        
+
                         <ion-item class="card-info collapse-card" [@expand]="showAdvancedSettings" *ngIf="deviceObject!=undefined&&deviceObject.bridge">
                             <ion-label>Connect Now</ion-label>
                             <ion-checkbox item-right [(ngModel)]="connectNow" (ngModelChange)="checkboxChanged('connectNow')"></ion-checkbox>

@@ -1,6 +1,7 @@
 import { Pipe } from "@angular/core";
 
 @Pipe({
+    standalone: false,
     name: 'averageFormat'
 })
 export class FormatAverageDirective {

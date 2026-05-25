@@ -9,6 +9,7 @@ import { DropdownPopoverComponent } from '../../components/dropdown-popover/drop
 import { Chart } from 'digilent-chart-angular2/modules';
 
 @Component({
+    standalone: false,
     templateUrl: 'cursor-popover.html'
 })
 export class CursorPopoverComponent {
@@ -19,14 +20,14 @@ export class CursorPopoverComponent {
     public chart: Chart;
     public cursorSelection: Subject<CursorSelection> = new Subject<CursorSelection>();
     public availableChans: string[] = [];
-    private passData: CursorPassData;
-    private selectedData: CursorSelection;
+    public passData: CursorPassData;
+    public selectedData: CursorSelection;
 
     constructor(
-        private platform: Platform,
-        private viewCtrl: ViewController,
-        private params: NavParams,
-        private popoverCtrl: PopoverController
+        public platform: Platform,
+        public viewCtrl: ViewController,
+        public params: NavParams,
+        public popoverCtrl: PopoverController
     ) {
         this.passData = this.params.get('passData');
         this.selectedData = {
@@ -36,7 +37,7 @@ export class CursorPopoverComponent {
         this.generateOptions();
     }
 
-    private generateOptions() {
+    public generateOptions() {
         this.passData.availableChannels.forEach((channelInfo: CursorChannel) => {
             this.availableChans.push(
                 channelInfo.instrument + ' Ch ' + channelInfo.channel
@@ -71,7 +72,7 @@ export class CursorPopoverComponent {
         this.cursorSelection.next(this.selectedData);
     }
 
-    private extractInstrumentAndChannel(selectionString: string): CursorChannel {
+    public extractInstrumentAndChannel(selectionString: string): CursorChannel {
         let splitArray = selectionString.split(' ');
         return {
             instrument: splitArray.slice(0, splitArray.length - 2).join(' '),

@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from 'ionic-angular';
 
 //Modules
-import { DigilentChartModule } from 'digilent-chart-angular2/modules'; 
+import { DigilentChartModule } from 'digilent-chart-angular2/modules';
 import { TooltipModule } from '../../directives/tooltip/tooltip.module';
 
 //Components
@@ -23,10 +23,12 @@ import { FormatInputDirective } from '../../directives/format-input/format-input
 //Pipes
 import { UnitFormatPipe } from '../../pipes/unit-format.pipe';
 import { FormatAverageDirective } from '../../directives/format-averaging/format-averaging.directive';
- 
+
 @NgModule({
     imports: [
         CommonModule,
+        FormsModule,
+        DigilentChartModule,
         IonicModule.forRoot(GenPopover),
         IonicModule.forRoot(DropdownPopoverComponent),
         IonicModule.forRoot(ProgressBarComponent),
@@ -65,6 +67,7 @@ import { FormatAverageDirective } from '../../directives/format-averaging/format
         PinoutPopover,
         ChannelSelectPopover,
         LogScalePopover
-    ]
+    ],
+    schemas: [NO_ERRORS_SCHEMA]
 })
 export class SharedModule { }

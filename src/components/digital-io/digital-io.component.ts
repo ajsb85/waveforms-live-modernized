@@ -11,6 +11,7 @@ import { TooltipService } from '../../services/tooltip/tooltip.service';
 import { DeviceDataTransferService } from '../../services/device/device-data-transfer.service';
 
 @Component({
+    standalone: false,
     templateUrl: 'digital-io.html',
     selector: 'digital-io'
 })
@@ -50,13 +51,13 @@ export class DigitalIoComponent {
         this.activeDev = this.deviceManagerService.devices[this.deviceManagerService.activeDeviceIndex];
 
         this.isLogger = this.activeDev.deviceModel === 'OpenLogger MZ';
-        
+
         for (let i = 0; i < this.activeDev.instruments.gpio.numChans; i++) {
             this.gpioChans.push((this.isLogger) ? i : i + 1);
             this.gpioVals.push(false);
             this.gpioDirections.push(false);
         }
-        
+
         for (let i = 0; i < this.activeDev.instruments.la.numChans; i++) {
             let chanNum: number = 0;
 
@@ -86,7 +87,7 @@ export class DigitalIoComponent {
         else if (buttonState === 'Out') {
             mode = 'Output';
         }
-        
+
         if (state === 'analyzer') {
             if (buttonState === 'In' || buttonState === 'Out') {
                 return 'Mode: ' + mode + '. Click to change to analyzer';
@@ -125,7 +126,7 @@ export class DigitalIoComponent {
                 console.log(err);
             },
             () => {
-                
+
             }
         );
     }
@@ -182,7 +183,7 @@ export class DigitalIoComponent {
     toggleLaChan(channel: number) {
         if (this.dataTransferService.awgPower && !this.laActiveChans[channel] && this.activeDev.transport.getType() !== 'local') {
             this.toastService.createToast('awgOnNoLa', true);
-            return; 
+            return;
         }
         this.laActiveChans[channel] = !this.laActiveChans[channel];
         this.gpioDirections[channel] = false;

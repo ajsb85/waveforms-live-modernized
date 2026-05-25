@@ -18,38 +18,39 @@ import { GenPopover } from '../../components/gen-popover/gen-popover.component';
 import { DataContainer } from 'digilent-chart-angular2/modules';
 
 @Component({
+    standalone: false,
     templateUrl: 'file-browser.html',
     selector: 'file-browser'
 })
 export class FileBrowserPage {
-    private activeDevice: DeviceService;
+    public activeDevice: DeviceService;
     public storageLocations: string[] = [];
     public showFolder: any = {};
     public files: any = {};
-    private fileSampleRate: number;
-    private assumedTransferRate: number = 100000; //100 kBytes per second
-    private maxFileSize: number = 10000000; // 10MB
-    private stopReason: number = 0;
-    private stopReasonArray = ['Log Completed Normally', 'Log Forced', 'Log Error', 'Log Overflow', 'Log Unknown Error'];
-    private unitFormatPipe: UnitFormatPipe;
-    private showTheAlmightyJasper: boolean = false;
-    private jasperCoords: { x: number, y: number } = { x: 0, y: 0 };
+    public fileSampleRate: number;
+    public assumedTransferRate: number = 100000; //100 kBytes per second
+    public maxFileSize: number = 10000000; // 10MB
+    public stopReason: number = 0;
+    public stopReasonArray = ['Log Completed Normally', 'Log Forced', 'Log Error', 'Log Overflow', 'Log Unknown Error'];
+    public unitFormatPipe: UnitFormatPipe;
+    public showTheAlmightyJasper: boolean = false;
+    public jasperCoords: { x: number, y: number } = { x: 0, y: 0 };
     public jasperTop: string = '80px';
     public jasperLeft: string = '80px';
 
     hideExportButton: boolean = false;
 
     constructor(
-        private deviceManagerService: DeviceManagerService,
-        private viewCtrl: ViewController,
-        private params: NavParams,
-        private popoverCtrl: PopoverController,
-        private toastService: ToastService,
-        private exportService: ExportService,
-        private alertCtrl: AlertController,
-        private loadingService: LoadingService,
-        private settingsService: SettingsService,
-        private elementRef: ElementRef
+        public deviceManagerService: DeviceManagerService,
+        public viewCtrl: ViewController,
+        public params: NavParams,
+        public popoverCtrl: PopoverController,
+        public toastService: ToastService,
+        public exportService: ExportService,
+        public alertCtrl: AlertController,
+        public loadingService: LoadingService,
+        public settingsService: SettingsService,
+        public elementRef: ElementRef
     ) {
         this.unitFormatPipe = new UnitFormatPipe();
         this.activeDevice = this.deviceManagerService.devices[this.deviceManagerService.activeDeviceIndex];
@@ -75,7 +76,7 @@ export class FileBrowserPage {
             });
     }
 
-    private alertWrapper(title: string, subTitle: string, buttons?: { text: string, handler: (data) => void }[]): Promise<any> {
+    public alertWrapper(title: string, subTitle: string, buttons?: { text: string, handler: (data) => void }[]): Promise<any> {
         return new Promise((resolve, reject) => {
             let alert = this.alertCtrl.create({
                 title: title,
@@ -89,7 +90,7 @@ export class FileBrowserPage {
         });
     }
 
-    private listFiles(location: string): Promise<any> {
+    public listFiles(location: string): Promise<any> {
         return new Promise((resolve, reject) => {
             this.activeDevice.file.listDir(location, '/').subscribe(
                 (data) => {
@@ -103,7 +104,7 @@ export class FileBrowserPage {
         });
     }
 
-    private getStorageLocations(): Promise<any> {
+    public getStorageLocations(): Promise<any> {
         return new Promise((resolve, reject) => {
             this.activeDevice.storageGetLocations().subscribe(
                 (data) => {
@@ -117,7 +118,7 @@ export class FileBrowserPage {
         });
     }
 
-    private deleteFile(storageLocation: string, file: string): Promise<any> {
+    public deleteFile(storageLocation: string, file: string): Promise<any> {
         return new Promise((resolve, reject) => {
             this.activeDevice.file.delete(storageLocation, file).subscribe(
                 (data) => {
@@ -143,7 +144,7 @@ export class FileBrowserPage {
         });
     }
 
-    private readFile(storageLocation: string, file: string, filePosition: number = 0, length: number = -1, timeoutOverride?: number): Promise<any> {
+    public readFile(storageLocation: string, file: string, filePosition: number = 0, length: number = -1, timeoutOverride?: number): Promise<any> {
         return new Promise((resolve, reject) => {
             this.activeDevice.file.read(storageLocation, file, filePosition, length, timeoutOverride).subscribe(
                 (data) => {
@@ -157,7 +158,7 @@ export class FileBrowserPage {
         });
     }
 
-    private downloadFile(storageLocation: string, file: string) {
+    public downloadFile(storageLocation: string, file: string) {
         let loading;
         this.checkFileAndConfirm(storageLocation, file)
             .then((data) => {
@@ -179,7 +180,7 @@ export class FileBrowserPage {
             });
     }
 
-    private createArrayBufferFromString(source: string): ArrayBuffer {
+    public createArrayBufferFromString(source: string): ArrayBuffer {
         let arrayBuffer = new ArrayBuffer(source.length);
         let bufView = new Uint8Array(arrayBuffer);
         for (var i = 0; i < source.length; i < i++) {
@@ -188,7 +189,7 @@ export class FileBrowserPage {
         return arrayBuffer;
     }
 
-    private getFileSize(storageLocation: string, file: string): Promise<any> {
+    public getFileSize(storageLocation: string, file: string): Promise<any> {
         return new Promise((resolve, reject) => {
             this.activeDevice.file.getFileSize(storageLocation, file).subscribe(
                 (data) => {
@@ -202,7 +203,7 @@ export class FileBrowserPage {
         });
     }
 
-    private displayBigFileWarning(fileSize: number, location: 'local' | 'remote'): Promise<any> {
+    public displayBigFileWarning(fileSize: number, location: 'local' | 'remote'): Promise<any> {
         return new Promise((resolve, reject) => {
             let estimatedTime = fileSize / this.assumedTransferRate;
             let buttons = [{
@@ -226,7 +227,7 @@ export class FileBrowserPage {
                 'Converting files larger than 10MB requires the dlog-utils package. <br><br>File size: ' + this.unitFormatPipe.transform(fileSize, 'B') + '.<br><br>'
                 : 'Transferring files larger than 10MB is not supported. <br><br>File size: ' + this.unitFormatPipe.transform(fileSize, 'B') + '.<br><br>';
             let link = 'https://reference.digilentinc.com/reference/software/waveforms-live/faq#faq';
-            let message = fileSize < this.maxFileSize ? 
+            let message = fileSize < this.maxFileSize ?
                 'The specified log file is expected to take ' + estimatedTime.toFixed(0) + ' seconds to transfer. Communication with the instrument will not be possible during the transfer.'
                 : errMessage + ' <a href="' + link + '" target="_blank">More info</a>';
 
@@ -235,7 +236,7 @@ export class FileBrowserPage {
         });
     }
 
-    private checkFileAndConfirm(storageLocation: string, file: string): Promise<any> {
+    public checkFileAndConfirm(storageLocation: string, file: string): Promise<any> {
         return new Promise((resolve, reject) => {
             this.getFileSize(storageLocation, file)
                 .then((data) => {
@@ -245,7 +246,7 @@ export class FileBrowserPage {
                         return this.displayBigFileWarning(data.file[0].actualFileSize, 'remote');
                     }
                     else {
-                        return Promise.resolve();
+                        return Promise.resolve(undefined);
                     }
                 })
                 .catch((e) => {
@@ -253,7 +254,7 @@ export class FileBrowserPage {
                     reject('cancel');
                 })
                 .then((data) => {
-                    resolve();
+                    resolve(undefined);
                 })
                 .catch((e) => {
                     reject('cancel');
@@ -351,7 +352,7 @@ export class FileBrowserPage {
         this.viewCtrl.dismiss();
     }
 
-    private verifyLocalLogFile(file: ArrayBuffer, fileSize: number, fileName: string) {
+    public verifyLocalLogFile(file: ArrayBuffer, fileSize: number, fileName: string) {
         if (this.isValidHeader(file)) {
             let trimmedArrBuff = file.slice(512);
             let binaryData = new Int16Array(trimmedArrBuff);
@@ -362,7 +363,7 @@ export class FileBrowserPage {
         }
     }
 
-    private exportBinaryDataAsCsv(binaryData: any, fileName: string) {
+    public exportBinaryDataAsCsv(binaryData: any, fileName: string) {
         let dataContainer: DataContainer = {
             data: [],
             yaxis: 1,
@@ -388,7 +389,7 @@ export class FileBrowserPage {
         }], 500, this.stopReasonArray[this.stopReason]);
     }
 
-    private convertRemoteFileToCsv(storageLocation: string, file: string) {
+    public convertRemoteFileToCsv(storageLocation: string, file: string) {
         let loading;
         this.verifyDigilentLogFile(storageLocation, file)
             .then((data) => {
@@ -416,8 +417,8 @@ export class FileBrowserPage {
             });
     }
 
-    private isValidHeader(fileHeader: ArrayBuffer): boolean {
-        /* 
+    public isValidHeader(fileHeader: ArrayBuffer): boolean {
+        /*
         struct _AHdr
         {
             (0)  const uint8_t   endian;             // 0 - little endian 1 - big endian
@@ -459,7 +460,7 @@ export class FileBrowserPage {
         return (headerVersion === 1 && (headerFormat === 1 || headerFormat === 3) && headerFullSize === 512);
     }
 
-    private verifyDigilentLogFile(storageLocation: string, file: string): Promise<any> {
+    public verifyDigilentLogFile(storageLocation: string, file: string): Promise<any> {
         return new Promise((resolve, reject) => {
             this.readFile(storageLocation, file, 0, 512)
                 .then((data) => {
@@ -481,7 +482,7 @@ export class FileBrowserPage {
     toggleShowJasper() {
         this.showTheAlmightyJasper = !this.showTheAlmightyJasper;
     }
-    
+
     jasperClick(event) {
         this.jasperCoords.x = event.clientX;
         this.jasperCoords.y = event.clientY;

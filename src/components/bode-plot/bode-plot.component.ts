@@ -26,6 +26,7 @@ declare var $: any;
 declare var mathFunctions: any;
 
 @Component({
+    standalone: false,
     selector: 'bode-plot',
     templateUrl: 'bode-plot.html'
 })
@@ -37,13 +38,13 @@ export class BodePlotComponent {
     public bodePlotOptions: any;
     public colorArray: string[] = ['#FFA500', '#4487BA', '#ff3b99', '#00c864'];
     public baselineAmp: number;
-    private activeDevice: DeviceService;
-    private awgChan: number = 1;
-    private oscchan: number = 1;
-    private vpp: number = 2;
-    private vOffset: number = 0;
-    private destroyed: boolean = false;
-    private bodeDataContainer: DataContainer[] = [{
+    public activeDevice: DeviceService;
+    public awgChan: number = 1;
+    public oscchan: number = 1;
+    public vpp: number = 2;
+    public vOffset: number = 0;
+    public destroyed: boolean = false;
+    public bodeDataContainer: DataContainer[] = [{
         data: [],
         yaxis: 1,
         lines: {
@@ -53,26 +54,26 @@ export class BodePlotComponent {
             show: true
         }
     }];
-    private startTime: number;
-    private timeoutTimer: number = 120000; //20 seconds
-    private currentDataFormat: 'log' | 'linear' = 'log';
-    private logLabel = 'Amplitude (dB)';
-    private linLabel = 'Amplitude (V)';
-    private startFreq: number;
-    private stopFreq: number;
+    public startTime: number;
+    public timeoutTimer: number = 120000; //20 seconds
+    public currentDataFormat: 'log' | 'linear' = 'log';
+    public logLabel = 'Amplitude (dB)';
+    public linLabel = 'Amplitude (V)';
+    public startFreq: number;
+    public stopFreq: number;
     public calibrationData: number[][];
-    private localStorageCalibrationData: any;
-    private flotOverlayRef: any;
-    private fileName: string = 'bodeCalibrationData.json';
+    public localStorageCalibrationData: any;
+    public flotOverlayRef: any;
+    public fileName: string = 'bodeCalibrationData.json';
 
     constructor(
-        private deviceManagerService: DeviceManagerService,
+        public deviceManagerService: DeviceManagerService,
         public tooltipService: TooltipService,
-        private modalCtrl: ModalController,
-        private loadingService: LoadingService,
-        private storageService: StorageService,
-        private exportService: ExportService,
-        private popoverCtrl: PopoverController
+        public modalCtrl: ModalController,
+        public loadingService: LoadingService,
+        public storageService: StorageService,
+        public exportService: ExportService,
+        public popoverCtrl: PopoverController
     ) {
         this.bodePlotOptions = this.generateBodeOptions(true, true);
         this.activeDevice = this.deviceManagerService.devices[this.deviceManagerService.activeDeviceIndex];
@@ -215,7 +216,7 @@ export class BodePlotComponent {
         });
     }
 
-    private runSweep(startFreq: number, stopFreq: number, stepsPerDec: number, sweepType: SweepType) {
+    public runSweep(startFreq: number, stopFreq: number, stepsPerDec: number, sweepType: SweepType) {
         return new Promise((resolve, reject) => {
             let loading = this.loadingService.displayLoading('Generating Bode Plot. Please wait...');
             let frequencyArray;
@@ -252,7 +253,7 @@ export class BodePlotComponent {
         });
     }
 
-    private interpolateAmp(freq: number): number {
+    public interpolateAmp(freq: number): number {
         let i = 0;
         console.log('INTERPOLATING');
         console.log(this.calibrationData);
@@ -276,7 +277,7 @@ export class BodePlotComponent {
         return slope * freq + b;
     }
 
-    private calcIdealSampleFreqAndBufferSize(waveFreq: number): { sampleFreq: number, bufferSize: number } {
+    public calcIdealSampleFreqAndBufferSize(waveFreq: number): { sampleFreq: number, bufferSize: number } {
         let sampleFreq;
         let bufferSize;
 
@@ -305,7 +306,7 @@ export class BodePlotComponent {
         return { sampleFreq: sampleFreq, bufferSize: bufferSize };
     }
 
-    private buildFrequencyArray(startFreq: number, stopFreq: number, stepsPerDec: number): number[] {
+    public buildFrequencyArray(startFreq: number, stopFreq: number, stepsPerDec: number): number[] {
         let frequencyArray = [];
         let step = (stopFreq - startFreq) / stepsPerDec;
         for (let i = startFreq; i <= stopFreq; i = i + step) {
@@ -315,7 +316,7 @@ export class BodePlotComponent {
         return frequencyArray;
     }
 
-    private buildLogPointArray(start: number, finish: number, stepsPerDec: number): number[] {
+    public buildLogPointArray(start: number, finish: number, stepsPerDec: number): number[] {
         console.log(start, finish);
         let testFreqArray = [];
         let decades = 0;
@@ -342,7 +343,7 @@ export class BodePlotComponent {
         return testFreqArray;
     }
 
-    private setAwg(newFreq: number): Observable<any> {
+    public setAwg(newFreq: number): Observable<any> {
         return Observable.create((observer) => {
             let actualSignalFreq = newFreq;
             this.activeDevice.instruments.awg.stop([this.awgChan])
@@ -378,7 +379,7 @@ export class BodePlotComponent {
         });
     }
 
-    private saveCalibration(): Promise<any> {
+    public saveCalibration(): Promise<any> {
         return new Promise((resolve, reject) => {
             this.saveCalibrationToDevice()
                 .then((data) => {
@@ -408,7 +409,7 @@ export class BodePlotComponent {
         });
     }
 
-    private saveCalibrationToDevice(): Promise<any> {
+    public saveCalibrationToDevice(): Promise<any> {
         let str = JSON.stringify(this.calibrationData);
         var buf = new ArrayBuffer(str.length);
         var bufView = new Uint8Array(buf);
@@ -430,9 +431,9 @@ export class BodePlotComponent {
         });
     }
 
-    private saveCalibrationToLocalStorage(): Promise<any> {
+    public saveCalibrationToLocalStorage(): Promise<any> {
         return new Promise((resolve, reject) => {
-            if (this.activeDevice.macAddress == undefined) { resolve(); return; }
+            if (this.activeDevice.macAddress == undefined) { resolve(undefined); return; }
             if (this.localStorageCalibrationData == undefined) {
                 this.localStorageCalibrationData = {};
             }
@@ -444,7 +445,7 @@ export class BodePlotComponent {
         });
     }
 
-    private loadPreviousCalibration(): Promise<any> {
+    public loadPreviousCalibration(): Promise<any> {
         return new Promise((resolve, reject) => {
             this.loadPreviousCalibrationFromDevice()
                 .then((data) => {
@@ -463,7 +464,7 @@ export class BodePlotComponent {
         });
     }
 
-    private getStorageLocations(): Promise<any> {
+    public getStorageLocations(): Promise<any> {
         return new Promise((resolve, reject) => {
             this.activeDevice.storageGetLocations().subscribe(
                 (data) => {
@@ -479,7 +480,7 @@ export class BodePlotComponent {
         });
     }
 
-    private loadPreviousCalibrationFromDevice(): Promise<any> {
+    public loadPreviousCalibrationFromDevice(): Promise<any> {
         return new Promise((resolve, reject) => {
             this.activeDevice.file.read('flash', this.fileName, 0, -1).subscribe(
                 (data) => {
@@ -503,7 +504,7 @@ export class BodePlotComponent {
         });
     }
 
-    private loadPreviousCalibrationFromLocalStorage(): Promise<any> {
+    public loadPreviousCalibrationFromLocalStorage(): Promise<any> {
         return new Promise((resolve, reject) => {
             this.storageService.getData('bodeCalibration')
                 .then((data) => {
@@ -540,7 +541,7 @@ export class BodePlotComponent {
         });
     }
 
-    private displayBodeModal(exitAfterCalibrate?: boolean): Promise<any> {
+    public displayBodeModal(exitAfterCalibrate?: boolean): Promise<any> {
         return new Promise((resolve, reject) => {
             let navParams = {
                 bodePlotComponent: this
@@ -557,7 +558,7 @@ export class BodePlotComponent {
         });
     }
 
-    private setOsc(sampleFreq: number, bufferSize: number): Observable<any> {
+    public setOsc(sampleFreq: number, bufferSize: number): Observable<any> {
         return Observable.create((observer) => {
             console.log(bufferSize);
             this.activeDevice.instruments.osc.setParameters([this.oscchan], [this.vOffset], [1], [sampleFreq], [Math.min(Math.max(10, bufferSize), 32000)], [0])
@@ -585,12 +586,12 @@ export class BodePlotComponent {
         });
     }
 
-    private single() {
+    public single() {
         //TODO set an attempt count to timeout on a trigger
         return this.activeDevice.instruments.trigger.single([1]);
     }
 
-    private readOsc(doNotPlotPoint?: boolean): Promise<any> {
+    public readOsc(doNotPlotPoint?: boolean): Promise<any> {
         return new Promise((resolve, reject) => {
             this.activeDevice.instruments.osc.read([this.oscchan]).subscribe(
                 (data) => {
@@ -627,7 +628,7 @@ export class BodePlotComponent {
         });
     }
 
-    private calculateFft(onlyCalculate?: boolean) {
+    public calculateFft(onlyCalculate?: boolean) {
         console.log(this.activeDevice.instruments.osc.dataBuffer[this.activeDevice.instruments.osc.dataBufferReadIndex]);
         let amp = mathFunctions.getAmplitude(this.bodePlot.digilentChart, 0, 0, 0, this.activeDevice.instruments.osc.dataBuffer[this.activeDevice.instruments.osc.dataBufferReadIndex][this.oscchan - 1].data);
         let freq = mathFunctions.getFrequency(this.bodePlot.digilentChart, 0, 0, 0, this.activeDevice.instruments.osc.dataBuffer[this.activeDevice.instruments.osc.dataBufferReadIndex][this.oscchan - 1].data);
@@ -829,7 +830,7 @@ export class BodePlotComponent {
         this.bodePlot.setData(this.bodeDataContainer, true);
     }
 
-    private tickGenerator(axis): number[] {
+    public tickGenerator(axis): number[] {
         let min = axis.min;
         let max = axis.max;
         console.log(min, max);

@@ -4,43 +4,43 @@
             <div id="flotContainer"></div>
             <div class="chart-button-container">
                 <div [tooltip]="fftTip" [tooltipAnimation]="true" tooltipPlacement="left">
-                    <button ion-button class="chart-button disable-hover" (tap)="toggleFft()" [disabled]="fftDisabled().isDisabled">
+                    <button ion-button class="chart-button disable-hover" (click)="toggleFft()" [disabled]="fftDisabled().isDisabled">
                         fft
                     </button>
                 </div>
                 <div [tooltip]="tooltipService.getTooltip('chartToBode').message" [tooltipAnimation]="true" tooltipPlacement="left">
-                    <button ion-button class="chart-button disable-hover" (tap)="toBode()">
+                    <button ion-button class="chart-button disable-hover" (click)="toBode()">
                         <img class="buttons-side-svg" src="assets/img/bode.svg">
                     </button>
                 </div>
                 <div [tooltip]="loggerTip" [tooltipAnimation]="true" tooltipPlacement="left">
-                    <button ion-button class="chart-button disable-hover" (tap)="toLogger()" [disabled]="loggerDisabled().isDisabled">
+                    <button ion-button class="chart-button disable-hover" (click)="toLogger()" [disabled]="loggerDisabled().isDisabled">
                         <img class="buttons-side-svg" src="assets/img/logger.svg">
                     </button>
                 </div>
                 <div [tooltip]="autoScaleTip" [tooltipAnimation]="true" tooltipPlacement="left">
-                    <button ion-button class="chart-button disable-hover" (tap)="autoscaleAllAxes()" [disabled]="autoScaleDisabled().isDisabled">
+                    <button ion-button class="chart-button disable-hover" (click)="autoscaleAllAxes()" [disabled]="autoScaleDisabled().isDisabled">
                         <img class="button-side-svg" src="assets/img/fullscreen.svg" />
                     </button>
                 </div>
                 <div [hidden]="showFft" [tooltip]="cotTip" [tooltipAnimation]="true" tooltipPlacement="left">
-                    <button ion-button class="chart-button disable-hover" (tap)="centerOnTrigger()" [disabled]="cotDisabled().isDisabled">
+                    <button ion-button class="chart-button disable-hover" (click)="centerOnTrigger()" [disabled]="cotDisabled().isDisabled">
                         <img class="button-side-svg align-trigger" src="assets/img/align-center.svg" />
                     </button>
                 </div>
                 <div [hidden]="showFft"  [tooltip]="exportChartTip" [tooltipAnimation]="true" tooltipPlacement="left">
-                    <button ion-button class="chart-button disable-hover" (tap)="openChartModal($event)" [disabled]="exportChartDisabled().isDisabled">
+                    <button ion-button class="chart-button disable-hover" (click)="openChartModal($event)" [disabled]="exportChartDisabled().isDisabled">
                         <img class="button-side-svg" src="assets/img/download.svg" />
                     </button>
                 </div>
                 <div [hidden]="showFft" [tooltip]="tooltipService.getTooltip('chartShowDevicePinout').message" [tooltipAnimation]="true" tooltipPlacement="left">
-                    <button ion-button class="chart-button disable-hover" (tap)="openDevicePinout($event)">
+                    <button ion-button class="chart-button disable-hover" (click)="openDevicePinout($event)">
                         <!--<img class="button-side-svg" src="assets/img/info.svg" />-->
                         PIN
                     </button>
                 </div>
                 <div [hidden]="showFft" [tooltip]="tooltipService.getTooltip('chartResetDevice').message" [tooltipAnimation]="true" tooltipPlacement="left">
-                    <button ion-button class="chart-button disable-hover" (tap)="resetDevice.emit()">
+                    <button ion-button class="chart-button disable-hover" (click)="resetDevice.emit()">
                         <img class="button-side-svg" src="assets/img/restore.svg" />
                     </button>
                 </div>
@@ -51,11 +51,11 @@
         <ion-row class="chart-info">
             <ion-col center *ngIf="mathEnabled" class="info-col">
                 <ion-row center class="cursor-container">
-                    <button ion-button icon-right class="text-button-side disable-hover" (tap)="openMathModal($event)" [disabled]="currentBufferArray.length === 0" [tooltip]="tooltipService.getTooltip('mathButton').message" [tooltipAnimation]="true" tooltipPlacement="right">
+                    <button ion-button icon-right class="text-button-side disable-hover" (click)="openMathModal($event)" [disabled]="currentBufferArray.length === 0" [tooltip]="tooltipService.getTooltip('mathButton').message" [tooltipAnimation]="true" tooltipPlacement="right">
                         <span class="collapse-button">Math</span>
                         <img class="button-side-svg" src="assets/img/math.svg" />
                     </button>
-                    <button ion-button class="icon-only-button-side disable-hover" (tap)="updateMath()" [tooltip]="tooltipService.getTooltip('refreshMathButton').message" [tooltipAnimation]="true" tooltipPlacement="right">
+                    <button ion-button class="icon-only-button-side disable-hover" (click)="updateMath()" [tooltip]="tooltipService.getTooltip('refreshMathButton').message" [tooltipAnimation]="true" tooltipPlacement="right">
                         <img class="button-side-svg" src="assets/img/refresh.svg" />
                     </button>
                     <ion-col center class="cursor-info-col" id="test-test">
@@ -84,7 +84,7 @@
             </ion-col>
             <ion-col *ngIf="cursorsEnabled" center class="info-col">
                 <ion-row center class="cursor-container">
-                    <button ion-button icon-right class="text-button-side disable-hover" (tap)="openCursorModal($event)" [disabled]="currentBufferArray.length === 0" [tooltip]="tooltipService.getTooltip('cursorButton').message" [tooltipAnimation]="true" tooltipPlacement="right">
+                    <button ion-button icon-right class="text-button-side disable-hover" (click)="openCursorModal($event)" [disabled]="currentBufferArray.length === 0" [tooltip]="tooltipService.getTooltip('cursorButton').message" [tooltipAnimation]="true" tooltipPlacement="right">
                         <span class="collapse-button">Cursors</span>
                         <img class="button-side-svg" src="assets/img/edit.svg" />
                     </button>
@@ -111,7 +111,7 @@
             </ion-col>
         </ion-row>
     </div>
-     
+
     <div class="fft-component-container" [@expand]="showFft">
         <digilent-chart #fftChart [flotOptions]="fftChartOptions" chartId="digilentChart" (contextmenu)="fftChartContext($event)"></digilent-chart>
     </div>

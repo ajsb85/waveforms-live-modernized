@@ -9,7 +9,7 @@
             <div class="header-bar-side">
                 <ion-row>
                     <ion-col class="header-side-col" center text-left>
-                        <button ion-button clear class="dropdown-image-button" (tap)="toggleSeriesSettings(i)">
+                        <button ion-button clear class="dropdown-image-button" (click)="toggleSeriesSettings(i)">
                             <img class="custom-dropdown-img" [ngClass]="{rotateOn: showSeriesSettings[i]}" src="assets/img/collapse-arrow-right.svg">
                         </button>
                     </ion-col>
@@ -17,12 +17,12 @@
                         <div [ngClass]="{'instrument-header': !settingsService.nestedChannels}">{{settingsService.nestedChannels === false ? 'Osc' : ''}} {{names[i]}}</div>
                     </ion-col>
                     <ion-col class="header-side-col" center text-right>
-                        <button ion-button clear [disabled]="running" (tap)="toggleVisibility(i, $event)" class="header-button disable-hover" [style.background-color]="getSeriesColor(i)" [ngClass]="{'series-on': chart.oscopeChansActive[i]}">
+                        <button ion-button clear [disabled]="running" (click)="toggleVisibility(i, $event)" class="header-button disable-hover" [style.background-color]="getSeriesColor(i)" [ngClass]="{'series-on': chart.oscopeChansActive[i]}">
                             <img class="button-side-svg" src="assets/img/power.svg" />
                         </button>
                     </ion-col>
                 </ion-row>
-                
+
             </div>
             <div *ngIf="showSeriesSettings[i]" class="button-info-container">
                 <ion-row class="controls-container">
@@ -31,7 +31,7 @@
                     </ion-col>
                     <ion-col text-right center class="vpd-button-col">
                         <div style="display:inline-block">
-                            <button ion-button [disabled]="chart.activeVPDIndex[i] == chart.voltsPerDivVals.length-1" (tap)="chart.incrementVPD(i)" class="img-button disable-hover">
+                            <button ion-button [disabled]="chart.activeVPDIndex[i] == chart.voltsPerDivVals.length-1" (click)="chart.incrementVPD(i)" class="img-button disable-hover">
                                 <img class="custom-image-button" src="assets/img/zoom-out.svg">
                             </button>
                         </div>
@@ -41,7 +41,7 @@
                     </ion-col>
                     <ion-col text-left center class="vpd-button-col margin-right">
                         <div style="display:inline-block">
-                            <button ion-button [disabled]="chart.activeVPDIndex[i] == 0" (tap)="chart.decrementVPD(i)" class="img-button disable-hover">
+                            <button ion-button [disabled]="chart.activeVPDIndex[i] == 0" (click)="chart.decrementVPD(i)" class="img-button disable-hover">
                                 <img class="custom-image-button" src="assets/img/zoom-in.svg">
                             </button>
                         </div>
@@ -53,7 +53,7 @@
                         Offset
                     </ion-col>
                     <ion-col text-right center class="vpd-button-col">
-                        <button ion-button (tap)="chart.decrementOffset(i)" class="icon-only-button-side disable-hover offset-button">
+                        <button ion-button (click)="chart.decrementOffset(i)" class="icon-only-button-side disable-hover offset-button">
                             <img class="button-side-svg" src="assets/img/remove.svg">
                         </button>
                     </ion-col>
@@ -61,12 +61,12 @@
                         <input class="custom-input" step="any" [ngModel]="chart.voltBase[i] | unitFormat:'V'" formatInput (valChange)="formatInputAndUpdate($event, i, 'offset')" />
                     </ion-col>
                     <ion-col text-left center class="vpd-button-col margin-right">
-                        <button ion-button (tap)="chart.incrementOffset(i)" class="icon-only-button-side disable-hover offset-button">
+                        <button ion-button (click)="chart.incrementOffset(i)" class="icon-only-button-side disable-hover offset-button">
                             <img class="button-side-svg" src="assets/img/add.svg">
                         </button>
                     </ion-col>
                 </ion-row>
-                
+
                 <ion-row class="controls-container">
                     <ion-col center class="vpd-label-col" [tooltip]="tooltipService.getTooltip('oscSamplingFreq').message" [tooltipAnimation]="true" tooltipPlacement="top">
                         Samples/
@@ -74,17 +74,17 @@
                     <ion-col text-right center class="vpd-button-col">
                     </ion-col>
                     <ion-col class="samplefreq-val-col" center text-center>
-                        <input [disabled]="lockedSampleState[i].sampleFreqLocked" class="custom-input" step="any" 
-                            [ngModel]="(lockedSampleState[i].sampleFreqLocked ? chart.calculateDataFromWindow().sampleFreq : lockedSampleState[i].manualSampleFreq) | unitFormat:'S/s'" 
+                        <input [disabled]="lockedSampleState[i].sampleFreqLocked" class="custom-input" step="any"
+                            [ngModel]="(lockedSampleState[i].sampleFreqLocked ? chart.calculateDataFromWindow().sampleFreq : lockedSampleState[i].manualSampleFreq) | unitFormat:'S/s'"
                             formatInput (valChange)="formatInputAndUpdate($event, i, 'sampleFreq')" />
                     </ion-col>
-                    <ion-col text-left center class="vpd-button-col margin-right"> 
-                        <button ion-button (tap)="toggleSampleFreqLock(i)" class="icon-only-button-side disable-hover offset-button">
+                    <ion-col text-left center class="vpd-button-col margin-right">
+                        <button ion-button (click)="toggleSampleFreqLock(i)" class="icon-only-button-side disable-hover offset-button">
                             <img class="button-side-svg" [src]="lockedSampleState[i].sampleFreqLocked ? 'assets/img/close-lock.svg' : 'assets/img/open-lock.svg'">
                         </button>
                     </ion-col>
                 </ion-row>
-                
+
                 <ion-row class="controls-container">
                     <ion-col center class="vpd-label-col" [tooltip]="tooltipService.getTooltip('oscSampleSize').message" [tooltipAnimation]="true" tooltipPlacement="top">
                         Samples
@@ -92,12 +92,12 @@
                     <ion-col text-right center class="vpd-button-col">
                     </ion-col>
                     <ion-col class="samplefreq-val-col" center text-center>
-                        <input [disabled]="lockedSampleState[i].sampleSizeLocked" class="custom-input" step="any" 
+                        <input [disabled]="lockedSampleState[i].sampleSizeLocked" class="custom-input" step="any"
                             [ngModel]="(lockedSampleState[i].sampleSizeLocked ? chart.calculateDataFromWindow().bufferSize : lockedSampleState[i].manualSampleSize) | unitFormat:'S'"
                             formatInput (valChange)="formatInputAndUpdate($event, i, 'numSamples')" />
                     </ion-col>
                     <ion-col text-left center class="vpd-button-col margin-right">
-                        <button ion-button (tap)="toggleSampleLock(i)" class="icon-only-button-side disable-hover offset-button">
+                        <button ion-button (click)="toggleSampleLock(i)" class="icon-only-button-side disable-hover offset-button">
                             <img class="button-side-svg" [src]="lockedSampleState[i].sampleSizeLocked ? 'assets/img/close-lock.svg' : 'assets/img/open-lock.svg'">
                         </button>
                     </ion-col>

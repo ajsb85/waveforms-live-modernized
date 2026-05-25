@@ -1,6 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
+    standalone: false,
     templateUrl: 'progress-bar.html',
     selector: 'digilent-progress-bar'
 })

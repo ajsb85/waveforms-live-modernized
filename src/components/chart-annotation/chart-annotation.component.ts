@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output, ElementRef } from '@angular/core';
 
 @Component({
+    standalone: false,
     templateUrl: 'chart-annotation.html',
     selector: 'chart-annotation'
 })
@@ -12,10 +13,10 @@ export class ChartAnnotationComponent {
     public leftPix: string = '80px';
     public contents: string = '';
     public borderColor: string = 'white';
-    private startingCoords: { x: number, y: number } = { x: 0, y: 0 };
+    public startingCoords: { x: number, y: number } = { x: 0, y: 0 };
 
     constructor(
-        private elementRef: ElementRef
+        public elementRef: ElementRef
     ) {
         console.log('chart annotation constructor');
     }

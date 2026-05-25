@@ -420,12 +420,6 @@ var waveformsLiveDictionary = (function() {
         dcButton: {
             english: 'DC'
         },
-        triggerLevel: {
-            english: 'Trigger Level'
-        },
-        triggerSource: {
-            english: 'Trigger Source'
-        },
         triggerRisingEdge: {
             english: 'Rising Edge Trigger'
         },
@@ -464,10 +458,10 @@ var waveformsLiveDictionary = (function() {
         },
         awgFreq: {
             english: 'Set Wavegen Frequency'
-        }, 
+        },
         awgAmp: {
             english: 'Set Wavegen Amplitude'
-        }, 
+        },
         awgOffset: {
             english: 'Set Wavegen Offset'
         },
@@ -561,7 +555,7 @@ var waveformsLiveDictionary = (function() {
     };
 
     /**************************************************
-    * Private Function Definitions 
+    * Private Function Definitions
     **************************************************/
     var getStatusCode = function getStatusCode(error) {
         if (error) {
@@ -615,7 +609,7 @@ var waveformsLiveDictionary = (function() {
     var getSupportedLanguages = function getSupportedLanguages() {
         return supportedLanguages;
     }
-    
+
     /**************************************************
     * Return Functions
     **************************************************/
@@ -625,4 +619,4 @@ var waveformsLiveDictionary = (function() {
         getMessageKeyValues: getMessageKeyValues,
         getSupportedLanguages: getSupportedLanguages
     }
-})()
+})();

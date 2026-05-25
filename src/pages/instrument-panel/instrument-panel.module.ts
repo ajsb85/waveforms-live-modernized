@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
+import { NgModule , NO_ERRORS_SCHEMA} from '@angular/core';
 import { SharedModule } from '../../app/shared/shared.module';
 import { IonicModule } from 'ionic-angular';
 
 import { OpenScopeLoggerModule } from '../logger/openscope/openscope-logger.module';
-import { BodePageModule } from '../bode/bode.module'; 
+import { BodePageModule } from '../bode/bode.module';
 import { BodeModalPageModule } from '../bode-modal/bode-modal.module';
 import { SlowUSBModalPageModule } from '../slow-usb-modal/slow-usb-modal.module';
 
@@ -20,9 +20,10 @@ import { MathModalPage } from '../../pages/math-modal/math-modal';
 import { LaPopover } from '../../components/la-popover/la-popover.component';
 import { ChartAnnotationComponent } from '../../components/chart-annotation/chart-annotation.component';
 import { FGenModule } from '../../components/function-gen/function-gen.module';
- 
+
 @NgModule({
-    imports: [
+    schemas: [NO_ERRORS_SCHEMA],
+imports: [
         SharedModule,
         OpenScopeLoggerModule,
         FGenModule,

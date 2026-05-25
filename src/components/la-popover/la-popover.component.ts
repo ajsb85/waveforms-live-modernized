@@ -4,6 +4,7 @@ import { ViewController, NavParams } from 'ionic-angular';
 import { DeviceManagerService, DeviceService } from 'dip-angular2/services';
 
 @Component({
+    standalone: false,
     templateUrl: 'la-popover.html'
 })
 
@@ -15,7 +16,7 @@ export class LaPopover {
     public edgeDirections: edgeDirection[] = [];
 
     constructor(
-        public viewCtrl: ViewController, 
+        public viewCtrl: ViewController,
         public params: NavParams,
         public deviceManagerService: DeviceManagerService
     ) {
@@ -30,7 +31,7 @@ export class LaPopover {
     }
 
     //Close popover and send option string as a NavParam
-    close(option: string) {
+    close(option?: string) {
         this.viewCtrl.dismiss({
             bitmask: this.bitmask
         });
@@ -82,7 +83,7 @@ export class LaPopover {
         }
     }
 
-    private loadBitmask(bitmask: string) {
+    public loadBitmask(bitmask: string) {
         this.bitmask = bitmask;
         for (let i = 0; i < bitmask.length; i++) {
             switch (bitmask.charAt(bitmask.length - i - 1)) {
@@ -101,7 +102,7 @@ export class LaPopover {
         }
     }
 
-    private updateBitmask(edgeDirection: edgeDirection, channel: number) {
+    public updateBitmask(edgeDirection: edgeDirection, channel: number) {
         let stateChar: string;
         switch (edgeDirection) {
             case 'rising':

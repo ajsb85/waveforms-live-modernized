@@ -1,4 +1,5 @@
-import { Component, Output, Input, EventEmitter, ViewChild, trigger, state, style, transition, animate, ViewContainerRef, ComponentFactoryResolver, ComponentRef } from '@angular/core';
+import { Component, Output, Input, EventEmitter, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentRef } from '@angular/core';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ModalController, Platform, PopoverController, NavController } from 'ionic-angular';
 
 //Components
@@ -37,6 +38,7 @@ declare var decimateModule: any;
 declare var cordova: any;
 
 @Component({
+    standalone: false,
     selector: 'instrument-panel-chart',
     templateUrl: 'instrument-panel-chart.html',
     animations: [
@@ -72,7 +74,7 @@ export class InstrumentPanelChart {
     public activeChannels = [1, 1];
     public mathEnabled: boolean = true;
     public activeVPDIndex: number[] = [9, 9];
-    public generalVoltsPerDivVals: number[];
+    public generalVoltsPerDivVals: number[] = [];
     public voltsPerDivVals: number[] = this.generalVoltsPerDivVals;
     public activeTPDIndex: number = 27;
     public secsPerDivVals: number[];
@@ -120,10 +122,10 @@ export class InstrumentPanelChart {
     public exportChartTip;
     public loggerTip;
 
-    private annotationRefs: { ref: ComponentRef<ChartAnnotationComponent>, id: number, view: 'chart' | 'fft' }[] = [];
+    public annotationRefs: { ref: ComponentRef<ChartAnnotationComponent>, id: number, view: 'chart' | 'fft' }[] = [];
 
-    private minBodeFirmwareVersion: string = '1.37.0';
-    private minLogFirmwareVersion: string = '1.262.0';
+    public minBodeFirmwareVersion: string = '1.37.0';
+    public minLogFirmwareVersion: string = '1.262.0';
 
     constructor(
         _modalCtrl: ModalController,
@@ -132,13 +134,13 @@ export class InstrumentPanelChart {
         _settingsService: SettingsService,
         _tooltipService: TooltipService,
         public deviceDataTransferService: DeviceDataTransferService,
-        private containerRef: ViewContainerRef,
-        private compFactoryResolver: ComponentFactoryResolver,
-        private navCtrl: NavController,
-        private exportService: ExportService,
-        private deviceManagerService: DeviceManagerService,
-        private toastService: ToastService,
-        private uiHelper: UiHelperService
+        public containerRef: ViewContainerRef,
+        public compFactoryResolver: ComponentFactoryResolver,
+        public navCtrl: NavController,
+        public exportService: ExportService,
+        public deviceManagerService: DeviceManagerService,
+        public toastService: ToastService,
+        public uiHelper: UiHelperService
     ) {
         this.modalCtrl = _modalCtrl;
         this.settingsService = _settingsService;
@@ -521,7 +523,7 @@ export class InstrumentPanelChart {
         });
     }
 
-    private isFirmwareSupported(minFirmwareVersion: string): boolean {
+    public isFirmwareSupported(minFirmwareVersion: string): boolean {
         let currentFirmwareContainer = this.deviceManagerService.devices[this.deviceManagerService.activeDeviceIndex].firmwareVersion;
         let minFirmwareSplit = minFirmwareVersion.split('.');
         let weightedMinFirmwareVersion = 1000000 * parseInt(minFirmwareSplit[0]) + 1000 * parseInt(minFirmwareSplit[1]) + parseInt(minFirmwareSplit[2]);
@@ -1528,7 +1530,7 @@ export class InstrumentPanelChart {
         });
     }
 
-    private parseCursorChans(): number[] {
+    public parseCursorChans(): number[] {
         let mappedVals = [];
         mappedVals[0] = this.cursor1Chan.slice(-1);
         mappedVals[0] = (this.cursor1Chan.indexOf('Osc') !== -1) ? mappedVals[0] : (parseInt(mappedVals[0]) + this.oscopeChansActive.length).toString();

@@ -1,6 +1,7 @@
 import {Component, Input, AfterViewInit, ElementRef, ChangeDetectorRef} from "@angular/core";
 
 @Component({
+    standalone: false,
     selector: "tooltip-content",
     template: `
 <div class="tooltip {{ placement }}"
@@ -9,18 +10,18 @@ import {Component, Input, AfterViewInit, ElementRef, ChangeDetectorRef} from "@a
      [class.in]="isIn"
      [class.fade]="isFade"
      role="tooltip">
-    <div class="tooltip-arrow"></div> 
+    <div class="tooltip-arrow"></div>
     <div class="tooltip-inner">
         <ng-content></ng-content>
         {{ content }}
-    </div> 
+    </div>
 </div>
 `
 })
 export class TooltipContent implements AfterViewInit {
 
     // -------------------------------------------------------------------------
-    // Inputs / Outputs 
+    // Inputs / Outputs
     // -------------------------------------------------------------------------
 
     @Input() hostElement: HTMLElement;
@@ -44,8 +45,8 @@ export class TooltipContent implements AfterViewInit {
     // Constructor
     // -------------------------------------------------------------------------
 
-    constructor(private element: ElementRef,
-                private cdr: ChangeDetectorRef) {
+    constructor(public element: ElementRef,
+                public cdr: ChangeDetectorRef) {
     }
 
     // -------------------------------------------------------------------------
@@ -60,7 +61,7 @@ export class TooltipContent implements AfterViewInit {
     // -------------------------------------------------------------------------
     // Public Methods
     // -------------------------------------------------------------------------
-    
+
     show(): void {
         if (!this.hostElement)
             return;
@@ -85,7 +86,7 @@ export class TooltipContent implements AfterViewInit {
     // Private Methods
     // -------------------------------------------------------------------------
 
-    private positionElements(hostEl: HTMLElement, targetEl: HTMLElement, positionStr: string, appendToBody: boolean = false): { top: number, left: number } {
+    public positionElements(hostEl: HTMLElement, targetEl: HTMLElement, positionStr: string, appendToBody: boolean = false): { top: number, left: number } {
         let positionStrParts = positionStr.split("-");
         let pos0 = positionStrParts[0];
         let pos1 = positionStrParts[1] || "center";
@@ -124,21 +125,21 @@ export class TooltipContent implements AfterViewInit {
                     left: shiftWidth[pos0]()
                 };
                 break;
-            
+
             case "left":
                 targetElPos = {
                     top: shiftHeight[pos1](),
                     left: hostElPos.left - targetElWidth
                 };
                 break;
-            
+
             case "bottom":
                 targetElPos = {
                     top: shiftHeight[pos0](),
                     left: shiftWidth[pos1]()
                 };
                 break;
-            
+
             default:
                 targetElPos = {
                     top: hostElPos.top - targetElHeight,
@@ -150,7 +151,7 @@ export class TooltipContent implements AfterViewInit {
         return targetElPos;
     }
 
-    private position(nativeEl: HTMLElement): { width: number, height: number, top: number, left: number } {
+    public position(nativeEl: HTMLElement): { width: number, height: number, top: number, left: number } {
         let offsetParentBCR = { top: 0, left: 0 };
         const elBCR = this.offset(nativeEl);
         const offsetParentEl = this.parentOffsetEl(nativeEl);
@@ -169,7 +170,7 @@ export class TooltipContent implements AfterViewInit {
         };
     }
 
-    private offset(nativeEl:any): { width: number, height: number, top: number, left: number } {
+    public offset(nativeEl:any): { width: number, height: number, top: number, left: number } {
         const boundingClientRect = nativeEl.getBoundingClientRect();
         return {
             width: boundingClientRect.width || nativeEl.offsetWidth,
@@ -179,22 +180,22 @@ export class TooltipContent implements AfterViewInit {
         };
     }
 
-    private getStyle(nativeEl: HTMLElement, cssProp: string): string {
+    public getStyle(nativeEl: HTMLElement, cssProp: string): string {
         if ((nativeEl as any).currentStyle) // IE
             return (nativeEl as any).currentStyle[cssProp];
 
         if (window.getComputedStyle)
             return (window.getComputedStyle(nativeEl) as any)[cssProp];
-        
+
         // finally try and get inline style
         return (nativeEl.style as any)[cssProp];
     }
 
-    private isStaticPositioned(nativeEl: HTMLElement): boolean {
+    public isStaticPositioned(nativeEl: HTMLElement): boolean {
         return (this.getStyle(nativeEl, "position") || "static" ) === "static";
     }
 
-    private parentOffsetEl(nativeEl: HTMLElement): any {
+    public parentOffsetEl(nativeEl: HTMLElement): any {
         let offsetParent: any = nativeEl.offsetParent || window.document;
         while (offsetParent && offsetParent !== window.document && this.isStaticPositioned(offsetParent)) {
             offsetParent = offsetParent.offsetParent;

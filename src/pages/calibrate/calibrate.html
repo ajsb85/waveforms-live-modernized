@@ -42,7 +42,7 @@
                     </div>
                     <ion-row>
                         <ion-col center text-center>
-                            <button ion-button class="pinout-icon disable-hover" (tap)="openDevicePinout($event)">
+                            <button ion-button class="pinout-icon disable-hover" (click)="openDevicePinout($event)">
                                 PINOUT
                             </button>
                         </ion-col>
@@ -101,7 +101,7 @@
                                 </ion-row>
                                 <ion-row>
                                     <ion-col center text-center>
-                                        <button ion-button class="pinout-icon disable-hover" (tap)="openDevicePinout($event)">
+                                        <button ion-button class="pinout-icon disable-hover" (click)="openDevicePinout($event)">
                                             PINOUT
                                         </button>
                                     </ion-col>
@@ -155,7 +155,7 @@
                         </div>
 
                         <div text-center>
-                            <button ion-button icon-right clear class="advanced-button" (tap)="toggleAdvanced()">
+                            <button ion-button icon-right clear class="advanced-button" (click)="toggleAdvanced()">
                                 Advanced
                                 <div [@rotate]="showAdvanced">
                                     <img class="custom-image-button" src="assets/img/arrow-dropdown-white.svg">

@@ -6,6 +6,7 @@ import { ToastController } from 'ionic-angular';
 import { SettingsService } from '../../services/settings/settings.service';
 
 @Component({
+    standalone: false,
     templateUrl: 'logger-xaxis.html',
     selector: 'logger-xaxis'
 })
@@ -34,7 +35,7 @@ export class LoggerXAxisComponent {
 
     loggerBufferSizeChange(trueVal) {
         console.log("Timeframe changed:", trueVal);
-        
+
         if (trueVal <= 0) {
             trueVal = this.loggerBufferSize;
 
@@ -58,10 +59,10 @@ export class LoggerXAxisComponent {
         }
         if (this.tpdAbsolute === trueValue) {
             console.log('the same');
-            
+
             return;
         }
-        
+
         this.tpdChange.emit(trueValue);
     }
 

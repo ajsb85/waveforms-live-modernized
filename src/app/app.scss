@@ -1,6 +1,14 @@
 // http://ionicframework.com/docs/v2/theming/
 
 
+html,
+body,
+app-root {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
 // App Global Sass
 // --------------------------------------------------
 // Put style rules here that you want to apply globally. These
@@ -153,7 +161,7 @@ ion-checkbox .checkbox-icon.checkbox-checked
     border: solid white 1px;
 }
 
-.scroll-content 
+.scroll-content
 {
     overflow: auto;
     padding: 0 !important;
@@ -360,7 +368,7 @@ dropdown-popover[ng-reflect-force-popover="true"] {
     background-color: #535353;
 }
 
-.end-tutorial 
+.end-tutorial
 {
     background-color: red !important;
 }

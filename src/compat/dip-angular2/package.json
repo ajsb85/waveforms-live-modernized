@@ -1,0 +1,33 @@
+{
+  "name": "dip-angular2",
+  "version": "0.14.10",
+  "description": "Digilent Instrument Protocol Angular2 Module",
+  "main": "index.js",
+  "scripts": {
+    "build": "rm -rf dist && ngc -p tsconfig.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Digilent/dip-angular2.git"
+  },
+  "author": "sudharsan.sukumar5@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Digilent/dip-angular2/issues"
+  },
+  "homepage": "https://github.com/Digilent/dip-angular2#readme",
+  "dependencies": {
+    "@angular/core": "2.0.0",
+    "rxjs": "5.0.0-beta.12",
+    "zone.js": "0.6.21"
+  },
+  "devDependencies": {
+    "@angular/common": "2.0.0",
+    "@angular/compiler": "2.0.0",
+    "@angular/compiler-cli": "0.6.2",
+    "@angular/core": "2.0.0",
+    "@angular/platform-browser": "2.0.0",
+    "@angular/platform-server": "2.0.0",
+    "typescript": "2.0.10"
+  }
+}

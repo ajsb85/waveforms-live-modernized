@@ -1,11 +1,21 @@
 github-fork-ribbon {
     .wfl-github-ribbon {
         position: absolute;
-        top: 0;
-        right: 0;
+        top: 24px;
+        right: -48px;
         border: 0;
         z-index: 1000;
         display: block;
+        width: 190px;
+        padding: 8px 0;
+        background: #ff7600;
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1;
+        text-align: center;
+        text-decoration: none;
+        transform: rotate(45deg);
     }
 
     @media screen and (max-width: 605px) {

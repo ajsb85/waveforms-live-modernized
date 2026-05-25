@@ -5,6 +5,7 @@ import { ViewController, NavParams, Events } from 'ionic-angular';
 import { ToastService } from '../../services/toast/toast.service';
 
 @Component({
+    standalone: false,
   selector: 'profile-popover',
   templateUrl: 'profile-popover.html'
 })
@@ -18,7 +19,7 @@ export class ProfilePopover {
     public viewCtrl: ViewController,
     public navParams: NavParams,
     public events: Events,
-    private toastService: ToastService
+    public toastService: ToastService
   ) {
     this.profileName = this.navParams.data.profileName;
     this.initialName = this.profileName;

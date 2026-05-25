@@ -19,6 +19,7 @@ import { TooltipService } from '../../services/tooltip/tooltip.service';
 import { PreviousLaSettings, PreviousOscSettings, PreviousTrigSettings } from './instrument-panel.interface';
 
 @Component({
+    standalone: false,
     templateUrl: 'instrument-panel.html'
 })
 export class InstrumentPanelPage {
@@ -105,7 +106,7 @@ export class InstrumentPanelPage {
             })
             .then(() => {
                 if (this.activeDevice.deviceModel === 'OpenScope MZ' && awgData.awg["1"][0].state === 'running') {
-                    return Promise.resolve();
+                    return Promise.resolve(undefined);
                 }
                 else {
                     return this.applyLaBitmask();
@@ -337,7 +338,7 @@ export class InstrumentPanelPage {
                             }
                         }
                     }
-                    resolve();
+                    resolve(undefined);
                 },
                 (err) => {
                     console.log(err);
@@ -404,24 +405,13 @@ export class InstrumentPanelPage {
     }
 
     requestFullscreen() {
-        let conf = confirm("Fullscreen mode?");
-        let docelem: any = document.documentElement;
+        const conf = confirm("Fullscreen mode?");
+        const documentElement = document.documentElement;
 
-        if (conf == true) {
-            if (docelem.requestFullscreen) {
-                docelem.requestFullscreen();
-            }
-            else if (docelem.mozRequestFullScreen) {
-                docelem.mozRequestFullScreen();
-            }
-            else if (docelem.webkitRequestFullScreen) {
-                docelem.webkitRequestFullScreen();
-            }
-            else if (docelem.msRequestFullscreen) {
-                docelem.msRequestFullscreen();
-            }
+        if (conf === true && document.fullscreenElement == null) {
+            documentElement.requestFullscreen().catch(error => console.warn('Unable to enter fullscreen mode', error));
         }
-        document.getElementById('instrument-panel-container').removeEventListener('click', this.clickBindReference);
+        document.getElementById('instrument-panel-container')?.removeEventListener('click', this.clickBindReference);
     }
 
     ngOnDestroy() {
@@ -510,7 +500,7 @@ export class InstrumentPanelPage {
         this.controlsVisible = !this.controlsVisible;
     }
 
-    //Toggle bot controls 
+    //Toggle bot controls
     toggleBotControls() {
         this.botVisible = !this.botVisible;
     }
@@ -830,7 +820,7 @@ export class InstrumentPanelPage {
         return new Promise((resolve, reject) => {
             if (readArray.length < 1) {
                 this.readingLa = false;
-                resolve();
+                resolve(undefined);
                 return;
             }
             this.activeDevice.instruments.la.read(readArray).subscribe(
@@ -838,7 +828,7 @@ export class InstrumentPanelPage {
                     this.readingLa = false;
                     console.log(data);
                     this.readAttemptCount = 0;
-                    resolve();
+                    resolve(undefined);
                     //this.checkReadStatusAndDraw();
                 },
                 (err) => {
@@ -849,7 +839,7 @@ export class InstrumentPanelPage {
 
                         this.errorCount++;
                     }
-                    
+
                     if (this.readingLa) {
                         console.log('attempting read again');
                         this.readAttemptCount++;
@@ -857,7 +847,7 @@ export class InstrumentPanelPage {
                         setTimeout(() => {
                             this.readLa(readArray)
                                 .then(() => {
-                                    resolve();
+                                    resolve(undefined);
                                 })
                                 .catch((e) => {
                                     reject(e);
@@ -940,14 +930,14 @@ export class InstrumentPanelPage {
         return new Promise((resolve, reject) => {
             if (readArray.length < 1) {
                 this.readingOsc = false;
-                resolve();
+                resolve(undefined);
                 return;
             }
             this.activeDevice.instruments.osc.read(readArray).subscribe(
                 (data) => {
                     this.readingOsc = false;
                     this.readAttemptCount = 0;
-                    resolve();
+                    resolve(undefined);
                     //this.checkReadStatusAndDraw();
                 },
                 (err) => {
@@ -958,7 +948,7 @@ export class InstrumentPanelPage {
 
                         this.errorCount++;
                     }
-                    
+
                     if (this.readingOsc) {
                         console.log('attempting read again');
                         this.readAttemptCount++;
@@ -966,7 +956,7 @@ export class InstrumentPanelPage {
                         setTimeout(() => {
                             this.readOscope(readArray)
                                 .then(() => {
-                                    resolve();
+                                    resolve(undefined);
                                 })
                                 .catch((e) => {
                                     reject(e);
@@ -1097,7 +1087,7 @@ export class InstrumentPanelPage {
                             console.log(data);
                             this.previousOscSettings = tempOscPrevSettings;
                             this.previousLaSettings = tempLaPrevSettings;
-                            resolve();
+                            resolve(undefined);
                         },
                         (err) => {
                             console.log(err);
@@ -1125,7 +1115,7 @@ export class InstrumentPanelPage {
                     (data) => {
                         console.log(data);
                         this.previousLaSettings = tempLaPrevSettings;
-                        resolve();
+                        resolve(undefined);
                     },
                     (err) => {
                         console.log(err);
@@ -1136,7 +1126,7 @@ export class InstrumentPanelPage {
             }
             if (!setOscParams && !setLaParams) {
                 this.theoreticalAcqTime = currentTheoreticalAcqTime;
-                resolve();
+                resolve(undefined);
             }
         });
     }
@@ -1228,7 +1218,7 @@ export class InstrumentPanelPage {
 
             toast.present();
 
-            resolve();
+            resolve(undefined);
         });
     }
 }

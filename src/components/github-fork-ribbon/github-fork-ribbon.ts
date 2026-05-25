@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
   for more info on Angular 2 Components.
 */
 @Component({
+    standalone: false,
   selector: 'github-fork-ribbon',
   templateUrl: 'github-fork-ribbon.html'
 })

@@ -12,6 +12,7 @@ import { TooltipService } from '../../services/tooltip/tooltip.service';
 import { LockInfoContainer } from './yaxis-controls.interface';
 
 @Component({
+    standalone: false,
     templateUrl: 'yaxis-controls.html',
     selector: 'yaxis-controls'
 })

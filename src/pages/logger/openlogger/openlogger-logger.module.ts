@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule , NO_ERRORS_SCHEMA} from '@angular/core';
 import { SharedModule } from '../../../app/shared/shared.module';
 import { IonicModule } from 'ionic-angular';
 
@@ -17,9 +17,10 @@ import { OpenLoggerLoggerPage } from './openlogger-logger';
 
 //Services
 import { ScalingService } from '../../../services/scaling/scaling.service';
- 
+
 @NgModule({
-    imports: [
+    schemas: [NO_ERRORS_SCHEMA],
+imports: [
         SharedModule,
         LoggerModule,
         FGenModule,

@@ -12,32 +12,33 @@ import { DeviceManagerService, DeviceService } from 'dip-angular2/services';
 import { DigilentChart } from 'digilent-chart-angular2/modules';
 
 @Component({
+    standalone: false,
     selector: 'logger-chart',
     templateUrl: 'logger-chart.html'
 })
 export class LoggerChartComponent {
     @ViewChild('loggerChart') loggerChart: DigilentChart;
-    private unitFormatPipeInstance: UnitFormatPipe;
+    public unitFormatPipeInstance: UnitFormatPipe;
     public colorArray: string[] = ['#FFA510', '#4487BA', '#FF5080', '#00d400', '#AC9D93', '#8800AA', '#EAEA00', '#784421'];
     public loggerChartOptions: any;
-    private activeDevice: DeviceService;
-    private instrument: any;
+    public activeDevice: DeviceService;
+    public instrument: any;
 
     public unitSymbols: string[];
 
     constructor(
-        private loggerPlotService: LoggerPlotService,
-        private deviceManagerService: DeviceManagerService,
-        private events: Events
+        public loggerPlotService: LoggerPlotService,
+        public deviceManagerService: DeviceManagerService,
+        public events: Events
     ) {
         this.unitFormatPipeInstance = new UnitFormatPipe();
         this.activeDevice = this.deviceManagerService.devices[this.deviceManagerService.activeDeviceIndex];
         this.instrument = this.activeDevice.instruments.logger.daq.numChans > 0 ? 'daq' : 'analog';
-        
+
         // set the unit to v for volts initially
         let length = this.activeDevice.instruments.logger[this.instrument].numChans;
         this.unitSymbols = Array.from({length}, () => 'V');
-        
+
         this.loggerChartOptions = this.generateBodeOptions();
 
         this.events.subscribe('units:update', (params) => {
@@ -53,7 +54,7 @@ export class LoggerChartComponent {
         this.unitSymbols[chan] = unit || 'V';
 
         this.loggerChartOptions = this.generateBodeOptions();
-        
+
         this.loggerChart.flotOptions = this.loggerChartOptions;
 
         console.log(this.loggerChartOptions, this.loggerChart.flotOptions);
@@ -83,7 +84,7 @@ export class LoggerChartComponent {
 
         while (current * Math.pow(10, currentPow) <= max) {
             niceNumArray[i] = this.decimalAdjust('round', current * Math.pow(10, currentPow), currentPow);
-            
+
             if (current === 1) {
                 current = 2;
             }
@@ -215,7 +216,7 @@ export class LoggerChartComponent {
     /**
      * Accepts a symbol and returns a closure that constructs and formats the
      * value-unit string for the chart to use
-     * 
+     *
      * @param symbol Symbol used to label y axis units
      */
     yTickFormatter(symbol) {
@@ -250,7 +251,7 @@ export class LoggerChartComponent {
         if (parseFloat(val) == 0) {
             return 0 + ' s';
         }
-        
+
         let i = 0;
         let unit = '';
         while (timePerDiv < 1) {

@@ -13,6 +13,7 @@ import { TooltipService } from '../../services/tooltip/tooltip.service';
 import { DeviceDataTransferService } from '../../services/device/device-data-transfer.service';
 
 @Component({
+    standalone: false,
     templateUrl: 'trigger.html',
     selector: 'trigger'
 })
@@ -72,7 +73,7 @@ export class TriggerComponent {
         this.tutorialMode = true;
         this.tutorialStage = 'level';
     }
-    
+
     tutorialToEdge() {
         this.tutorialStage = 'type';
     }
@@ -201,7 +202,7 @@ export class TriggerComponent {
         });
     }
 
-    private translateSeparateBitmasks(risingBitmask: number, fallingBitmask: number, length: number) {
+    public translateSeparateBitmasks(risingBitmask: number, fallingBitmask: number, length: number) {
         this.bitmask = '';
         let rising = risingBitmask.toString(2);
         let falling = fallingBitmask.toString(2);

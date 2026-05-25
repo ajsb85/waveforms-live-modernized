@@ -11,12 +11,12 @@ declare var cordova: any;
 export class ExportService {
 
     constructor(
-        private platform: Platform
+        public platform: Platform
     ) {
 
     }
 
-    private stringToArrBuff(toConvert: string): ArrayBuffer {
+    public stringToArrBuff(toConvert: string): ArrayBuffer {
         let arrBuff = new ArrayBuffer(toConvert.length);
         let view = new Uint8Array(arrBuff);
         for (let i = 0; i < toConvert.length; i++) {
@@ -65,7 +65,7 @@ export class ExportService {
         }
     }
 
-    exportGenericCsv(fileName: string, dataContainer: DataContainer[], seriesToDraw: number[], labels: CsvLabel[], waitTime: number = 0, stringToPrepend?: string) { 
+    exportGenericCsv(fileName: string, dataContainer: any[], seriesToDraw: number[], labels: CsvLabel[], waitTime: number = 0, stringToPrepend?: string) {
         fileName = fileName + '.csv';
         let csvContent = '';
         if (stringToPrepend != undefined) {
@@ -119,7 +119,7 @@ export class ExportService {
         }
     }
 
-    private getInstrumentLabel(labels: CsvLabel[], seriesNum: number): string {
+    public getInstrumentLabel(labels: CsvLabel[], seriesNum: number): string {
         for (let i = 0; i < labels.length; i++) {
             if (labels[i].channels.indexOf(seriesNum) !== -1) {
                 seriesNum = seriesNum - labels[i].seriesNumberOffset + 1;

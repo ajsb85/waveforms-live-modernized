@@ -8,14 +8,14 @@
                 File Explorer
             </ion-col>
             <ion-col text-right center>
-                <button class="jasper-button" (tap)="toggleShowJasper()"></button>
+                <button class="jasper-button" (click)="toggleShowJasper()"></button>
             </ion-col>
         </ion-row>
-    
+
         <div class="tree-container">
             <div *ngIf="storageLocations.length < 1" class="no-storage-found">
                 No storage locations found. Please try again
-                <button ion-button class="icon-only-button-side disable-hover" (tap)="init()">
+                <button ion-button class="icon-only-button-side disable-hover" (click)="init()">
                     <img src="assets/img/refresh.svg" />
                 </button>
             </div>
@@ -25,11 +25,11 @@
                         <div class="mid-line"></div>
                     </ion-col>
                     <ion-col class="toggle-button-col" center>
-                        <button ion-button class="icon-only-button-side disable-hover no-outline" (tap)="toggleFolder(storageLocation)">
+                        <button ion-button class="icon-only-button-side disable-hover no-outline" (click)="toggleFolder(storageLocation)">
                             <img [ngClass]="{rotateOn: showFolder[storageLocation].show}" src="assets/img/collapse-arrow-right.svg">
                         </button>
                     </ion-col>
-                    <ion-col center class="storage-location-title" (tap)="toggleFolder(storageLocation)">
+                    <ion-col center class="storage-location-title" (click)="toggleFolder(storageLocation)">
                         {{storageLocation}}
                     </ion-col>
                 </ion-row>
@@ -39,7 +39,7 @@
                             <div class="mid-line"></div>
                         </ion-col>
                         <ion-col center>
-                            <div class="file-container" (tap)="selectFile($event, file, storageLocation)">
+                            <div class="file-container" (click)="selectFile($event, file, storageLocation)">
                                 {{file}}
                             </div>
                         </ion-col>
@@ -48,24 +48,24 @@
                 </div>
             </div>
         </div>
-        
+
         <input class="hidden-file-input" type="file" id="fileBrowserSelect" name="fileBrowserSelect" (change)="fileChange($event)" />
 
         <!-- <div>
-            <button ion-button class="text-button-side disable-hover" (tap)="openFileInput()">Convert Local File To CSV</button>
+            <button ion-button class="text-button-side disable-hover" (click)="openFileInput()">Convert Local File To CSV</button>
         </div> -->
     </div>
 
     <ion-row class="navigation-button-container">
         <ion-col text-left>
-            <button ion-button class="text-button-side disable-hover" (tap)="openFileInput()" *ngIf="!hideExportButton">Convert Local File To CSV</button>
+            <button ion-button class="text-button-side disable-hover" (click)="openFileInput()" *ngIf="!hideExportButton">Convert Local File To CSV</button>
         </ion-col>
         <ion-col text-right>
-            <button ion-button icon-right (tap)="close()" class="text-button-side disable-hover">
+            <button ion-button icon-right (click)="close()" class="text-button-side disable-hover">
                 Close
                 <img class="custom-image-button" src="assets/img/close.svg">
             </button>
         </ion-col>
     </ion-row>
-    
+
 </ion-content>

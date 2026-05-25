@@ -1,0 +1,114 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "cli": {
+    "packageManager": "npm"
+  },
+  "newProjectRoot": "projects",
+  "projects": {
+    "waveforms-live": {
+      "projectType": "application",
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "wfl",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "src/app/main.ts",
+            "outputPath": {
+              "base": "www",
+              "browser": ""
+            },
+            "index": "src/index.html",
+            "tsConfig": "tsconfig.app.json",
+            "polyfills": [
+              "zone.js"
+            ],
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "assets"
+              },
+              {
+                "glob": "manifest.json",
+                "input": "src",
+                "output": "."
+              },
+              {
+                "glob": "service-worker.js",
+                "input": "src",
+                "output": "."
+              }
+            ],
+            "styles": [
+              "node_modules/@ionic/core/css/ionic.bundle.css",
+              "src/theme/variables.scss",
+              "src/app/app.scss"
+            ],
+            "allowedCommonJsDependencies": [
+              "escape-latex",
+              "javascript-natural-sort",
+              "localforage",
+              "seedrandom",
+              "tiny-emitter",
+              "typed-function"
+            ],
+            "scripts": [
+              "src/assets/js/jquery1.8.3.min.js",
+              "src/assets/js/jquery.flot.js",
+              "src/assets/js/jquery.flot.tooltip.js",
+              "src/assets/js/math.functions.js",
+              "src/assets/js/wflDictionary.js",
+              "src/assets/js/jquery.flot.symbol.js",
+              "src/assets/js/jquery.flot.zoompan.js",
+              "src/assets/js/jquery.flot.cursors.js",
+              "src/assets/js/jquery.flot.axislabels.js",
+              "src/assets/js/jquery.flot.resize.js",
+              "src/assets/js/jquery.flot.timelinechart.js",
+              "src/assets/js/jquery.flot.canvas.js",
+              "src/assets/js/threeBucket.js"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "8MB",
+                  "maximumError": "12MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "64kB",
+                  "maximumError": "128kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "waveforms-live:build:production"
+            },
+            "development": {
+              "buildTarget": "waveforms-live:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        }
+      }
+    }
+  }
+}

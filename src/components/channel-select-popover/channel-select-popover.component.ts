@@ -2,17 +2,18 @@ import { Component } from '@angular/core';
 import { ViewController, NavParams, Events } from 'ionic-angular';
 
 @Component({
+    standalone: false,
   selector: 'channel-select-popover',
   templateUrl: 'channel-select-popover.html'
 })
 export class ChannelSelectPopover {
-  private selectedChannels: boolean[];
-  private colorArray: string[];
+  public selectedChannels: boolean[];
+  public colorArray: string[];
 
   constructor(
-    private viewCtrl: ViewController,
-    private params: NavParams,
-    private events: Events
+    public viewCtrl: ViewController,
+    public params: NavParams,
+    public events: Events
   ) {
     this.selectedChannels = this.params.get('selectedChannels');
     this.colorArray = this.params.get('colorArray');

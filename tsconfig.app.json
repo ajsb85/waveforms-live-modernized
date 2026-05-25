@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/app"
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/compat/dip-angular2/**/*.js"
+  ],
+  "exclude": [
+    "node_modules",
+    "src/**/*.spec.ts",
+    "src/**/__tests__/*.ts"
+  ]
+}

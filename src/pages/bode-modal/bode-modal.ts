@@ -11,18 +11,19 @@ import { UnitFormatPipe } from '../../pipes/unit-format.pipe';
 import { LoadingService } from '../../services/loading/loading.service';
 
 @Component({
+    standalone: false,
     templateUrl: 'bode-modal.html',
 })
 export class BodeModalPage {
     @ViewChild('bodeSlider') slider: Slides;
-    private bodePlotComponent: BodePlotComponent;
-    private unitFormatPipe: UnitFormatPipe;
-    private exitAfterCalibration: boolean;
+    public bodePlotComponent: BodePlotComponent;
+    public unitFormatPipe: UnitFormatPipe;
+    public exitAfterCalibration: boolean;
 
     constructor(
-        private viewCtrl: ViewController,
-        private navParams: NavParams,
-        private loadingService: LoadingService
+        public viewCtrl: ViewController,
+        public navParams: NavParams,
+        public loadingService: LoadingService
     ) {
         this.bodePlotComponent = this.navParams.get('bodePlotComponent');
         this.exitAfterCalibration = this.navParams.get('exit');

@@ -1,11 +1,12 @@
-import { NgModule } from '@angular/core';
+import { NgModule , NO_ERRORS_SCHEMA} from '@angular/core';
 import { IonicModule } from 'ionic-angular';
 
 // Pages
 import { SlowUSBModalPage } from './slow-usb-modal';
 
 @NgModule({
-    imports: [
+    schemas: [NO_ERRORS_SCHEMA],
+imports: [
         IonicModule.forRoot(SlowUSBModalPage)
     ],
     declarations: [

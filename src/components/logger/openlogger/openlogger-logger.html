@@ -17,7 +17,7 @@
                 </ion-col>
                 <ion-col text-right center class="vpd-button-col">
                     <div style="display:inline-block">
-                        <button ion-button class="icon-only-button-side disable-hover" (tap)="decrementFrequency('sampleFreq')"
+                        <button ion-button class="icon-only-button-side disable-hover" (click)="decrementFrequency('sampleFreq')"
                             [disabled]="running">
                             <img class="custom-image-button" src="assets/img/remove.svg">
                         </button>
@@ -31,7 +31,7 @@
                 </ion-col>
                 <ion-col text-left center class="vpd-button-col margin-right">
                     <div style="display:inline-block">
-                        <button ion-button class="icon-only-button-side disable-hover" (tap)="incrementFrequency('sampleFreq')"
+                        <button ion-button class="icon-only-button-side disable-hover" (click)="incrementFrequency('sampleFreq')"
                             [disabled]="running">
                             <img class="custom-image-button" src="assets/img/add.svg">
                         </button>
@@ -88,7 +88,7 @@
         <div class="header-bar-side">
             <ion-row>
                 <ion-col class="header-side-col" center text-left>
-                    <button ion-button clear class="dropdown-image-button" (tap)="toggleAdvSettings()">
+                    <button ion-button clear class="dropdown-image-button" (click)="toggleAdvSettings()">
                         <img class="custom-dropdown-img" [ngClass]="{rotateOn: showAdvSettings}" src="assets/img/collapse-arrow-right.svg">
                     </button>
                 </ion-col>
@@ -108,9 +108,9 @@
                 <ion-col center class="log-on-boot-toggle" [tooltip]="tooltipService.getTooltip('logLogOnBoot').message" [tooltipAnimation]="true" tooltipPlacement="left">
                     <ion-toggle class="toggle" color="primary" [(ngModel)]="daqParams.logOnBoot" (click)="setLogOnBootParams($event)"></ion-toggle>
                 </ion-col>
-    
+
                 <ion-col>
-                    <button ion-button class="text-button-side disable-hover bottom-button" (tap)="setLogOnBootParams()" [disabled]="running || !daqParams.logOnBoot"  [tooltip]="tooltipService.getTooltip('logLogOnBootRefresh').message" [tooltipAnimation]="true" tooltipPlacement="left">
+                    <button ion-button class="text-button-side disable-hover bottom-button" (click)="setLogOnBootParams()" [disabled]="running || !daqParams.logOnBoot"  [tooltip]="tooltipService.getTooltip('logLogOnBootRefresh').message" [tooltipAnimation]="true" tooltipPlacement="left">
                         <img src="assets/img/refresh.svg">
                     </button>
                 </ion-col>
@@ -129,7 +129,7 @@
                 </ion-col>
                 <ion-col text-left center class="vpd-button-col margin-right">
                     <div style="display:inline-block">
-                        <button ion-button class="img-button disable-hover" (tap)="profileSaveClick(selectedLogProfile, $event)" [disabled]="running"
+                        <button ion-button class="img-button disable-hover" (click)="profileSaveClick(selectedLogProfile, $event)" [disabled]="running"
                             [tooltip]="tooltipService.getTooltip('logSaveProfile').message" [tooltipAnimation]="true" tooltipPlacement="left">
                             <img class="custom-image-button svg-size" src="assets/img/save.svg">
                         </button>
@@ -137,7 +137,7 @@
                 </ion-col>
                 <ion-col text-left center class="vpd-button-col margin-right">
                     <div style="display:inline-block">
-                        <button ion-button class="img-button disable-hover" (tap)="openProfileSettings(selectedLogProfile, $event)" [disabled]="running || selectedLogProfile == 'New Profile'"
+                        <button ion-button class="img-button disable-hover" (click)="openProfileSettings(selectedLogProfile, $event)" [disabled]="running || selectedLogProfile == 'New Profile'"
                             [tooltip]="tooltipService.getTooltip('logProfileSettings').message" [tooltipAnimation]="true" tooltipPlacement="left">
                             <img class="custom-image-button svg-size" src="assets/img/settings.svg">
                         </button>
@@ -162,7 +162,7 @@
                 </ion-col>
                 <ion-col text-right center class="vpd-button-col">
                     <div style="display:inline-block">
-                        <button ion-button class="icon-only-button-side disable-hover" (tap)="decrementFrequency('samples')"
+                        <button ion-button class="icon-only-button-side disable-hover" (click)="decrementFrequency('samples')"
                             [disabled]="running">
                             <img class="custom-image-button" src="assets/img/remove.svg">
                         </button>
@@ -176,7 +176,7 @@
                 </ion-col>
                 <ion-col text-left center class="vpd-button-col margin-right">
                     <div style="display:inline-block">
-                        <button ion-button class="icon-only-button-side disable-hover" (tap)="incrementFrequency('samples')"
+                        <button ion-button class="icon-only-button-side disable-hover" (click)="incrementFrequency('samples')"
                             [disabled]="running">
                             <img class="custom-image-button" src="assets/img/add.svg">
                         </button>
@@ -200,7 +200,7 @@
         <div class="header-bar-side">
             <ion-row>
                 <ion-col class="header-side-col" center text-left>
-                    <button ion-button clear class="dropdown-image-button" (tap)="toggleLoggerSettings()">
+                    <button ion-button clear class="dropdown-image-button" (click)="toggleLoggerSettings()">
                         <img class="custom-dropdown-img" [ngClass]="{rotateOn: showLoggerSettings}" src="assets/img/collapse-arrow-right.svg">
                     </button>
                 </ion-col>
@@ -208,7 +208,7 @@
                     <div class="instrument-header">Logger</div>
                 </ion-col>
                 <ion-col class="header-side-col" center text-right>
-                    <button ion-button id="channels-btn" class="img-button disable-hover" (tap)="openChannelSelector($event)" [disabled]="running" [tooltip]="tooltipService.getTooltip('logSelectChannels').message"
+                    <button ion-button id="channels-btn" class="img-button disable-hover" (click)="openChannelSelector($event)" [disabled]="running" [tooltip]="tooltipService.getTooltip('logSelectChannels').message"
                         [tooltipAnimation]="true" tooltipPlacement="left">
                         <img class="custom-image-button" src="assets/img/add.svg">
                     </button>
@@ -217,7 +217,7 @@
         </div>
     </div>
 
-    <div *ngFor="let series of daqChans, let i = index;" (tap)="setActiveSeries(i)" [ngClass]="{'display-none': !showLoggerSettings || !selectedChannels[i]}">
+    <div *ngFor="let series of daqChans, let i = index;" (click)="setActiveSeries(i)" [ngClass]="{'display-none': !showLoggerSettings || !selectedChannels[i]}">
         <div>
             <ion-row class="pad-top">
                 <ion-col class="header-side-col" center text-left>
@@ -240,7 +240,7 @@
                 </ion-col>
                 <ion-col center class="xaxis-left">
                     <div style="display:inline-block">
-                        <button ion-button class="icon-only-button-side disable-hover" (tap)="decrementAverage(i)" [disabled]="series.average === 1 || running">
+                        <button ion-button class="icon-only-button-side disable-hover" (click)="decrementAverage(i)" [disabled]="series.average === 1 || running">
                             <img class="custom-image-button" src="assets/img/remove.svg">
                         </button>
                     </div>
@@ -252,20 +252,20 @@
                 </ion-col>
                 <ion-col center class="xaxis-right">
                     <div style="display:inline-block">
-                        <button ion-button class="icon-only-button-side disable-hover" (tap)="incrementAverage(i)" [disabled]="series.average === maxAverage || running">
+                        <button ion-button class="icon-only-button-side disable-hover" (click)="incrementAverage(i)" [disabled]="series.average === maxAverage || running">
                             <img class="custom-image-button" src="assets/img/add.svg">
                         </button>
                     </div>
                 </ion-col>
             </ion-row>
-                    
+
             <ion-row class="controls-container">
                 <ion-col center class="vpd-label-col">
                     {{ (chanUnits[i] === 'V') ? "Volts/" : "Units/" }}
                 </ion-col>
                 <ion-col text-right center class="vpd-button-col">
                     <div style="display:inline-block">
-                        <button ion-button class="img-button disable-hover" (tap)="incrementVpd(i)" [disabled]="loggerPlotService.vpdIndices[i] > loggerPlotService.vpdArray.length - 2">
+                        <button ion-button class="img-button disable-hover" (click)="incrementVpd(i)" [disabled]="loggerPlotService.vpdIndices[i] > loggerPlotService.vpdArray.length - 2">
                             <img class="custom-image-button" src="assets/img/zoom-out.svg">
                         </button>
                     </div>
@@ -278,7 +278,7 @@
                 </ion-col>
                 <ion-col text-left center class="vpd-button-col margin-right">
                     <div style="display:inline-block">
-                        <button ion-button class="img-button disable-hover" (tap)="decrementVpd(i)" [disabled]="loggerPlotService.vpdIndices[i] < 1">
+                        <button ion-button class="img-button disable-hover" (click)="decrementVpd(i)" [disabled]="loggerPlotService.vpdIndices[i] < 1">
                             <img class="custom-image-button" src="assets/img/zoom-in.svg">
                         </button>
                     </div>
@@ -291,7 +291,7 @@
                 </ion-col>
                 <ion-col text-right center class="vpd-button-col">
                     <div style="display:inline-block">
-                        <button ion-button class="icon-only-button-side disable-hover" (tap)="buttonChangeOffset(i, 'decrement')">
+                        <button ion-button class="icon-only-button-side disable-hover" (click)="buttonChangeOffset(i, 'decrement')">
                             <img class="custom-image-button" src="assets/img/remove.svg">
                         </button>
                     </div>
@@ -303,7 +303,7 @@
                 </ion-col>
                 <ion-col text-left center class="vpd-button-col margin-right">
                     <div style="display:inline-block">
-                        <button ion-button class="icon-only-button-side disable-hover" (tap)="buttonChangeOffset(i, 'increment')">
+                        <button ion-button class="icon-only-button-side disable-hover" (click)="buttonChangeOffset(i, 'increment')">
                             <img class="custom-image-button" src="assets/img/add.svg">
                         </button>
                     </div>
@@ -322,7 +322,7 @@
                     </ion-col>
                     <ion-col text-left center class="vpd-button-col margin-right">
                         <div style="display:inline-block">
-                            <button ion-button class="img-button disable-hover" (tap)="openScaleSettings($event, i, true)" [disabled]="running" [tooltip]="tooltipService.getTooltip('logNewScale').message"
+                            <button ion-button class="img-button disable-hover" (click)="openScaleSettings($event, i, true)" [disabled]="running" [tooltip]="tooltipService.getTooltip('logNewScale').message"
                                 [tooltipAnimation]="true" tooltipPlacement="left">
                                 <img class="custom-image-button svg-size" src="assets/img/add.svg">
                             </button>
@@ -330,7 +330,7 @@
                     </ion-col>
                     <ion-col text-left center class="vpd-button-col margin-right">
                         <div style="display:inline-block">
-                            <button ion-button class="img-button disable-hover" (tap)="openScaleSettings($event, i, false)" [disabled]="running || selectedScales[i] === 'None'"
+                            <button ion-button class="img-button disable-hover" (click)="openScaleSettings($event, i, false)" [disabled]="running || selectedScales[i] === 'None'"
                                 [tooltip]="tooltipService.getTooltip('logScaleSettings').message" [tooltipAnimation]="true" tooltipPlacement="left">
                                 <img class="custom-image-button svg-size" src="assets/img/settings.svg">
                             </button>
