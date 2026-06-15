@@ -17,17 +17,17 @@
   },
   "homepage": "https://github.com/Digilent/dip-angular2#readme",
   "dependencies": {
-    "@angular/core": "2.0.0",
+    "@angular/core": "20.3.25",
     "rxjs": "5.0.0-beta.12",
     "zone.js": "0.6.21"
   },
   "devDependencies": {
-    "@angular/common": "2.0.0",
-    "@angular/compiler": "2.0.0",
+    "@angular/common": "19.2.16",
+    "@angular/compiler": "19.2.18",
     "@angular/compiler-cli": "0.6.2",
-    "@angular/core": "2.0.0",
+    "@angular/core": "20.3.25",
     "@angular/platform-browser": "2.0.0",
-    "@angular/platform-server": "2.0.0",
+    "@angular/platform-server": "19.2.22",
     "typescript": "2.0.10"
   }
 }
